@@ -12,17 +12,17 @@ const Header = () => {
     location.pathname.startsWith("/support");
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-border/50 bg-background/70 backdrop-blur-xl">
       <div className="container flex h-16 items-center justify-between">
-        <Link to="/" className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg gradient-hero">
+        <Link to="/" className="flex items-center gap-2.5">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg gradient-hero shadow-card">
             <span className="text-sm font-bold text-primary-foreground">S</span>
           </div>
           <span className="text-lg font-semibold text-foreground">Solana Health</span>
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden items-center gap-6 md:flex">
+        <nav className="hidden items-center gap-8 md:flex">
           {isPortal ? (
             <>
               <Link to="/dashboard" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">Dashboard</Link>
@@ -50,7 +50,7 @@ const Header = () => {
               <Button variant="ghost" size="sm" asChild>
                 <Link to="/auth">Log In</Link>
               </Button>
-              <Button size="sm" asChild>
+              <Button size="sm" className="shadow-premium hover:shadow-premium-hover hover:-translate-y-0.5 transition-all duration-200" asChild>
                 <Link to="/quiz">Get Started</Link>
               </Button>
             </>
@@ -65,7 +65,7 @@ const Header = () => {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="border-t border-border bg-background p-4 md:hidden">
+        <div className="border-t border-border/50 bg-background/95 backdrop-blur-xl p-4 md:hidden">
           <nav className="flex flex-col gap-3">
             {isPortal ? (
               <>

@@ -6,36 +6,55 @@ import { Check, ClipboardList, Pill, Stethoscope, Truck, Shield, Clock, MessageS
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
-const Hero = () => (
-  <section className="relative overflow-hidden bg-gradient-to-br from-secondary via-background to-secondary/50 py-20 md:py-32">
-    <div className="container relative z-10">
-      <div className="mx-auto max-w-3xl text-center">
-        <div className="mb-6 inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5">
-          <span className="text-xs font-medium text-primary">Clinically proven GLP-1 medications</span>
+const FloatingPill = () => (
+  <div className="absolute right-8 top-1/2 -translate-y-1/2 hidden lg:block">
+    <div className="relative">
+      {/* Glow behind pill */}
+      <div className="absolute inset-0 h-40 w-40 rounded-full bg-primary/20 blur-3xl animate-glow-pulse" />
+      {/* Pill shape */}
+      <div className="relative animate-float">
+        <div className="flex h-20 w-48 overflow-hidden rounded-full shadow-premium">
+          <div className="w-1/2 bg-primary" />
+          <div className="w-1/2 bg-primary-foreground border border-border" />
         </div>
-        <h1 className="text-4xl font-bold tracking-tight text-foreground md:text-6xl lg:text-7xl">
-          Medically guided
-          <span className="block text-primary"> weight loss</span>
-        </h1>
-        <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground leading-relaxed">
-          Get evaluated by licensed providers online. If appropriate, receive GLP-1 medication delivered to your door — with ongoing medical support.
-        </p>
-        <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-          <Button size="lg" className="w-full px-8 text-base sm:w-auto" asChild>
-            <Link to="/quiz">Check if you qualify</Link>
-          </Button>
-          <Button variant="outline" size="lg" className="w-full px-8 text-base sm:w-auto" asChild>
-            <a href="#how-it-works">Learn more</a>
-          </Button>
-        </div>
-        <p className="mt-6 text-sm text-muted-foreground">
-          Starting from <span className="font-semibold text-foreground">$179/month</span> · Cancel anytime
-        </p>
       </div>
     </div>
-    {/* Decorative elements */}
-    <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-primary/5 blur-3xl" />
-    <div className="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-primary/5 blur-3xl" />
+  </div>
+);
+
+const Hero = () => (
+  <section className="relative overflow-hidden bg-hero-premium py-24 md:py-36">
+    <div className="container relative z-10">
+      <div className="mx-auto max-w-3xl text-center lg:text-left lg:max-w-none lg:grid lg:grid-cols-2 lg:items-center lg:gap-16">
+        <div>
+          <div className="mb-6 inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5">
+            <span className="text-xs font-medium text-primary">FDA-approved GLP-1 medications</span>
+          </div>
+          <h1 className="text-4xl font-extrabold tracking-tight text-foreground md:text-5xl lg:text-6xl leading-[1.1]">
+            Medically guided
+            <span className="block bg-gradient-to-r from-primary to-info bg-clip-text text-transparent"> weight loss</span>
+          </h1>
+          <p className="mt-6 max-w-xl text-lg text-muted-foreground leading-relaxed">
+            Get evaluated by licensed providers online. If appropriate, receive FDA-approved GLP-1 medication delivered to your door — with ongoing medical support.
+          </p>
+          <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row lg:justify-start sm:justify-center">
+            <Button size="lg" className="w-full px-8 text-base sm:w-auto shadow-premium hover:shadow-premium-hover hover:-translate-y-0.5 transition-all duration-200" asChild>
+              <Link to="/quiz">Check if you qualify</Link>
+            </Button>
+            <Button variant="outline" size="lg" className="w-full px-8 text-base sm:w-auto hover:-translate-y-0.5 transition-all duration-200" asChild>
+              <a href="#how-it-works">Learn more</a>
+            </Button>
+          </div>
+          <p className="mt-6 text-sm text-muted-foreground">
+            Starting from <span className="font-semibold text-foreground">$179/month</span> · Cancel anytime
+          </p>
+        </div>
+        <FloatingPill />
+      </div>
+    </div>
+    {/* Decorative radial */}
+    <div className="absolute -top-60 -right-60 h-[500px] w-[500px] rounded-full bg-primary/[0.04] blur-3xl" />
+    <div className="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-primary/[0.03] blur-3xl" />
   </section>
 );
 
@@ -48,19 +67,19 @@ const HowItWorks = () => {
   ];
 
   return (
-    <section id="how-it-works" className="py-20 md:py-28">
+    <section id="how-it-works" className="bg-section-white py-24 md:py-32">
       <div className="container">
-        <div className="mx-auto max-w-2xl text-center mb-16">
+        <div className="mx-auto max-w-2xl text-center mb-20">
           <h2 className="text-3xl font-bold text-foreground md:text-4xl">How it works</h2>
           <p className="mt-4 text-lg text-muted-foreground">Four simple steps to get started on your weight loss journey.</p>
         </div>
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           {steps.map((step, i) => (
-            <div key={i} className="relative text-center">
-              <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-secondary">
-                <step.icon className="h-6 w-6 text-primary" />
+            <div key={i} className="group relative text-center">
+              <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-secondary shadow-card group-hover:shadow-premium transition-shadow duration-300">
+                <step.icon className="h-7 w-7 text-primary" />
               </div>
-              <div className="mb-1 text-xs font-semibold uppercase tracking-wider text-primary">Step {i + 1}</div>
+              <div className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-primary">Step {i + 1}</div>
               <h3 className="text-lg font-semibold text-foreground mb-2">{step.title}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">{step.description}</p>
             </div>
@@ -80,21 +99,21 @@ const Benefits = () => {
   ];
 
   return (
-    <section className="bg-muted/50 py-20 md:py-28">
+    <section className="bg-section-soft py-24 md:py-32">
       <div className="container">
-        <div className="mx-auto max-w-2xl text-center mb-16">
+        <div className="mx-auto max-w-2xl text-center mb-20">
           <h2 className="text-3xl font-bold text-foreground md:text-4xl">Why Solana Health</h2>
           <p className="mt-4 text-lg text-muted-foreground">A better approach to weight loss — guided by medicine, designed for convenience.</p>
         </div>
         <div className="grid gap-6 md:grid-cols-2">
           {benefits.map((b, i) => (
-            <Card key={i} className="shadow-card hover:shadow-card-hover transition-shadow duration-300">
-              <CardContent className="flex gap-4 p-6">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-secondary">
+            <Card key={i} className="border-0 shadow-card hover:shadow-premium-hover hover:-translate-y-1 transition-all duration-300 bg-card">
+              <CardContent className="flex gap-5 p-7">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-secondary">
                   <b.icon className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-foreground mb-1">{b.title}</h3>
+                  <h3 className="font-semibold text-foreground mb-1.5">{b.title}</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">{b.description}</p>
                 </div>
               </CardContent>
@@ -107,24 +126,24 @@ const Benefits = () => {
 };
 
 const Pricing = () => (
-  <section id="pricing" className="py-20 md:py-28">
+  <section id="pricing" className="bg-section-white py-24 md:py-32">
     <div className="container">
-      <div className="mx-auto max-w-2xl text-center mb-16">
+      <div className="mx-auto max-w-2xl text-center mb-20">
         <h2 className="text-3xl font-bold text-foreground md:text-4xl">Simple, transparent pricing</h2>
         <p className="mt-4 text-lg text-muted-foreground">Everything you need for your weight loss journey, one monthly subscription.</p>
       </div>
       <div className="mx-auto max-w-md">
-        <Card className="shadow-elevated border-primary/20 overflow-hidden">
-          <div className="gradient-hero p-6 text-center">
+        <Card className="shadow-premium-hover border-0 overflow-hidden">
+          <div className="gradient-hero p-8 text-center">
             <h3 className="text-xl font-semibold text-primary-foreground">GLP-1 Weight Loss Program</h3>
-            <div className="mt-3">
-              <span className="text-4xl font-bold text-primary-foreground">$179</span>
-              <span className="text-primary-foreground/80">/month</span>
+            <div className="mt-4">
+              <span className="text-5xl font-extrabold text-primary-foreground">$179</span>
+              <span className="text-primary-foreground/80 ml-1">/month</span>
             </div>
-            <p className="mt-2 text-sm text-primary-foreground/80">Cancel anytime · No hidden fees</p>
+            <p className="mt-3 text-sm text-primary-foreground/80">Cancel anytime · No hidden fees</p>
           </div>
-          <CardContent className="p-6">
-            <ul className="space-y-3">
+          <CardContent className="p-8">
+            <ul className="space-y-3.5">
               {[
                 "Licensed provider medical review",
                 "GLP-1 prescription (if appropriate)",
@@ -140,9 +159,12 @@ const Pricing = () => (
                 </li>
               ))}
             </ul>
-            <Button className="mt-6 w-full" size="lg" asChild>
+            <Button className="mt-8 w-full shadow-premium hover:shadow-premium-hover hover:-translate-y-0.5 transition-all duration-200" size="lg" asChild>
               <Link to="/quiz">Check if you qualify</Link>
             </Button>
+            <p className="mt-4 text-xs text-center text-muted-foreground">
+              Prescription required. Subject to provider approval.
+            </p>
           </CardContent>
         </Card>
       </div>
@@ -161,20 +183,20 @@ const FAQ = () => {
   ];
 
   return (
-    <section id="faq" className="bg-muted/50 py-20 md:py-28">
+    <section id="faq" className="bg-section-soft py-24 md:py-32">
       <div className="container">
-        <div className="mx-auto max-w-2xl text-center mb-16">
+        <div className="mx-auto max-w-2xl text-center mb-20">
           <h2 className="text-3xl font-bold text-foreground md:text-4xl">Frequently asked questions</h2>
           <p className="mt-4 text-lg text-muted-foreground">Everything you need to know about our program.</p>
         </div>
         <div className="mx-auto max-w-2xl">
           <Accordion type="single" collapsible className="space-y-3">
             {faqs.map((faq, i) => (
-              <AccordionItem key={i} value={`item-${i}`} className="rounded-lg border border-border bg-card px-6 shadow-card">
-                <AccordionTrigger className="text-left text-sm font-medium text-foreground hover:no-underline">
+              <AccordionItem key={i} value={`item-${i}`} className="rounded-xl border-0 bg-card px-6 shadow-card hover:shadow-premium transition-shadow duration-300">
+                <AccordionTrigger className="text-left text-sm font-medium text-foreground hover:no-underline py-5">
                   {faq.q}
                 </AccordionTrigger>
-                <AccordionContent className="text-sm text-muted-foreground leading-relaxed">
+                <AccordionContent className="text-sm text-muted-foreground leading-relaxed pb-5">
                   {faq.a}
                 </AccordionContent>
               </AccordionItem>
@@ -187,16 +209,20 @@ const FAQ = () => {
 };
 
 const CTA = () => (
-  <section className="py-20 md:py-28">
+  <section className="bg-section-white py-24 md:py-32">
     <div className="container">
-      <div className="mx-auto max-w-3xl rounded-2xl gradient-hero p-10 text-center md:p-16">
-        <h2 className="text-3xl font-bold text-primary-foreground md:text-4xl">Ready to start your journey?</h2>
-        <p className="mx-auto mt-4 max-w-lg text-primary-foreground/80">
-          Take a quick eligibility check to see if GLP-1 treatment may be right for you. It only takes 5 minutes.
-        </p>
-        <Button size="lg" variant="secondary" className="mt-8 px-8 text-base" asChild>
-          <Link to="/quiz">Check if you qualify</Link>
-        </Button>
+      <div className="mx-auto max-w-3xl rounded-3xl gradient-hero p-12 text-center md:p-20 shadow-elevated relative overflow-hidden">
+        <div className="absolute -top-20 -right-20 h-60 w-60 rounded-full bg-white/10 blur-2xl" />
+        <div className="absolute -bottom-20 -left-20 h-60 w-60 rounded-full bg-white/10 blur-2xl" />
+        <div className="relative z-10">
+          <h2 className="text-3xl font-bold text-primary-foreground md:text-4xl">Ready to start your journey?</h2>
+          <p className="mx-auto mt-5 max-w-lg text-primary-foreground/80 leading-relaxed">
+            Take a quick eligibility check to see if GLP-1 treatment may be right for you. It only takes 5 minutes.
+          </p>
+          <Button size="lg" variant="secondary" className="mt-10 px-10 text-base shadow-elevated hover:-translate-y-0.5 transition-all duration-200" asChild>
+            <Link to="/quiz">Check if you qualify</Link>
+          </Button>
+        </div>
       </div>
     </div>
   </section>
