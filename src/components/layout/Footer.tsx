@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="border-t border-border bg-muted/50">
-      <div className="container py-12">
+    <footer className="border-t border-border bg-section-soft">
+      <div className="container py-14">
         <div className="grid gap-8 md:grid-cols-4">
           <div>
             <div className="flex items-center gap-2 mb-4">
@@ -41,10 +41,13 @@ const Footer = () => {
             </ul>
           </div>
         </div>
-        <div className="mt-10 border-t border-border pt-6">
+        <div className="mt-10 border-t border-border pt-6 space-y-2">
           <p className="text-xs text-muted-foreground text-center">
-            © {new Date().getFullYear()} Solana Health. All rights reserved. Solana Health does not guarantee weight loss results. 
-            All prescriptions are at the discretion of licensed medical providers. This is not medical advice.
+            © {new Date().getFullYear()} Solana Health. All rights reserved.
+          </p>
+          <p className="text-xs text-muted-foreground text-center max-w-2xl mx-auto leading-relaxed">
+            Prescription required. Results may vary. Subject to provider approval. Solana Health does not guarantee weight loss results. 
+            All prescriptions are at the discretion of licensed medical providers. GLP-1 medications are FDA-approved and prescribed only when medically appropriate. This is not medical advice.
           </p>
         </div>
       </div>
