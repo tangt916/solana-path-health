@@ -1,15 +1,24 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, signOut } = useAuth();
+
   const isPortal = location.pathname.startsWith("/dashboard") || 
     location.pathname.startsWith("/orders") || 
     location.pathname.startsWith("/subscription") ||
     location.pathname.startsWith("/support");
+
+  const handleLogout = async () => {
+    await signOut();
+    navigate("/");
+  };
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/50 bg-background/70 backdrop-blur-xl">
@@ -41,10 +50,15 @@ const Header = () => {
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
-          {isPortal ? (
-            <Button variant="outline" size="sm" asChild>
-              <Link to="/">Log Out</Link>
-            </Button>
+          {user ? (
+            <>
+              <Button variant="ghost" size="sm" asChild>
+                <Link to="/dashboard">Dashboard</Link>
+              </Button>
+              <Button variant="outline" size="sm" onClick={handleLogout}>
+                Log Out
+              </Button>
+            </>
           ) : (
             <>
               <Button variant="ghost" size="sm" asChild>
@@ -82,12 +96,25 @@ const Header = () => {
               </>
             )}
             <div className="flex gap-2 pt-2">
-              <Button variant="ghost" size="sm" asChild className="flex-1">
-                <Link to="/auth">Log In</Link>
-              </Button>
-              <Button size="sm" asChild className="flex-1">
-                <Link to="/quiz">Get Started</Link>
-              </Button>
+              {user ? (
+                <>
+                  <Button variant="ghost" size="sm" asChild className="flex-1">
+                    <Link to="/dashboard">Dashboard</Link>
+                  </Button>
+                  <Button variant="outline" size="sm" className="flex-1" onClick={() => { handleLogout(); setMobileOpen(false); }}>
+                    Log Out
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button variant="ghost" size="sm" asChild className="flex-1">
+                    <Link to="/auth">Log In</Link>
+                  </Button>
+                  <Button size="sm" asChild className="flex-1">
+                    <Link to="/quiz">Get Started</Link>
+                  </Button>
+                </>
+              )}
             </div>
           </nav>
         </div>
