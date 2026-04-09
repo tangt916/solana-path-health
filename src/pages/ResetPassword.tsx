@@ -51,8 +51,8 @@ const ResetPassword = () => {
         <Header />
         <div className="container flex items-center justify-center py-20">
           <div className="mx-auto max-w-sm text-center">
-            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-green-100">
-              <CheckCircle className="h-7 w-7 text-green-600" />
+            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-secondary">
+              <CheckCircle className="h-7 w-7 text-primary" />
             </div>
             <h1 className="text-2xl font-bold text-foreground">Password updated</h1>
             <p className="mt-3 text-sm text-muted-foreground">Your password has been reset successfully.</p>
