@@ -480,7 +480,33 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      consents_safe: {
+        Row: {
+          agreed: boolean | null
+          agreed_at: string | null
+          consent_text_version: string | null
+          consent_type: string | null
+          id: string | null
+          user_id: string | null
+        }
+        Insert: {
+          agreed?: boolean | null
+          agreed_at?: string | null
+          consent_text_version?: string | null
+          consent_type?: string | null
+          id?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          agreed?: boolean | null
+          agreed_at?: string | null
+          consent_text_version?: string | null
+          consent_type?: string | null
+          id?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       [_ in never]: never
