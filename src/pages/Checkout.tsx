@@ -1,8 +1,137 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Check, Lock, Shield, CreditCard } from "lucide-react";
+import { Check, Lock, Shield, CreditCard, AlertCircle } from "lucide-react";
+import { loadStripe } from "@stripe/stripe-js";
+import {
+  Elements,
+  CardNumberElement,
+  CardExpiryElement,
+  CardCvcElement,
+  useStripe,
+  useElements,
+} from "@stripe/react-stripe-js";
 import Header from "@/components/layout/Header";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || "");
+
+const elementStyle = {
+  style: {
+    base: {
+      fontSize: "16px",
+      color: "#1a1a2e",
+      fontFamily: "Inter, system-ui, sans-serif",
+      "::placeholder": { color: "#94a3b8" },
+    },
+    invalid: { color: "#ef4444" },
+  },
+};
+
+const CheckoutForm = () => {
+  const stripe = useStripe();
+  const elements = useElements();
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!stripe || !elements || !user) return;
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const cardNumber = elements.getElement(CardNumberElement);
+      if (!cardNumber) throw new Error("Card element not found");
+
+      const { error: pmError, paymentMethod } = await stripe.createPaymentMethod({
+        type: "card",
+        card: cardNumber,
+        billing_details: { email: user.email },
+      });
+
+      if (pmError) throw new Error(pmError.message);
+
+      const { data, error: fnError } = await supabase.functions.invoke("create-subscription", {
+        body: { paymentMethodId: paymentMethod.id },
+      });
+
+      if (fnError) throw new Error(fnError.message);
+      if (data?.error) throw new Error(data.error);
+
+      navigate("/dashboard");
+    } catch (err: any) {
+      setError(err.message || "Payment failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <h2 className="text-lg font-semibold text-foreground mb-4">Payment details</h2>
+
+      <div className="space-y-4">
+        <div>
+          <label className="text-sm font-medium text-foreground mb-1.5 block">Card number</label>
+          <div className="rounded-lg border border-border bg-background p-3">
+            <CardNumberElement options={elementStyle} />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="text-sm font-medium text-foreground mb-1.5 block">Expiry</label>
+            <div className="rounded-lg border border-border bg-background p-3">
+              <CardExpiryElement options={elementStyle} />
+            </div>
+          </div>
+          <div>
+            <label className="text-sm font-medium text-foreground mb-1.5 block">CVC</label>
+            <div className="rounded-lg border border-border bg-background p-3">
+              <CardCvcElement options={elementStyle} />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <Button
+        type="submit"
+        className="mt-6 w-full"
+        size="lg"
+        disabled={!stripe || loading}
+      >
+        {loading ? "Processing…" : "Start my program — $179.00/mo"}
+      </Button>
+
+      {error && (
+        <div className="mt-3 flex items-start gap-2 rounded-lg bg-destructive/10 p-3">
+          <AlertCircle className="h-4 w-4 text-destructive shrink-0 mt-0.5" />
+          <p className="text-sm text-destructive">{error}</p>
+        </div>
+      )}
+
+      <div className="mt-4 flex flex-wrap items-center justify-center gap-4">
+        <div className="flex items-center gap-1 text-xs text-muted-foreground">
+          <Lock className="h-3 w-3" /> SSL secured
+        </div>
+        <div className="flex items-center gap-1 text-xs text-muted-foreground">
+          <Shield className="h-3 w-3" /> HIPAA compliant
+        </div>
+        <span className="text-xs text-muted-foreground">Licensed providers</span>
+        <span className="text-xs text-muted-foreground">Cancel anytime</span>
+      </div>
+      <p className="mt-3 text-center text-xs text-muted-foreground">
+        Prescription required. Results vary. Subject to provider approval.
+      </p>
+    </form>
+  );
+};
 
 const Checkout = () => {
   return (
@@ -11,7 +140,9 @@ const Checkout = () => {
       <div className="container max-w-4xl py-10 md:py-16">
         <div className="mb-8 text-center">
           <h1 className="text-2xl font-bold text-foreground">Complete your enrollment</h1>
-          <p className="mt-2 text-sm text-muted-foreground">Start your medically guided weight loss program today.</p>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Start your medically guided weight loss program today.
+          </p>
         </div>
 
         <div className="grid gap-8 md:grid-cols-5">
@@ -54,7 +185,9 @@ const Checkout = () => {
                       <span className="font-semibold text-foreground">Total today</span>
                       <span className="text-xl font-bold text-foreground">$179.00</span>
                     </div>
-                    <p className="text-xs text-muted-foreground mt-1">Billed monthly · Cancel anytime</p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Billed monthly · Cancel anytime · Free shipping
+                    </p>
                   </div>
                 </div>
               </CardContent>
@@ -65,24 +198,9 @@ const Checkout = () => {
           <div className="md:col-span-2">
             <Card className="shadow-card">
               <CardContent className="p-6">
-                <h2 className="text-lg font-semibold text-foreground mb-4">Payment</h2>
-                <div className="rounded-lg border border-dashed border-border bg-muted/50 p-8 text-center">
-                  <CreditCard className="mx-auto h-8 w-8 text-muted-foreground mb-3" />
-                  <p className="text-sm text-muted-foreground">Stripe checkout will be integrated here</p>
-                </div>
-
-                <Button className="mt-4 w-full" size="lg" onClick={() => window.location.href = "/dashboard"}>
-                  Start my program
-                </Button>
-
-                <div className="mt-4 flex items-center justify-center gap-4">
-                  <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                    <Lock className="h-3 w-3" /> Secure checkout
-                  </div>
-                  <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                    <Shield className="h-3 w-3" /> HIPAA compliant
-                  </div>
-                </div>
+                <Elements stripe={stripePromise}>
+                  <CheckoutForm />
+                </Elements>
               </CardContent>
             </Card>
           </div>

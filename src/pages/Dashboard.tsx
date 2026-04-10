@@ -1,10 +1,17 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ClipboardList, Package, CreditCard, Pill, MessageSquare, ArrowRight, CheckCircle, Clock, Truck } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import {
+  ClipboardList, Package, CreditCard, Pill, MessageSquare, ArrowRight,
+  CheckCircle, Clock, Truck, AlertTriangle, XCircle,
+} from "lucide-react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
 
 const statusSteps = [
   { label: "Intake submitted", icon: ClipboardList, done: true },
@@ -15,6 +22,23 @@ const statusSteps = [
 ];
 
 const Dashboard = () => {
+  const { user } = useAuth();
+  const [subStatus, setSubStatus] = useState<string | null>(null);
+  const [intakeStatus, setIntakeStatus] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!user) return;
+    const fetchStatus = async () => {
+      const [{ data: sub }, { data: intake }] = await Promise.all([
+        supabase.from("subscriptions").select("status").eq("user_id", user.id).order("created_at", { ascending: false }).limit(1).single(),
+        supabase.from("intake_submissions").select("status").eq("user_id", user.id).order("submitted_at", { ascending: false }).limit(1).single(),
+      ]);
+      setSubStatus(sub?.status || null);
+      setIntakeStatus(intake?.status || null);
+    };
+    fetchStatus();
+  }, [user]);
+
   return (
     <div className="min-h-screen bg-muted/30">
       <Header />
@@ -23,6 +47,36 @@ const Dashboard = () => {
           <h1 className="text-2xl font-bold text-foreground">Welcome back</h1>
           <p className="text-sm text-muted-foreground mt-1">Here's an overview of your treatment status.</p>
         </div>
+
+        {/* Declined banner */}
+        {intakeStatus === "declined" && (
+          <Alert className="mb-6 border-destructive/30 bg-destructive/5">
+            <XCircle className="h-4 w-4 text-destructive" />
+            <AlertDescription className="text-destructive">
+              Our provider has reviewed your intake. GLP-1 treatment is not recommended for you at this time. Your payment has been fully refunded. Please <Link to="/support" className="underline font-medium">contact support</Link> if you have questions.
+            </AlertDescription>
+          </Alert>
+        )}
+
+        {/* Past due banner */}
+        {subStatus === "past_due" && (
+          <Alert className="mb-6 border-amber-300 bg-amber-50">
+            <AlertTriangle className="h-4 w-4 text-amber-600" />
+            <AlertDescription className="text-amber-800">
+              ⚠️ Your last payment failed. Please <Link to="/subscription" className="underline font-medium">update your billing information</Link> to avoid interruption to your program.
+            </AlertDescription>
+          </Alert>
+        )}
+
+        {/* Paused banner */}
+        {subStatus === "paused" && (
+          <Alert className="mb-6 border-amber-300 bg-amber-50">
+            <Clock className="h-4 w-4 text-amber-600" />
+            <AlertDescription className="text-amber-800">
+              Your subscription is paused. <Link to="/subscription" className="underline font-medium">Resume anytime</Link>.
+            </AlertDescription>
+          </Alert>
+        )}
 
         {/* Status tracker */}
         <Card className="shadow-card mb-8">
@@ -59,7 +113,7 @@ const Dashboard = () => {
           {[
             { title: "Orders", desc: "Track your shipments", icon: Package, href: "/orders", badge: "1 active" },
             { title: "Prescriptions", desc: "View your medications", icon: Pill, href: "/orders", badge: null },
-            { title: "Subscription", desc: "Manage your plan", icon: CreditCard, href: "/subscription", badge: "Active" },
+            { title: "Subscription", desc: "Manage your plan", icon: CreditCard, href: "/subscription", badge: subStatus || "—" },
             { title: "Support", desc: "Get help", icon: MessageSquare, href: "/support", badge: null },
           ].map((item, i) => (
             <Link key={i} to={item.href}>
