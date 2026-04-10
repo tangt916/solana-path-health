@@ -27,27 +27,26 @@ const Footer = () => {
           <div>
             <h4 className="text-sm font-semibold text-foreground mb-3">Support</h4>
             <ul className="space-y-2">
+              <li><Link to="/faq" className="text-sm text-muted-foreground hover:text-foreground transition-colors">FAQ</Link></li>
               <li><Link to="/support" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Help Center</Link></li>
               <li><Link to="/support" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Contact Us</Link></li>
-              <li><a href="#faq" className="text-sm text-muted-foreground hover:text-foreground transition-colors">FAQ</a></li>
             </ul>
           </div>
           <div>
             <h4 className="text-sm font-semibold text-foreground mb-3">Legal</h4>
             <ul className="space-y-2">
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Privacy Policy</a></li>
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Terms of Service</a></li>
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Telehealth Consent</a></li>
+              <li><Link to="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Privacy Policy</Link></li>
+              <li><Link to="/terms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Terms of Service</Link></li>
+              <li><Link to="/telehealth-consent" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Telehealth Consent</Link></li>
             </ul>
           </div>
         </div>
-        <div className="mt-10 border-t border-border pt-6 space-y-2">
+        <div className="mt-10 border-t border-border pt-6 space-y-3">
           <p className="text-xs text-muted-foreground text-center">
             © {new Date().getFullYear()} Solana Health. All rights reserved.
           </p>
-          <p className="text-xs text-muted-foreground text-center max-w-2xl mx-auto leading-relaxed">
-            Prescription required. Results may vary. Subject to provider approval. Solana Health does not guarantee weight loss results. 
-            All prescriptions are at the discretion of licensed medical providers. GLP-1 medications are FDA-approved and prescribed only when medically appropriate. This is not medical advice.
+          <p className="text-xs text-muted-foreground text-center max-w-3xl mx-auto leading-relaxed">
+            Solana Health is a technology platform. We do not practice medicine. All prescribing decisions are made by independent licensed healthcare providers. Prescription medication is only dispensed following a clinical evaluation. GLP-1 medications are not appropriate for everyone. Results vary and are not guaranteed. This website does not provide medical advice.
           </p>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,8 +6,9 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Progress } from "@/components/ui/progress";
-import { ArrowLeft, ArrowRight, AlertTriangle, XCircle, Info } from "lucide-react";
+import { ArrowLeft, ArrowRight, AlertTriangle, XCircle } from "lucide-react";
 import Header from "@/components/layout/Header";
+import { trackEvent } from "@/lib/analytics";
 
 const ELIGIBLE_STATES: Record<string, string> = {
   AZ: "Arizona", CA: "California", CO: "Colorado", CT: "Connecticut",
@@ -35,22 +36,10 @@ const Quiz = () => {
   const update = (field: string, value: string) => setData(prev => ({ ...prev, [field]: value }));
   const progress = ((step + 1) / TOTAL_STEPS) * 100;
 
-  // Derived validations
   const ageNum = data.age ? parseInt(data.age) : null;
   const isUnder18 = ageNum !== null && ageNum < 18;
   const isOver80 = ageNum !== null && ageNum > 80;
   const isStateIneligible = data.state !== "" && !(data.state in ELIGIBLE_STATES);
-
-  const bmi = useMemo(() => {
-    const ft = parseInt(data.heightFeet);
-    const inches = parseInt(data.heightInches || "0");
-    const w = parseFloat(data.weight);
-    if (!ft || !w || ft <= 0 || w <= 0) return null;
-    const totalInches = ft * 12 + (inches || 0);
-    return (w / (totalInches * totalInches)) * 703;
-  }, [data.heightFeet, data.heightInches, data.weight]);
-
-  const isLowBmi = bmi !== null && bmi < 27;
   const isPregnant = data.pregnant === "yes";
 
   const canNext = () => {
@@ -71,11 +60,11 @@ const Quiz = () => {
       return;
     }
     setShowErrors(false);
+    trackEvent("quiz_step_completed", { step_number: step + 1 });
     if (step < TOTAL_STEPS - 1) setStep(step + 1);
     else {
-      // Navigate with quiz data for submission after auth
-      const calcBmi = bmi ? parseFloat(bmi.toFixed(1)) : null;
-      navigate("/intake-transition", { state: { quizData: { ...data, bmi: calcBmi } } });
+      trackEvent("quiz_submitted");
+      navigate("/intake-transition", { state: { quizData: { ...data, bmi: null } } });
     }
   };
 
@@ -140,7 +129,7 @@ const Quiz = () => {
             </div>
           )}
 
-          {/* Step 1: Height & Weight + BMI */}
+          {/* Step 1: Height & Weight */}
           {step === 1 && (
             <div className="space-y-5 animate-fade-in">
               <h2 className="text-xl font-semibold text-foreground">Height & weight</h2>
@@ -159,14 +148,6 @@ const Quiz = () => {
                 <Label>Current weight (lbs)</Label>
                 <Input type="number" min={1} placeholder="Enter your weight" value={data.weight} onChange={e => update("weight", e.target.value)} />
                 <FieldError show={showErrors && !data.weight} message="Please enter your weight" />
-                {bmi !== null && (
-                  <p className="text-sm font-medium text-foreground flex items-center gap-1.5">
-                    <Info className="h-3.5 w-3.5 text-primary" /> Your BMI: {bmi.toFixed(1)}
-                  </p>
-                )}
-                {isLowBmi && (
-                  <Warning message="GLP-1 medications are typically recommended for BMIs of 27 or above. A licensed provider will individually review your case and determine eligibility." />
-                )}
               </div>
             </div>
           )}
@@ -176,7 +157,7 @@ const Quiz = () => {
             <div className="space-y-5 animate-fade-in">
               <h2 className="text-xl font-semibold text-foreground">What's your weight loss goal?</h2>
               <RadioGroup value={data.goal} onValueChange={v => update("goal", v)} className="space-y-3">
-                {["Lose 10-20 lbs", "Lose 20-40 lbs", "Lose 40-60 lbs", "Lose 60+ lbs"].map(opt => (
+                {["Lose 5–10 lbs", "Lose 10–20 lbs", "Lose 20–40 lbs", "Lose 40–60 lbs", "Lose 60+ lbs"].map(opt => (
                   <label key={opt} className="flex cursor-pointer items-center gap-3 rounded-lg border border-border p-4 transition-colors hover:bg-muted/50 has-[[data-state=checked]]:border-primary has-[[data-state=checked]]:bg-secondary">
                     <RadioGroupItem value={opt} />
                     <span className="text-sm font-medium text-foreground">{opt}</span>
