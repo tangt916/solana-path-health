@@ -81,7 +81,7 @@ const CheckoutForm = () => {
       <div className="space-y-4">
         <div>
           <label className="text-sm font-medium text-foreground mb-1.5 block">Card number</label>
-          <div className="rounded-lg border border-border bg-background p-3">
+          <div className="rounded-lg border border-border bg-background p-3 min-h-[44px] [&>div]:min-h-[24px] [&_iframe]:min-h-[24px] [&_iframe]:!pointer-events-auto">
             <CardNumberElement options={elementStyle} />
           </div>
         </div>
@@ -89,13 +89,13 @@ const CheckoutForm = () => {
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="text-sm font-medium text-foreground mb-1.5 block">Expiry</label>
-            <div className="rounded-lg border border-border bg-background p-3">
+            <div className="rounded-lg border border-border bg-background p-3 min-h-[44px] [&>div]:min-h-[24px] [&_iframe]:min-h-[24px] [&_iframe]:!pointer-events-auto">
               <CardExpiryElement options={elementStyle} />
             </div>
           </div>
           <div>
             <label className="text-sm font-medium text-foreground mb-1.5 block">CVC</label>
-            <div className="rounded-lg border border-border bg-background p-3">
+            <div className="rounded-lg border border-border bg-background p-3 min-h-[44px] [&>div]:min-h-[24px] [&_iframe]:min-h-[24px] [&_iframe]:!pointer-events-auto">
               <CardCvcElement options={elementStyle} />
             </div>
           </div>
