@@ -26,7 +26,9 @@ import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "@/hooks/use-toast";
 import type { Tables } from "@/integrations/supabase/types";
 
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || "");
+import { STRIPE_PUBLISHABLE_KEY } from "@/lib/stripe";
+
+const stripePromise = loadStripe(STRIPE_PUBLISHABLE_KEY);
 
 const elementStyle = {
   style: {
