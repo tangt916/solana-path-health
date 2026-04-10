@@ -171,3 +171,12 @@
 .animate-glow-pulse {
   animation: glow-pulse 4s ease-in-out infinite;
 }
+
+/* Ensure Stripe iframes are always interactive */
+.__PrivateStripeElement,
+.__PrivateStripeElement iframe {
+  pointer-events: auto !important;
+  position: relative !important;
+  z-index: 1 !important;
+  min-height: 24px !important;
+}
