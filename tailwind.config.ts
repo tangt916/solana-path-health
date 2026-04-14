@@ -14,8 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Instrument Sans', 'system-ui', 'sans-serif'],
-        serif: ['Cormorant Garamond', 'Georgia', 'serif'],
+        sans: ['DM Sans', 'system-ui', 'sans-serif'],
+        serif: ['Fraunces', 'Georgia', 'serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -31,6 +31,9 @@ export default {
         },
         gold: "hsl(var(--gold))",
         "warm-white": "hsl(var(--warm-white))",
+        ink: "hsl(var(--ink))",
+        sage: "hsl(var(--sage))",
+        lime: "hsl(var(--lime))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
