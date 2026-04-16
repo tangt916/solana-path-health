@@ -152,25 +152,27 @@ const Profile = () => {
       };
 
       // Build patient payload — omit identity fields if locked
-      const patientPayload: Record<string, unknown> = {
+      const patientPayload = {
         email: user.email,
         phone: form.phone || null,
         address,
+        ...(lockIdentity
+          ? {}
+          : {
+              first_name: form.firstName,
+              last_name: form.lastName,
+              dob: form.dob || null,
+              gender: form.gender || null,
+            }),
       };
-      if (!lockIdentity) {
-        patientPayload.first_name = form.firstName;
-        patientPayload.last_name = form.lastName;
-        patientPayload.dob = form.dob || null;
-        patientPayload.gender = form.gender || null;
-      }
 
       const { error: patientErr } = await supabase
         .from("patients")
-        .upsert(patientPayload, { onConflict: "email" });
+        .upsert(patientPayload as never, { onConflict: "email" });
       if (patientErr) throw patientErr;
 
       // customers (per-user)
-      const customerPayload: Record<string, unknown> = {
+      const customerPayload = {
         user_id: user.id,
         email: user.email,
         phone: form.phone || null,
@@ -179,16 +181,17 @@ const Profile = () => {
         city: form.city || null,
         state: form.state || null,
         zip: form.zip || null,
+        ...(lockIdentity
+          ? {}
+          : {
+              name: `${form.firstName} ${form.lastName}`.trim() || null,
+              date_of_birth: form.dob || null,
+            }),
       };
-      if (!lockIdentity) {
-        customerPayload.name =
-          `${form.firstName} ${form.lastName}`.trim() || null;
-        customerPayload.date_of_birth = form.dob || null;
-      }
 
       const { error: customerErr } = await supabase
         .from("customers")
-        .upsert(customerPayload, { onConflict: "user_id" });
+        .upsert(customerPayload as never, { onConflict: "user_id" });
       if (customerErr) throw customerErr;
 
       // Best-effort vendor sync
