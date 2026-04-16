@@ -5,6 +5,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { IntakeFormProvider } from "@/contexts/IntakeFormContext";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { initGA4, trackPageView } from "@/lib/analytics";
 import Index from "./pages/Index";
@@ -13,6 +14,7 @@ import Auth from "./pages/Auth";
 import ResetPassword from "./pages/ResetPassword";
 import IntakeTransition from "./pages/IntakeTransition";
 import Checkout from "./pages/Checkout";
+import Confirmation from "./pages/Confirmation";
 import Dashboard from "./pages/Dashboard";
 import Orders from "./pages/Orders";
 import Subscription from "./pages/Subscription";
@@ -47,26 +49,29 @@ const App = () => {
         <Sonner />
         <BrowserRouter>
           <AuthProvider>
-            <GAPageTracker />
-            <MarketingPopup />
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/quiz" element={<Quiz />} />
-              <Route path="/get-started" element={<GetStarted />} />
-              <Route path="/auth" element={<Auth />} />
-              <Route path="/reset-password" element={<ResetPassword />} />
-              <Route path="/intake-transition" element={<IntakeTransition />} />
-              <Route path="/checkout" element={<Checkout />} />
-              <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-              <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
-              <Route path="/subscription" element={<ProtectedRoute><Subscription /></ProtectedRoute>} />
-              <Route path="/support" element={<Support />} />
-              <Route path="/faq" element={<FAQ />} />
-              <Route path="/privacy" element={<Privacy />} />
-              <Route path="/terms" element={<Terms />} />
-              <Route path="/telehealth-consent" element={<TelehealthConsent />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <IntakeFormProvider>
+              <GAPageTracker />
+              <MarketingPopup />
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/quiz" element={<Quiz />} />
+                <Route path="/get-started" element={<GetStarted />} />
+                <Route path="/auth" element={<Auth />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
+                <Route path="/intake-transition" element={<IntakeTransition />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/confirmation" element={<Confirmation />} />
+                <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+                <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
+                <Route path="/subscription" element={<ProtectedRoute><Subscription /></ProtectedRoute>} />
+                <Route path="/support" element={<Support />} />
+                <Route path="/faq" element={<FAQ />} />
+                <Route path="/privacy" element={<Privacy />} />
+                <Route path="/terms" element={<Terms />} />
+                <Route path="/telehealth-consent" element={<TelehealthConsent />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </IntakeFormProvider>
           </AuthProvider>
         </BrowserRouter>
       </TooltipProvider>
