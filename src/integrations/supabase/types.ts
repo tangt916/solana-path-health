@@ -14,6 +14,72 @@ export type Database = {
   }
   public: {
     Tables: {
+      appointments: {
+        Row: {
+          case_id: string | null
+          created_at: string
+          email: string | null
+          end_time: string | null
+          id: string
+          meeting_link: string | null
+          patient_id: string | null
+          provider_email: string | null
+          provider_name: string | null
+          start_time: string | null
+          status: string | null
+          timezone: string | null
+          vendor_appointment_id: string | null
+          vendor_name: string | null
+        }
+        Insert: {
+          case_id?: string | null
+          created_at?: string
+          email?: string | null
+          end_time?: string | null
+          id?: string
+          meeting_link?: string | null
+          patient_id?: string | null
+          provider_email?: string | null
+          provider_name?: string | null
+          start_time?: string | null
+          status?: string | null
+          timezone?: string | null
+          vendor_appointment_id?: string | null
+          vendor_name?: string | null
+        }
+        Update: {
+          case_id?: string | null
+          created_at?: string
+          email?: string | null
+          end_time?: string | null
+          id?: string
+          meeting_link?: string | null
+          patient_id?: string | null
+          provider_email?: string | null
+          provider_name?: string | null
+          start_time?: string | null
+          status?: string | null
+          timezone?: string | null
+          vendor_appointment_id?: string | null
+          vendor_name?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "appointments_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
+            referencedRelation: "cases"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "appointments_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       audit_log: {
         Row: {
           action: string
@@ -43,6 +109,65 @@ export type Database = {
           user_id?: string | null
         }
         Relationships: []
+      }
+      cases: {
+        Row: {
+          amount_paid: number | null
+          created_at: string
+          discount_applied: number | null
+          email: string | null
+          id: string
+          original_amount: number | null
+          patient_id: string | null
+          plan_months: number | null
+          promo_code_used: string | null
+          status: string | null
+          stripe_payment_id: string | null
+          updated_at: string
+          vendor_case_id: string | null
+          vendor_name: string | null
+        }
+        Insert: {
+          amount_paid?: number | null
+          created_at?: string
+          discount_applied?: number | null
+          email?: string | null
+          id?: string
+          original_amount?: number | null
+          patient_id?: string | null
+          plan_months?: number | null
+          promo_code_used?: string | null
+          status?: string | null
+          stripe_payment_id?: string | null
+          updated_at?: string
+          vendor_case_id?: string | null
+          vendor_name?: string | null
+        }
+        Update: {
+          amount_paid?: number | null
+          created_at?: string
+          discount_applied?: number | null
+          email?: string | null
+          id?: string
+          original_amount?: number | null
+          patient_id?: string | null
+          plan_months?: number | null
+          promo_code_used?: string | null
+          status?: string | null
+          stripe_payment_id?: string | null
+          updated_at?: string
+          vendor_case_id?: string | null
+          vendor_name?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cases_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       consents: {
         Row: {
@@ -125,6 +250,33 @@ export type Database = {
         }
         Relationships: []
       }
+      error_logs: {
+        Row: {
+          context: string | null
+          created_at: string
+          error: string | null
+          id: string
+          patient_email: string | null
+          payload: Json | null
+        }
+        Insert: {
+          context?: string | null
+          created_at?: string
+          error?: string | null
+          id?: string
+          patient_email?: string | null
+          payload?: Json | null
+        }
+        Update: {
+          context?: string | null
+          created_at?: string
+          error?: string | null
+          id?: string
+          patient_email?: string | null
+          payload?: Json | null
+        }
+        Relationships: []
+      }
       intake_submissions: {
         Row: {
           age: number
@@ -191,6 +343,65 @@ export type Database = {
         }
         Relationships: []
       }
+      marketing_leads: {
+        Row: {
+          converted_to_patient: boolean | null
+          created_at: string
+          email: string | null
+          email_opt_in: boolean | null
+          first_name: string | null
+          id: string
+          last_name: string | null
+          patient_id: string | null
+          phone: string | null
+          promo_code: string | null
+          promo_expiry: string | null
+          promo_used: boolean | null
+          sms_opt_in: boolean | null
+          source: string | null
+        }
+        Insert: {
+          converted_to_patient?: boolean | null
+          created_at?: string
+          email?: string | null
+          email_opt_in?: boolean | null
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          patient_id?: string | null
+          phone?: string | null
+          promo_code?: string | null
+          promo_expiry?: string | null
+          promo_used?: boolean | null
+          sms_opt_in?: boolean | null
+          source?: string | null
+        }
+        Update: {
+          converted_to_patient?: boolean | null
+          created_at?: string
+          email?: string | null
+          email_opt_in?: boolean | null
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          patient_id?: string | null
+          phone?: string | null
+          promo_code?: string | null
+          promo_expiry?: string | null
+          promo_used?: boolean | null
+          sms_opt_in?: boolean | null
+          source?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "marketing_leads_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       orders: {
         Row: {
           created_at: string
@@ -231,6 +442,51 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      patients: {
+        Row: {
+          address: Json | null
+          converted_at: string | null
+          created_at: string
+          dob: string | null
+          email: string
+          first_name: string | null
+          gender: string | null
+          id: string
+          last_name: string | null
+          phone: string | null
+          referral_code: string | null
+          referred_by: string | null
+        }
+        Insert: {
+          address?: Json | null
+          converted_at?: string | null
+          created_at?: string
+          dob?: string | null
+          email: string
+          first_name?: string | null
+          gender?: string | null
+          id?: string
+          last_name?: string | null
+          phone?: string | null
+          referral_code?: string | null
+          referred_by?: string | null
+        }
+        Update: {
+          address?: Json | null
+          converted_at?: string | null
+          created_at?: string
+          dob?: string | null
+          email?: string
+          first_name?: string | null
+          gender?: string | null
+          id?: string
+          last_name?: string | null
+          phone?: string | null
+          referral_code?: string | null
+          referred_by?: string | null
+        }
+        Relationships: []
       }
       payments: {
         Row: {
@@ -349,6 +605,140 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      promo_codes: {
+        Row: {
+          code: string | null
+          created_at: string
+          discount_type: string | null
+          discount_value: number | null
+          expires_at: string | null
+          id: string
+          is_active: boolean | null
+          max_uses: number | null
+          source: string | null
+          use_count: number | null
+        }
+        Insert: {
+          code?: string | null
+          created_at?: string
+          discount_type?: string | null
+          discount_value?: number | null
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          max_uses?: number | null
+          source?: string | null
+          use_count?: number | null
+        }
+        Update: {
+          code?: string | null
+          created_at?: string
+          discount_type?: string | null
+          discount_value?: number | null
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          max_uses?: number | null
+          source?: string | null
+          use_count?: number | null
+        }
+        Relationships: []
+      }
+      referral_credits: {
+        Row: {
+          amount: number | null
+          created_at: string
+          email: string | null
+          expires_at: string | null
+          id: string
+          patient_id: string | null
+          reason: string | null
+          used: boolean | null
+          used_at: string | null
+        }
+        Insert: {
+          amount?: number | null
+          created_at?: string
+          email?: string | null
+          expires_at?: string | null
+          id?: string
+          patient_id?: string | null
+          reason?: string | null
+          used?: boolean | null
+          used_at?: string | null
+        }
+        Update: {
+          amount?: number | null
+          created_at?: string
+          email?: string | null
+          expires_at?: string | null
+          id?: string
+          patient_id?: string | null
+          reason?: string | null
+          used?: boolean | null
+          used_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "referral_credits_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      referrals: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          id: string
+          referral_code: string | null
+          referred_email: string | null
+          referred_patient_id: string | null
+          referrer_email: string | null
+          referrer_patient_id: string | null
+          status: string | null
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          referral_code?: string | null
+          referred_email?: string | null
+          referred_patient_id?: string | null
+          referrer_email?: string | null
+          referrer_patient_id?: string | null
+          status?: string | null
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          referral_code?: string | null
+          referred_email?: string | null
+          referred_patient_id?: string | null
+          referrer_email?: string | null
+          referrer_patient_id?: string | null
+          status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "referrals_referred_patient_id_fkey"
+            columns: ["referred_patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "referrals_referrer_patient_id_fkey"
+            columns: ["referrer_patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       shipment_events: {
         Row: {
@@ -475,6 +865,42 @@ export type Database = {
           status?: string
           subject?: string
           user_id?: string | null
+        }
+        Relationships: []
+      }
+      webhook_events: {
+        Row: {
+          error: string | null
+          event_type: string | null
+          id: string
+          payload: Json | null
+          processed: boolean | null
+          processed_at: string | null
+          received_at: string
+          vendor_case_id: string | null
+          vendor_name: string | null
+        }
+        Insert: {
+          error?: string | null
+          event_type?: string | null
+          id?: string
+          payload?: Json | null
+          processed?: boolean | null
+          processed_at?: string | null
+          received_at?: string
+          vendor_case_id?: string | null
+          vendor_name?: string | null
+        }
+        Update: {
+          error?: string | null
+          event_type?: string | null
+          id?: string
+          payload?: Json | null
+          processed?: boolean | null
+          processed_at?: string | null
+          received_at?: string
+          vendor_case_id?: string | null
+          vendor_name?: string | null
         }
         Relationships: []
       }
