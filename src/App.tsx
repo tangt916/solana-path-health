@@ -25,6 +25,7 @@ import Terms from "./pages/Terms";
 import TelehealthConsent from "./pages/TelehealthConsent";
 import NotFound from "./pages/NotFound";
 import GetStarted from "./pages/GetStarted";
+import Profile from "./pages/Profile";
 import { MarketingPopup } from "./components/MarketingPopup";
 
 const queryClient = new QueryClient();
@@ -62,6 +63,7 @@ const App = () => {
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/confirmation" element={<Confirmation />} />
                 <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+                <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
                 <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
                 <Route path="/subscription" element={<ProtectedRoute><Subscription /></ProtectedRoute>} />
                 <Route path="/support" element={<Support />} />
