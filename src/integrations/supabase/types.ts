@@ -402,6 +402,39 @@ export type Database = {
           },
         ]
       }
+      notification_queue: {
+        Row: {
+          created_at: string
+          email: string | null
+          error: string | null
+          id: string
+          payload: Json | null
+          sent: boolean
+          sent_at: string | null
+          type: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          error?: string | null
+          id?: string
+          payload?: Json | null
+          sent?: boolean
+          sent_at?: string | null
+          type: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          error?: string | null
+          id?: string
+          payload?: Json | null
+          sent?: boolean
+          sent_at?: string | null
+          type?: string
+        }
+        Relationships: []
+      }
       orders: {
         Row: {
           created_at: string
@@ -442,6 +475,33 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      patient_messages: {
+        Row: {
+          author_name: string | null
+          created_at: string
+          id: string
+          read: boolean
+          text: string
+          vendor_case_id: string
+        }
+        Insert: {
+          author_name?: string | null
+          created_at?: string
+          id?: string
+          read?: boolean
+          text: string
+          vendor_case_id: string
+        }
+        Update: {
+          author_name?: string | null
+          created_at?: string
+          id?: string
+          read?: boolean
+          text?: string
+          vendor_case_id?: string
+        }
+        Relationships: []
       }
       patients: {
         Row: {
