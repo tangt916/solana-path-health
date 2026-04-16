@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { IntakeFormProvider, useIntakeForm } from "@/contexts/IntakeFormContext";
+import { useIntakeForm } from "@/contexts/IntakeFormContext";
 import { PageShell } from "@/components/ui/shared/PageShell";
 import { StepIndicator } from "@/components/ui/shared/StepIndicator";
 import { Button } from "@/components/ui/button";
@@ -14,7 +14,7 @@ import { Step5Plan } from "@/components/intake/Step5Plan";
 
 const STEP_LABELS = ["You", "About", "Health", "Goals", "Plan"];
 
-const GetStartedInner = () => {
+const GetStarted = () => {
   const { state, setStep, hasSavedProgress, resetForm } = useIntakeForm();
   const navigate = useNavigate();
   const [resumePromptVisible, setResumePromptVisible] = useState(hasSavedProgress);
@@ -82,11 +82,5 @@ const GetStartedInner = () => {
     </div>
   );
 };
-
-const GetStarted = () => (
-  <IntakeFormProvider>
-    <GetStartedInner />
-  </IntakeFormProvider>
-);
 
 export default GetStarted;
