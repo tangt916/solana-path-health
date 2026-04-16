@@ -121,10 +121,12 @@ export const MarketingPopup = () => {
       }
 
       toast.success(`Your code ${PROMO_CODE} is ready — 10% off, valid 30 days! ✓`);
+      sessionStorage.setItem("popupPromoCode", PROMO_CODE);
       markConverted();
     } catch (err) {
       console.error("SMS opt-in update error:", err);
       toast.success(`Your code ${PROMO_CODE} is ready — 10% off, valid 30 days! ✓`);
+      sessionStorage.setItem("popupPromoCode", PROMO_CODE);
       markConverted();
     } finally {
       setLoading(false);

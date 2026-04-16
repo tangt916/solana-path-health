@@ -22,6 +22,7 @@ import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import TelehealthConsent from "./pages/TelehealthConsent";
 import NotFound from "./pages/NotFound";
+import GetStarted from "./pages/GetStarted";
 import { MarketingPopup } from "./components/MarketingPopup";
 
 const queryClient = new QueryClient();
@@ -51,6 +52,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/quiz" element={<Quiz />} />
+              <Route path="/get-started" element={<GetStarted />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/intake-transition" element={<IntakeTransition />} />
