@@ -47,6 +47,7 @@ const App = () => {
         <BrowserRouter>
           <AuthProvider>
             <GAPageTracker />
+            <MarketingPopup />
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/quiz" element={<Quiz />} />
