@@ -22,6 +22,7 @@ import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import TelehealthConsent from "./pages/TelehealthConsent";
 import NotFound from "./pages/NotFound";
+import { MarketingPopup } from "./components/MarketingPopup";
 
 const queryClient = new QueryClient();
 
