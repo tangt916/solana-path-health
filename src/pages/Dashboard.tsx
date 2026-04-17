@@ -613,9 +613,9 @@ const Dashboard = () => {
                   variant="outline"
                   className="h-auto py-4 justify-start"
                 >
-                  <Link to="/profile">
+                  <Link to="/support">
                     <UserCog className="w-4 h-4 mr-2" />
-                    Edit profile
+                    Contact support
                   </Link>
                 </Button>
                 {data.caseRow?.status?.toUpperCase() === "APPROVED" && (
