@@ -7,12 +7,11 @@ import { Button } from "@/components/ui/button";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { Step1Personal } from "@/components/intake/Step1Personal";
-import { Step2About } from "@/components/intake/Step2About";
-import { Step3Health } from "@/components/intake/Step3Health";
-import { Step4Goals } from "@/components/intake/Step4Goals";
-import { Step5Plan } from "@/components/intake/Step5Plan";
+import { Step2Health } from "@/components/intake/Step2Health";
+import { Step3Goals } from "@/components/intake/Step3Goals";
+import { Step4Booking } from "@/components/intake/Step4Booking";
 
-const STEP_LABELS = ["You", "About", "Health", "Goals", "Plan"];
+const STEP_LABELS = ["You", "Health", "Goals", "Book"];
 
 const GetStarted = () => {
   const { state, setStep, hasSavedProgress, resetForm } = useIntakeForm();
@@ -34,7 +33,7 @@ const GetStarted = () => {
 
   const handleContinueResume = () => setResumePromptVisible(false);
 
-  const goNext = () => setStep(Math.min(state.step + 1, 5));
+  const goNext = () => setStep(Math.min(state.step + 1, 4));
   const goBack = () => setStep(Math.max(state.step - 1, 1));
 
   return (
@@ -56,22 +55,23 @@ const GetStarted = () => {
                 </p>
                 <div className="flex gap-3 justify-center">
                   <Button onClick={handleContinueResume}>Continue</Button>
-                  <Button variant="outline" onClick={handleStartOver}>Start over</Button>
+                  <Button variant="outline" onClick={handleStartOver}>
+                    Start over
+                  </Button>
                 </div>
               </div>
             ) : (
               <div className="space-y-6">
                 <StepIndicator
                   currentStep={state.step}
-                  totalSteps={5}
+                  totalSteps={4}
                   labels={STEP_LABELS}
                 />
                 <div className="bg-card border border-border rounded-lg p-6 sm:p-8">
                   {state.step === 1 && <Step1Personal />}
-                  {state.step === 2 && <Step2About onBack={goBack} onNext={goNext} />}
-                  {state.step === 3 && <Step3Health onBack={goBack} onNext={goNext} />}
-                  {state.step === 4 && <Step4Goals onBack={goBack} onNext={goNext} />}
-                  {state.step === 5 && <Step5Plan onBack={goBack} />}
+                  {state.step === 2 && <Step2Health onBack={goBack} onNext={goNext} />}
+                  {state.step === 3 && <Step3Goals onBack={goBack} onNext={goNext} />}
+                  {state.step === 4 && <Step4Booking onBack={goBack} />}
                 </div>
               </div>
             )}

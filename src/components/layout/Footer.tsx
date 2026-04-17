@@ -21,8 +21,7 @@ const Footer = () => {
                 <li><a href="#how-it-works" className="text-sm transition-opacity hover:opacity-80" style={{ color: 'rgba(250,246,238,0.45)' }}>How It Works</a></li>
                 <li><a href="#medications" className="text-sm transition-opacity hover:opacity-80" style={{ color: 'rgba(250,246,238,0.45)' }}>Treatment</a></li>
                 <li><a href="#membership" className="text-sm transition-opacity hover:opacity-80" style={{ color: 'rgba(250,246,238,0.45)' }}>Membership</a></li>
-                <li><Link to="/quiz" className="text-sm transition-opacity hover:opacity-80" style={{ color: 'rgba(250,246,238,0.45)' }}>Check Eligibility</Link></li>
-                <li><Link to="/faq" className="text-sm transition-opacity hover:opacity-80" style={{ color: 'rgba(250,246,238,0.45)' }}>FAQ</Link></li>
+                <li><Link to="/get-started" className="text-sm transition-opacity hover:opacity-80" style={{ color: 'rgba(250,246,238,0.45)' }}>Get Started</Link></li>
                 <li><Link to="/support" className="text-sm transition-opacity hover:opacity-80" style={{ color: 'rgba(250,246,238,0.45)' }}>Support</Link></li>
               </ul>
             </div>
