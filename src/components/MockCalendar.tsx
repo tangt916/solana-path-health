@@ -60,8 +60,7 @@ export const MockCalendar = ({
       {/* Provider card */}
       <div className="flex items-center gap-4 bg-card border border-border rounded-xl p-4">
         <div
-          className="w-14 h-14 rounded-full flex items-center justify-center text-base font-medium text-primary-foreground shrink-0"
-          style={{ background: "hsl(var(--primary))" }}
+          className="w-14 h-14 rounded-full flex items-center justify-center text-base font-medium text-primary-foreground shrink-0 bg-primary"
           aria-hidden="true"
         >
           {provider.avatar}
