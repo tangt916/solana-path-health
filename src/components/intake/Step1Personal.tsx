@@ -1,23 +1,59 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { z } from "zod";
 import { useIntakeForm } from "@/contexts/IntakeFormContext";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { LoadingSpinner } from "@/components/ui/shared/LoadingSpinner";
 import { SuccessMessage } from "@/components/ui/shared/SuccessMessage";
 import { ErrorMessage } from "@/components/ui/shared/ErrorMessage";
-import { useState } from "react";
-import { z } from "zod";
-import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+
+const US_STATES: Array<{ code: string; name: string }> = [
+  { code: "AL", name: "Alabama" }, { code: "AK", name: "Alaska" },
+  { code: "AZ", name: "Arizona" }, { code: "AR", name: "Arkansas" },
+  { code: "CA", name: "California" }, { code: "CO", name: "Colorado" },
+  { code: "CT", name: "Connecticut" }, { code: "DE", name: "Delaware" },
+  { code: "FL", name: "Florida" }, { code: "GA", name: "Georgia" },
+  { code: "HI", name: "Hawaii" }, { code: "ID", name: "Idaho" },
+  { code: "IL", name: "Illinois" }, { code: "IN", name: "Indiana" },
+  { code: "IA", name: "Iowa" }, { code: "KS", name: "Kansas" },
+  { code: "KY", name: "Kentucky" }, { code: "LA", name: "Louisiana" },
+  { code: "ME", name: "Maine" }, { code: "MD", name: "Maryland" },
+  { code: "MA", name: "Massachusetts" }, { code: "MI", name: "Michigan" },
+  { code: "MN", name: "Minnesota" }, { code: "MS", name: "Mississippi" },
+  { code: "MO", name: "Missouri" }, { code: "MT", name: "Montana" },
+  { code: "NE", name: "Nebraska" }, { code: "NV", name: "Nevada" },
+  { code: "NH", name: "New Hampshire" }, { code: "NJ", name: "New Jersey" },
+  { code: "NM", name: "New Mexico" }, { code: "NY", name: "New York" },
+  { code: "NC", name: "North Carolina" }, { code: "ND", name: "North Dakota" },
+  { code: "OH", name: "Ohio" }, { code: "OK", name: "Oklahoma" },
+  { code: "OR", name: "Oregon" }, { code: "PA", name: "Pennsylvania" },
+  { code: "RI", name: "Rhode Island" }, { code: "SC", name: "South Carolina" },
+  { code: "SD", name: "South Dakota" }, { code: "TN", name: "Tennessee" },
+  { code: "TX", name: "Texas" }, { code: "UT", name: "Utah" },
+  { code: "VT", name: "Vermont" }, { code: "VA", name: "Virginia" },
+  { code: "WA", name: "Washington" }, { code: "WV", name: "West Virginia" },
+  { code: "WI", name: "Wisconsin" }, { code: "WY", name: "Wyoming" },
+];
 
 const schema = z.object({
   firstName: z.string().trim().min(1, "First name is required").max(100),
   lastName: z.string().trim().min(1, "Last name is required").max(100),
   email: z.string().trim().email("Valid email required").max(255),
   phone: z.string().trim().max(40).optional().or(z.literal("")),
+  state: z.string().min(2, "Please select your state"),
 });
 
-type Status = "idle" | "loading" | "exists_here" | "exists_other" | "error";
+type Status = "idle" | "loading" | "exists_here" | "error";
 
 export const Step1Personal = () => {
   const { state, updatePersonal, setStep } = useIntakeForm();
@@ -40,21 +76,35 @@ export const Step1Personal = () => {
     }
 
     setStatus("loading");
-    // Mocked vendor check — always treat as USER_NOT_FOUND for now
     try {
-      const lead = {
+      // Best-effort vendor check (mock vendor returns USER_NOT_FOUND).
+      try {
+        const { data: checkData } = await supabase.functions.invoke(
+          "api-check-user",
+          { body: undefined, method: "GET" as never } as never
+        );
+        if (checkData?.data?.exists) {
+          setStatus("exists_here");
+          return;
+        }
+      } catch (err) {
+        // Non-fatal — continue onboarding.
+        console.warn("api-check-user skipped:", err);
+      }
+
+      // Save lead (best-effort; ignore RLS / duplicate errors).
+      const { error } = await supabase.from("marketing_leads").insert({
         email: parsed.data.email,
         first_name: parsed.data.firstName,
         last_name: parsed.data.lastName,
         phone: parsed.data.phone || null,
         source: "intake_form",
         email_opt_in: true,
-      };
-      // Upsert by email (insert; if dup, ignore)
-      const { error } = await supabase.from("marketing_leads").insert(lead);
+      });
       if (error && !error.message.toLowerCase().includes("duplicate")) {
-        console.error("marketing_leads insert error:", error);
+        console.warn("marketing_leads insert skipped:", error.message);
       }
+
       setStatus("idle");
       setStep(2);
     } catch (e) {
@@ -75,21 +125,14 @@ export const Step1Personal = () => {
       />
     );
   }
-  if (status === "exists_other") {
-    return (
-      <ErrorMessage
-        variant="inline"
-        title="Account exists"
-        message="An account exists with this email. Please contact support."
-      />
-    );
-  }
 
   return (
     <div className="space-y-5">
       <div>
         <h2 className="font-serif text-2xl sm:text-3xl mb-1">Let's get started</h2>
-        <p className="text-muted-foreground text-sm">A few details so we can build your plan.</p>
+        <p className="text-muted-foreground text-sm">
+          A few details so we can build your plan.
+        </p>
       </div>
 
       <div className="grid sm:grid-cols-2 gap-4">
@@ -138,9 +181,32 @@ export const Step1Personal = () => {
         <Input
           id="phone"
           type="tel"
+          placeholder="+1 (555) 555-5555"
           value={state.personalInfo.phone}
           onChange={(e) => updatePersonal({ phone: e.target.value })}
         />
+      </div>
+
+      <div>
+        <Label htmlFor="state">What state do you live in?</Label>
+        <Select
+          value={state.personalInfo.state}
+          onValueChange={(v) => updatePersonal({ state: v })}
+        >
+          <SelectTrigger id="state" aria-invalid={!!fieldErrors.state}>
+            <SelectValue placeholder="Select your state" />
+          </SelectTrigger>
+          <SelectContent>
+            {US_STATES.map((s) => (
+              <SelectItem key={s.code} value={s.code}>
+                {s.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        {fieldErrors.state && (
+          <p className="text-xs text-destructive mt-1">{fieldErrors.state}</p>
+        )}
       </div>
 
       {errorMsg && (

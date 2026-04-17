@@ -11,8 +11,6 @@ const Header = () => {
   const { user, signOut } = useAuth();
 
   const isPortal = location.pathname.startsWith("/dashboard") ||
-    location.pathname.startsWith("/orders") ||
-    location.pathname.startsWith("/subscription") ||
     location.pathname.startsWith("/support");
 
   const handleLogout = async () => {
@@ -42,8 +40,6 @@ const Header = () => {
           {isPortal ? (
             <>
               <Link to="/dashboard" className="text-sm font-medium transition-colors" style={{ color: '#5a7060' }}>Dashboard</Link>
-              <Link to="/orders" className="text-sm font-medium transition-colors" style={{ color: '#5a7060' }}>Orders</Link>
-              <Link to="/subscription" className="text-sm font-medium transition-colors" style={{ color: '#5a7060' }}>Subscription</Link>
               <Link to="/support" className="text-sm font-medium transition-colors" style={{ color: '#5a7060' }}>Support</Link>
             </>
           ) : (
@@ -72,7 +68,7 @@ const Header = () => {
                 <Link to="/auth">Log in</Link>
               </Button>
               <Button size="sm" className="rounded-full px-5 border-0" style={{ background: '#16261a', color: '#faf6ee' }} asChild>
-                <Link to="/quiz">Get started</Link>
+                <Link to="/get-started">Get started</Link>
               </Button>
             </>
           )}
@@ -91,8 +87,6 @@ const Header = () => {
             {isPortal ? (
               <>
                 <Link to="/dashboard" className="text-sm font-medium" style={{ color: '#5a7060' }} onClick={() => setMobileOpen(false)}>Dashboard</Link>
-                <Link to="/orders" className="text-sm font-medium" style={{ color: '#5a7060' }} onClick={() => setMobileOpen(false)}>Orders</Link>
-                <Link to="/subscription" className="text-sm font-medium" style={{ color: '#5a7060' }} onClick={() => setMobileOpen(false)}>Subscription</Link>
                 <Link to="/support" className="text-sm font-medium" style={{ color: '#5a7060' }} onClick={() => setMobileOpen(false)}>Support</Link>
               </>
             ) : (
@@ -119,7 +113,7 @@ const Header = () => {
                     <Link to="/auth">Log in</Link>
                   </Button>
                   <Button size="sm" asChild className="flex-1 rounded-full border-0" style={{ background: '#16261a', color: '#faf6ee' }}>
-                    <Link to="/quiz">Get started</Link>
+                    <Link to="/get-started">Get started</Link>
                   </Button>
                 </>
               )}

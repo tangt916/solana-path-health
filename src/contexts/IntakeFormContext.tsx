@@ -1,20 +1,12 @@
 import { createContext, useContext, useEffect, useState, ReactNode, useCallback } from "react";
+import type { TimeSlot } from "@/lib/mock-calendar";
 
 export interface PersonalInfo {
   firstName: string;
   lastName: string;
   email: string;
   phone: string;
-}
-
-export interface AboutInfo {
-  dob: string; // ISO date
-  gender: "MALE" | "FEMALE" | "";
-  state: string;
-  addressLine1: string;
-  addressLine2: string;
-  city: string;
-  zip: string;
+  state: string; // US state code, e.g. "CA"
 }
 
 export interface HealthInfo {
@@ -26,31 +18,51 @@ export interface HealthInfo {
   hasMedications: boolean;
   medicationsDetail: string;
   conditions: string[];
+  triedGLP1: boolean;
+  triedGLP1Detail: string;
 }
+
+export type StrugglingDuration =
+  | "Less than 1 year"
+  | "1–3 years"
+  | "3–5 years"
+  | "5+ years"
+  | "";
+
+export type ActivityLevel =
+  | "Not active"
+  | "Lightly active (1-2x/week)"
+  | "Moderately active (3-4x/week)"
+  | "Very active (5+/week)"
+  | "";
 
 export interface GoalsInfo {
   goalWeight: string;
-  strugglingDuration: string;
+  strugglingDuration: StrugglingDuration;
   triedBefore: string[];
+  activityLevel: ActivityLevel;
   hearAbout: string;
   referralCode: string;
 }
 
-export interface SelectedPlan {
-  months: number;
-  monthlyPrice: number;
-  totalPrice: number;
-  discountPercent: number;
+export type AppointmentType = "immediate" | "scheduled";
+
+export interface AppointmentSelection {
+  type: AppointmentType;
+  // For type === "scheduled": full slot info from MockCalendar.
+  slot?: TimeSlot;
+  // For type === "immediate": canned details.
+  providerName: string;
+  // ISO timestamp for immediate, slot.date+time encoded for scheduled.
+  displayWhen: string;
 }
 
 export interface IntakeFormState {
-  step: number;
+  step: number; // 1..4
   personalInfo: PersonalInfo;
-  aboutInfo: AboutInfo;
   healthInfo: HealthInfo;
   goalsInfo: GoalsInfo;
-  selectedPlan: SelectedPlan | null;
-  promoCode: { code: string; type: "percent" | "amount"; value: number } | null;
+  appointment: AppointmentSelection | null;
   referralCode: string;
 }
 
@@ -58,8 +70,7 @@ const STORAGE_KEY = "intakeFormState";
 
 const initialState: IntakeFormState = {
   step: 1,
-  personalInfo: { firstName: "", lastName: "", email: "", phone: "" },
-  aboutInfo: { dob: "", gender: "", state: "", addressLine1: "", addressLine2: "", city: "", zip: "" },
+  personalInfo: { firstName: "", lastName: "", email: "", phone: "", state: "" },
   healthInfo: {
     weightLbs: "",
     heightFeet: "",
@@ -69,10 +80,18 @@ const initialState: IntakeFormState = {
     hasMedications: false,
     medicationsDetail: "",
     conditions: [],
+    triedGLP1: false,
+    triedGLP1Detail: "",
   },
-  goalsInfo: { goalWeight: "", strugglingDuration: "", triedBefore: [], hearAbout: "", referralCode: "" },
-  selectedPlan: null,
-  promoCode: null,
+  goalsInfo: {
+    goalWeight: "",
+    strugglingDuration: "",
+    triedBefore: [],
+    activityLevel: "",
+    hearAbout: "",
+    referralCode: "",
+  },
+  appointment: null,
   referralCode: "",
 };
 
@@ -80,11 +99,9 @@ interface ContextValue {
   state: IntakeFormState;
   setStep: (step: number) => void;
   updatePersonal: (data: Partial<PersonalInfo>) => void;
-  updateAbout: (data: Partial<AboutInfo>) => void;
   updateHealth: (data: Partial<HealthInfo>) => void;
   updateGoals: (data: Partial<GoalsInfo>) => void;
-  setPlan: (plan: SelectedPlan | null) => void;
-  setPromo: (promo: IntakeFormState["promoCode"]) => void;
+  setAppointment: (appt: AppointmentSelection | null) => void;
   setReferralCode: (code: string) => void;
   resetForm: () => void;
   hasSavedProgress: boolean;
@@ -97,22 +114,25 @@ export const IntakeFormProvider = ({ children }: { children: ReactNode }) => {
   const [hasSavedProgress, setHasSavedProgress] = useState(false);
   const [hydrated, setHydrated] = useState(false);
 
-  // Hydrate from sessionStorage
   useEffect(() => {
     try {
       const saved = sessionStorage.getItem(STORAGE_KEY);
       if (saved) {
         const parsed = JSON.parse(saved) as IntakeFormState;
-        setState(parsed);
-        if (parsed.step > 1 || parsed.personalInfo.email) {
+        setState({ ...initialState, ...parsed });
+        if (parsed.step > 1 || parsed.personalInfo?.email) {
           setHasSavedProgress(true);
         }
       }
-      // Check ?ref= URL param on first mount
       const params = new URLSearchParams(window.location.search);
       const ref = params.get("ref");
       if (ref) {
-        setState((s) => ({ ...s, referralCode: ref, goalsInfo: { ...s.goalsInfo, referralCode: ref } }));
+        setState((s) => ({
+          ...s,
+          referralCode: ref,
+          goalsInfo: { ...s.goalsInfo, referralCode: ref },
+        }));
+        sessionStorage.setItem("referralCode", ref);
       }
     } catch (e) {
       console.error("Failed to restore intake form:", e);
@@ -120,7 +140,6 @@ export const IntakeFormProvider = ({ children }: { children: ReactNode }) => {
     setHydrated(true);
   }, []);
 
-  // Persist on every change (after hydration)
   useEffect(() => {
     if (!hydrated) return;
     try {
@@ -130,29 +149,34 @@ export const IntakeFormProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [state, hydrated]);
 
-  const setStep = useCallback((step: number) => setState((s) => ({ ...s, step })), []);
-  const updatePersonal = useCallback(
-    (data: Partial<PersonalInfo>) => setState((s) => ({ ...s, personalInfo: { ...s.personalInfo, ...data } })),
+  const setStep = useCallback(
+    (step: number) => setState((s) => ({ ...s, step })),
     []
   );
-  const updateAbout = useCallback(
-    (data: Partial<AboutInfo>) => setState((s) => ({ ...s, aboutInfo: { ...s.aboutInfo, ...data } })),
+  const updatePersonal = useCallback(
+    (data: Partial<PersonalInfo>) =>
+      setState((s) => ({ ...s, personalInfo: { ...s.personalInfo, ...data } })),
     []
   );
   const updateHealth = useCallback(
-    (data: Partial<HealthInfo>) => setState((s) => ({ ...s, healthInfo: { ...s.healthInfo, ...data } })),
+    (data: Partial<HealthInfo>) =>
+      setState((s) => ({ ...s, healthInfo: { ...s.healthInfo, ...data } })),
     []
   );
   const updateGoals = useCallback(
-    (data: Partial<GoalsInfo>) => setState((s) => ({ ...s, goalsInfo: { ...s.goalsInfo, ...data } })),
+    (data: Partial<GoalsInfo>) =>
+      setState((s) => ({ ...s, goalsInfo: { ...s.goalsInfo, ...data } })),
     []
   );
-  const setPlan = useCallback((plan: SelectedPlan | null) => setState((s) => ({ ...s, selectedPlan: plan })), []);
-  const setPromo = useCallback(
-    (promo: IntakeFormState["promoCode"]) => setState((s) => ({ ...s, promoCode: promo })),
+  const setAppointment = useCallback(
+    (appt: AppointmentSelection | null) =>
+      setState((s) => ({ ...s, appointment: appt })),
     []
   );
-  const setReferralCode = useCallback((code: string) => setState((s) => ({ ...s, referralCode: code })), []);
+  const setReferralCode = useCallback(
+    (code: string) => setState((s) => ({ ...s, referralCode: code })),
+    []
+  );
 
   const resetForm = useCallback(() => {
     sessionStorage.removeItem(STORAGE_KEY);
@@ -166,11 +190,9 @@ export const IntakeFormProvider = ({ children }: { children: ReactNode }) => {
         state,
         setStep,
         updatePersonal,
-        updateAbout,
         updateHealth,
         updateGoals,
-        setPlan,
-        setPromo,
+        setAppointment,
         setReferralCode,
         resetForm,
         hasSavedProgress,
