@@ -16,6 +16,7 @@ import { LoadingSpinner } from "@/components/ui/shared/LoadingSpinner";
 import { SuccessMessage } from "@/components/ui/shared/SuccessMessage";
 import { ErrorMessage } from "@/components/ui/shared/ErrorMessage";
 import { supabase } from "@/integrations/supabase/client";
+import { checkUser } from "@/lib/api";
 
 const US_STATES: Array<{ code: string; name: string }> = [
   { code: "AL", name: "Alabama" }, { code: "AK", name: "Alaska" },
@@ -79,11 +80,8 @@ export const Step1Personal = () => {
     try {
       // Best-effort vendor check (mock vendor returns USER_NOT_FOUND).
       try {
-        const { data: checkData } = await supabase.functions.invoke(
-          "api-check-user",
-          { body: undefined, method: "GET" as never } as never
-        );
-        if (checkData?.data?.exists) {
+        const result = await checkUser(parsed.data.email);
+        if (result?.exists) {
           setStatus("exists_here");
           return;
         }
