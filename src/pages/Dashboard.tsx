@@ -359,6 +359,14 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-muted/30">
+      <WelcomeModal
+        open={welcomeOpen}
+        onClose={closeWelcome}
+        firstName={welcomeMeta.firstName}
+        appointmentDate={welcomeMeta.appointmentDate}
+        appointmentTime={welcomeMeta.appointmentTime}
+        isImmediate={welcomeMeta.isImmediate}
+      />
       <Header />
       <main className="flex-1 py-8 sm:py-12">
         <div className="container max-w-5xl space-y-6">
