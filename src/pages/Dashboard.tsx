@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { WelcomeModal } from "@/components/WelcomeModal";
 import {
   Pill,
   Package,
@@ -130,11 +131,57 @@ const Dashboard = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [data, setData] = useState<DashboardData | null>(null);
   const [cancellingId, setCancellingId] = useState<string | null>(null);
+  const [welcomeOpen, setWelcomeOpen] = useState(false);
+  const [welcomeMeta, setWelcomeMeta] = useState<{
+    firstName?: string;
+    appointmentDate?: string;
+    appointmentTime?: string;
+    isImmediate?: boolean;
+  }>({});
+
+  // Show welcome modal once for new users (?newUser=true)
+  useEffect(() => {
+    const isNew = searchParams.get("newUser") === "true";
+    const seen = sessionStorage.getItem("welcomeModalSeen") === "true";
+    if (!isNew || seen) return;
+
+    let appt: { type?: string; slot?: { displayDate?: string; time?: string } } | null = null;
+    let firstName: string | undefined;
+    try {
+      const raw = sessionStorage.getItem("intakeFormState");
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        appt = parsed?.appointment ?? null;
+        firstName = parsed?.personalInfo?.firstName || undefined;
+      }
+    } catch {
+      /* ignore */
+    }
+
+    setWelcomeMeta({
+      firstName,
+      isImmediate: appt?.type === "immediate",
+      appointmentDate: appt?.slot?.displayDate,
+      appointmentTime: appt?.slot?.time,
+    });
+    setWelcomeOpen(true);
+
+    // Strip ?newUser=true so back button works
+    const next = new URLSearchParams(searchParams);
+    next.delete("newUser");
+    setSearchParams(next, { replace: true });
+  }, [searchParams, setSearchParams]);
+
+  const closeWelcome = () => {
+    sessionStorage.setItem("welcomeModalSeen", "true");
+    setWelcomeOpen(false);
+  };
 
   const email = user?.email ?? null;
 
