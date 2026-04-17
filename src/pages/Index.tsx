@@ -109,7 +109,7 @@ const Hero = () => (
         </p>
         <div className="mt-10 flex flex-wrap gap-3">
           <Link
-            to="/quiz"
+            to="/get-started"
             onClick={() => trackEvent("quiz_started")}
             className="inline-flex items-center rounded-full px-7 py-3 text-sm font-medium transition-opacity hover:opacity-90"
             style={{ background: '#16261a', color: '#faf6ee' }}
@@ -177,7 +177,7 @@ const Benefits = () => (
           FDA-approved GLP-1 medication for chronic weight management, prescribed by licensed providers.
         </p>
         <Link
-          to="/quiz"
+          to="/get-started"
           onClick={() => trackEvent("quiz_started")}
           className="mt-8 inline-flex items-center rounded-full px-7 py-3 text-sm font-medium transition-opacity hover:opacity-90"
           style={{ background: '#16261a', color: '#faf6ee' }}
@@ -281,7 +281,8 @@ const Membership = () => (
 
         <div className="mt-10 flex flex-wrap gap-3">
           <Link
-            to="/quiz"
+            to="/get-started"
+            onClick={() => trackEvent("quiz_started")}
             className="inline-flex items-center rounded-full px-7 py-3 text-sm font-medium transition-opacity hover:opacity-90"
             style={{ background: '#a8d44a', color: '#16261a' }}
           >
@@ -358,7 +359,8 @@ const Medications = () => (
         <div className="flex items-center gap-4">
           <p className="text-sm" style={{ color: '#5a7060' }}>Explore treatment options</p>
           <Link
-            to="/quiz"
+            to="/get-started"
+            onClick={() => trackEvent("quiz_started")}
             className="inline-flex items-center rounded-full px-6 py-2.5 text-sm font-medium transition-opacity hover:opacity-90"
             style={{ background: '#16261a', color: '#faf6ee' }}
           >

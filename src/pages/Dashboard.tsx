@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { WelcomeModal } from "@/components/WelcomeModal";
 import {
   Pill,
   Package,
@@ -130,11 +131,57 @@ const Dashboard = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [data, setData] = useState<DashboardData | null>(null);
   const [cancellingId, setCancellingId] = useState<string | null>(null);
+  const [welcomeOpen, setWelcomeOpen] = useState(false);
+  const [welcomeMeta, setWelcomeMeta] = useState<{
+    firstName?: string;
+    appointmentDate?: string;
+    appointmentTime?: string;
+    isImmediate?: boolean;
+  }>({});
+
+  // Show welcome modal once for new users (?newUser=true)
+  useEffect(() => {
+    const isNew = searchParams.get("newUser") === "true";
+    const seen = sessionStorage.getItem("welcomeModalSeen") === "true";
+    if (!isNew || seen) return;
+
+    let appt: { type?: string; slot?: { displayDate?: string; time?: string } } | null = null;
+    let firstName: string | undefined;
+    try {
+      const raw = sessionStorage.getItem("intakeFormState");
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        appt = parsed?.appointment ?? null;
+        firstName = parsed?.personalInfo?.firstName || undefined;
+      }
+    } catch {
+      /* ignore */
+    }
+
+    setWelcomeMeta({
+      firstName,
+      isImmediate: appt?.type === "immediate",
+      appointmentDate: appt?.slot?.displayDate,
+      appointmentTime: appt?.slot?.time,
+    });
+    setWelcomeOpen(true);
+
+    // Strip ?newUser=true so back button works
+    const next = new URLSearchParams(searchParams);
+    next.delete("newUser");
+    setSearchParams(next, { replace: true });
+  }, [searchParams, setSearchParams]);
+
+  const closeWelcome = () => {
+    sessionStorage.setItem("welcomeModalSeen", "true");
+    setWelcomeOpen(false);
+  };
 
   const email = user?.email ?? null;
 
@@ -312,6 +359,14 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-muted/30">
+      <WelcomeModal
+        open={welcomeOpen}
+        onClose={closeWelcome}
+        firstName={welcomeMeta.firstName}
+        appointmentDate={welcomeMeta.appointmentDate}
+        appointmentTime={welcomeMeta.appointmentTime}
+        isImmediate={welcomeMeta.isImmediate}
+      />
       <Header />
       <main className="flex-1 py-8 sm:py-12">
         <div className="container max-w-5xl space-y-6">
@@ -613,9 +668,9 @@ const Dashboard = () => {
                   variant="outline"
                   className="h-auto py-4 justify-start"
                 >
-                  <Link to="/profile">
+                  <Link to="/support">
                     <UserCog className="w-4 h-4 mr-2" />
-                    Edit profile
+                    Contact support
                   </Link>
                 </Button>
                 {data.caseRow?.status?.toUpperCase() === "APPROVED" && (
