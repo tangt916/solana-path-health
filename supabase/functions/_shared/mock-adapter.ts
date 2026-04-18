@@ -50,8 +50,24 @@ export class MockAdapter implements VendorAdapter {
   }
 
   async validatePromoCode(code: string): Promise<PromoResult> {
-    return { valid: false, code };
-  }
+  const mockCodes: Record<string, PromoResult> = {
+    WELCOME10: {
+      valid: true,
+      code: "WELCOME10",
+      discountType: "percent",
+      discountValue: 10,
+      expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+    },
+    SARAH25: {
+      valid: true,
+      code: "SARAH25",
+      discountType: "flat",
+      discountValue: 25,
+      expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(),
+    },
+  };
+  return mockCodes[code.toUpperCase()] ?? { valid: false, code };
+}
 
   async getProviderAvailability(_state: string): Promise<ProviderSlot[]> {
     // Return a few mock slots over the next 3 days
