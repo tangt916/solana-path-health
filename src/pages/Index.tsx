@@ -328,7 +328,7 @@ const MedCard = ({ name, price, gradient, badge, children }: {
   name: string; price: string; gradient: string; badge?: string; children: React.ReactNode;
 }) => (
   <div
-    className="rounded-[20px] p-6 flex flex-col justify-between transition-all hover:-translate-y-1"
+    className="rounded-2xl p-6 flex flex-col justify-between transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_8px_24px_rgba(45,74,50,0.12)]"
     style={{
       background: gradient,
       minHeight: '320px',
@@ -421,39 +421,42 @@ const HowItWorks = () => {
   ];
 
   return (
-    <section id="how-it-works" className="py-24 lg:py-32 relative overflow-hidden">
-      <div className="absolute inset-0" style={{
-        background: `
-          radial-gradient(ellipse 70% 60% at 0% 100%, #c8dca8 0%, transparent 50%),
-          radial-gradient(ellipse 50% 50% at 100% 0%, #e0ecce 0%, transparent 55%),
-          linear-gradient(130deg, #e8f2da 0%, #f0f6e8 50%, #ddeac8 100%)
-        `,
-      }} />
-
-      <div className="container relative z-10">
-        <h2 className="font-serif text-3xl md:text-4xl text-center mb-16" style={{ fontWeight: 300, color: '#16261a' }}>
-          Simple steps to<br /><em style={{ color: '#2d5030' }}>real results</em>
-        </h2>
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {steps.map((s) => (
-            <div
-              key={s.num}
-              className="rounded-2xl p-6"
-              style={{
-                background: 'rgba(255,255,255,0.7)',
-                border: '1px solid rgba(168,212,74,0.3)',
-                backdropFilter: 'blur(8px)',
-              }}
-            >
-              <p className="font-serif text-3xl mb-3" style={{ fontWeight: 300, color: '#a8d44a' }}>{s.num}</p>
-              <h4 className="text-sm font-medium mb-2" style={{ color: '#16261a', fontFamily: 'var(--font-sans)' }}>{s.title}</h4>
-              <p className="text-sm leading-relaxed" style={{ color: '#5a7060' }}>{s.desc}</p>
+    <section id="how-it-works" className="py-24 lg:py-32">
+      <div className="container">
+        <div className="relative overflow-hidden rounded-3xl py-20 lg:py-24 px-6 lg:px-12">
+          <div className="absolute inset-0" style={{
+            background: `
+              radial-gradient(ellipse 70% 60% at 0% 100%, #c8dca8 0%, transparent 50%),
+              radial-gradient(ellipse 50% 50% at 100% 0%, #e0ecce 0%, transparent 55%),
+              linear-gradient(130deg, #e8f2da 0%, #f0f6e8 50%, #ddeac8 100%)
+            `,
+          }} />
+          <div className="relative z-10">
+            <h2 className="font-serif text-3xl md:text-4xl text-center mb-16" style={{ fontWeight: 300, color: '#16261a' }}>
+              Simple steps to<br /><em style={{ color: '#2d5030' }}>real results</em>
+            </h2>
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              {steps.map((s) => (
+                <div
+                  key={s.num}
+                  className="rounded-2xl p-6 transition-shadow hover:shadow-[0_4px_20px_rgba(45,74,50,0.08)]"
+                  style={{
+                    background: 'rgba(255,255,255,0.7)',
+                    border: '1px solid rgba(168,212,74,0.3)',
+                    backdropFilter: 'blur(8px)',
+                  }}
+                >
+                  <p className="font-serif text-3xl mb-3" style={{ fontWeight: 300, color: '#a8d44a' }}>{s.num}</p>
+                  <h4 className="text-sm font-medium mb-2" style={{ color: '#16261a', fontFamily: 'var(--font-sans)' }}>{s.title}</h4>
+                  <p className="text-sm leading-relaxed" style={{ color: '#5a7060' }}>{s.desc}</p>
+                </div>
+              ))}
             </div>
-          ))}
+            <p className="mt-10 text-center italic font-serif text-sm" style={{ color: '#5a7060' }}>
+              All prescribing decisions are made solely by independent licensed healthcare providers. Approval is not guaranteed.
+            </p>
+          </div>
         </div>
-        <p className="mt-10 text-center italic font-serif text-sm" style={{ color: '#5a7060' }}>
-          All prescribing decisions are made solely by independent licensed healthcare providers. Approval is not guaranteed.
-        </p>
       </div>
     </section>
   );
