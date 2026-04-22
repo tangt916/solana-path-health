@@ -14,59 +14,55 @@ export const StepIndicator = ({
   labels = [],
   className,
 }: StepIndicatorProps) => {
-  const steps = Array.from({ length: totalSteps }, (_, i) => i);
+  const progressPct = Math.max(
+    0,
+    Math.min(100, ((currentStep - 1) / Math.max(1, totalSteps - 1)) * 100),
+  );
 
   return (
     <div className={cn("w-full", className)}>
-      <div className="flex items-center justify-between">
-        {steps.map((i) => {
+      {/* Progress bar */}
+      <div className="h-1.5 w-full rounded-full bg-muted/60 overflow-hidden">
+        <div
+          className="h-full bg-primary rounded-full transition-all duration-500 ease-out"
+          style={{ width: `${progressPct}%` }}
+        />
+      </div>
+
+      {/* Step dots + labels */}
+      <div className="mt-4 flex items-start justify-between">
+        {labels.map((label, i) => {
           const stepNum = i + 1;
           const isCompleted = stepNum < currentStep;
-          const isActive = stepNum === currentStep;
-
+          const isCurrent = stepNum === currentStep;
           return (
-            <div key={i} className="flex items-center flex-1 last:flex-none">
-              <div className="flex flex-col items-center">
-                <div
-                  className={cn(
-                    "w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors border",
-                    isCompleted &&
-                      "bg-primary border-primary text-primary-foreground",
-                    isActive &&
-                      "bg-card border-primary text-primary ring-2 ring-primary/20",
-                    !isCompleted &&
-                      !isActive &&
-                      "bg-card border-border text-muted-foreground"
-                  )}
-                  aria-current={isActive ? "step" : undefined}
-                >
-                  {isCompleted ? (
-                    <Check className="w-4 h-4" />
-                  ) : (
-                    <span>{stepNum}</span>
-                  )}
-                </div>
-                {labels[i] && (
-                  <span
-                    className={cn(
-                      "mt-2 text-xs text-center max-w-[80px]",
-                      isActive
-                        ? "text-foreground font-medium"
-                        : "text-muted-foreground"
-                    )}
-                  >
-                    {labels[i]}
-                  </span>
+            <div
+              key={i}
+              className="flex flex-col items-center gap-2 flex-1"
+            >
+              <div
+                className={cn(
+                  "w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold border transition-all duration-300",
+                  isCompleted && "bg-primary border-primary text-primary-foreground shadow-sm",
+                  isCurrent &&
+                    "bg-white border-primary text-primary ring-2 ring-primary/20 shadow-sm",
+                  !isCompleted && !isCurrent &&
+                    "bg-white border-border/60 text-muted-foreground",
                 )}
+                aria-current={isCurrent ? "step" : undefined}
+              >
+                {isCompleted ? <Check className="w-4 h-4" /> : stepNum}
               </div>
-              {i < totalSteps - 1 && (
-                <div
-                  className={cn(
-                    "flex-1 h-px mx-2 transition-colors",
-                    isCompleted ? "bg-primary" : "bg-border"
-                  )}
-                />
-              )}
+              <span
+                className={cn(
+                  "text-xs text-center max-w-[80px] transition-colors",
+                  isCurrent
+                    ? "text-foreground font-medium"
+                    : "text-muted-foreground",
+                )}
+              >
+                {label}
+              </span>
             </div>
           );
         })}

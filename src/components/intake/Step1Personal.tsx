@@ -125,7 +125,7 @@ export const Step1Personal = () => {
   }
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-6">
       <div>
         <h2 className="font-serif text-2xl sm:text-3xl mb-1">Let's get started</h2>
         <p className="text-muted-foreground text-sm">
@@ -134,7 +134,7 @@ export const Step1Personal = () => {
       </div>
 
       <div className="grid sm:grid-cols-2 gap-4">
-        <div>
+        <div className="space-y-1.5">
           <Label htmlFor="firstName">First name</Label>
           <Input
             id="firstName"
@@ -146,7 +146,7 @@ export const Step1Personal = () => {
             <p className="text-xs text-destructive mt-1">{fieldErrors.firstName}</p>
           )}
         </div>
-        <div>
+        <div className="space-y-1.5">
           <Label htmlFor="lastName">Last name</Label>
           <Input
             id="lastName"
@@ -160,7 +160,7 @@ export const Step1Personal = () => {
         </div>
       </div>
 
-      <div>
+      <div className="space-y-1.5">
         <Label htmlFor="email">Email</Label>
         <Input
           id="email"
@@ -174,7 +174,7 @@ export const Step1Personal = () => {
         )}
       </div>
 
-      <div>
+      <div className="space-y-1.5">
         <Label htmlFor="phone">Phone (optional)</Label>
         <Input
           id="phone"
@@ -185,10 +185,10 @@ export const Step1Personal = () => {
         />
       </div>
 
-      <div>
+      <div className="space-y-1.5">
         <Label htmlFor="state">What state do you live in?</Label>
         <Select
-          value={state.personalInfo.state}
+          value={state.personalInfo.state || undefined}
           onValueChange={(v) => updatePersonal({ state: v })}
         >
           <SelectTrigger id="state" aria-invalid={!!fieldErrors.state}>

@@ -116,7 +116,7 @@ export const Step3Goals = ({ onBack, onNext }: Props) => {
   };
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-6">
       <div>
         <h2 className="font-serif text-2xl sm:text-3xl mb-1">Your goals & lifestyle</h2>
         <p className="text-muted-foreground text-sm">
@@ -124,7 +124,7 @@ export const Step3Goals = ({ onBack, onNext }: Props) => {
         </p>
       </div>
 
-      <div>
+      <div className="space-y-1.5">
         <Label htmlFor="goalWeight">Goal weight (lbs)</Label>
         <Input
           id="goalWeight"
@@ -140,10 +140,10 @@ export const Step3Goals = ({ onBack, onNext }: Props) => {
         )}
       </div>
 
-      <div>
+      <div className="space-y-1.5">
         <Label htmlFor="duration">How long have you been struggling with weight?</Label>
         <Select
-          value={g.strugglingDuration}
+          value={g.strugglingDuration || undefined}
           onValueChange={(v) => updateGoals({ strugglingDuration: v as StrugglingDuration })}
         >
           <SelectTrigger id="duration" aria-invalid={!!errors.strugglingDuration}>
@@ -160,9 +160,9 @@ export const Step3Goals = ({ onBack, onNext }: Props) => {
         )}
       </div>
 
-      <div>
+      <div className="space-y-1.5">
         <Label>What have you tried before?</Label>
-        <div className="flex flex-wrap gap-2 mt-2">
+        <div className="flex flex-wrap gap-2">
           {TRIED.map((t) => {
             const sel = g.triedBefore.includes(t);
             return (
@@ -172,10 +172,10 @@ export const Step3Goals = ({ onBack, onNext }: Props) => {
                 onClick={() => toggleTried(t)}
                 aria-pressed={sel}
                 className={cn(
-                  "rounded-full border px-3 py-1.5 text-sm transition-all",
+                  "px-4 py-2.5 rounded-xl border text-sm transition-all duration-200",
                   sel
-                    ? "border-primary bg-primary text-primary-foreground"
-                    : "border-border bg-card text-foreground hover:border-primary/50"
+                    ? "bg-primary text-primary-foreground border-primary shadow-sm font-medium"
+                    : "bg-white border-border/60 text-foreground/70 hover:border-primary/40 hover:text-foreground",
                 )}
               >
                 {t}
@@ -185,10 +185,10 @@ export const Step3Goals = ({ onBack, onNext }: Props) => {
         </div>
       </div>
 
-      <div>
+      <div className="space-y-1.5">
         <Label htmlFor="activity">How active are you currently?</Label>
         <Select
-          value={g.activityLevel}
+          value={g.activityLevel || undefined}
           onValueChange={(v) => updateGoals({ activityLevel: v as ActivityLevel })}
         >
           <SelectTrigger id="activity" aria-invalid={!!errors.activityLevel}>
@@ -205,10 +205,10 @@ export const Step3Goals = ({ onBack, onNext }: Props) => {
         )}
       </div>
 
-      <div>
+      <div className="space-y-1.5">
         <Label htmlFor="hearAbout">How did you hear about us?</Label>
         <Select
-          value={g.hearAbout}
+          value={g.hearAbout || undefined}
           onValueChange={(v) => updateGoals({ hearAbout: v })}
         >
           <SelectTrigger id="hearAbout" aria-invalid={!!errors.hearAbout}>
@@ -226,7 +226,7 @@ export const Step3Goals = ({ onBack, onNext }: Props) => {
       </div>
 
       {g.hearAbout === "Friend/Family referral" && (
-        <div>
+        <div className="space-y-1.5">
           <Label htmlFor="ref">Referral code (optional)</Label>
           <div className="relative">
             <Input

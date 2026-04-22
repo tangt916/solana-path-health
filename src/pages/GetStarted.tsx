@@ -37,7 +37,7 @@ const GetStarted = () => {
   const goBack = () => setStep(Math.max(state.step - 1, 1));
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-cream via-background to-muted/20">
       <Header />
       <main className="flex-1 py-8 sm:py-12">
         <div className="max-w-2xl mx-auto px-4">
@@ -48,7 +48,7 @@ const GetStarted = () => {
             onBack={() => navigate("/")}
           >
             {resumePromptVisible ? (
-              <div className="bg-card border border-border rounded-lg p-6 text-center space-y-4">
+              <div className="bg-white border border-border/40 rounded-2xl p-8 text-center space-y-4 shadow-[0_2px_16px_rgba(45,74,50,0.06)]">
                 <h3 className="font-serif text-xl">Welcome back!</h3>
                 <p className="text-muted-foreground text-sm">
                   Continue where you left off?
@@ -61,13 +61,13 @@ const GetStarted = () => {
                 </div>
               </div>
             ) : (
-              <div className="space-y-6">
+              <div className="space-y-8">
                 <StepIndicator
                   currentStep={state.step}
                   totalSteps={4}
                   labels={STEP_LABELS}
                 />
-                <div className="bg-card border border-border rounded-lg p-6 sm:p-8">
+                <div className="bg-white border border-border/40 rounded-2xl p-6 sm:p-10 shadow-[0_2px_16px_rgba(45,74,50,0.06)]">
                   {state.step === 1 && <Step1Personal />}
                   {state.step === 2 && <Step2Health onBack={goBack} onNext={goNext} />}
                   {state.step === 3 && <Step3Goals onBack={goBack} onNext={goNext} />}

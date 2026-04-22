@@ -128,7 +128,7 @@ export const Step4Booking = ({ onBack }: Props) => {
   };
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-6">
       <div>
         <h2 className="font-serif text-2xl sm:text-3xl mb-1">
           Almost there — book your free consultation
@@ -164,7 +164,7 @@ export const Step4Booking = ({ onBack }: Props) => {
 
       {/* Now option details */}
       {option === "now" && (
-        <div className="bg-muted/40 border border-border rounded-lg p-4 space-y-3">
+        <div className="bg-muted/40 border border-border/40 rounded-2xl p-5 space-y-3 shadow-sm">
           <p className="text-sm text-foreground">
             You'll be connected with <strong>Dr. Amanda Torres</strong> within
             15 minutes of completing your intake.
@@ -236,11 +236,11 @@ const OptionCard = ({
     disabled={disabled}
     aria-pressed={selected}
     className={cn(
-      "text-left p-4 rounded-xl border transition-all",
+      "text-left p-5 rounded-xl border transition-all duration-200 bg-white",
       selected
-        ? "border-primary bg-primary/5 ring-2 ring-primary/30"
-        : "border-border bg-card hover:border-primary/50",
-      disabled && "opacity-50 cursor-not-allowed hover:border-border"
+        ? "border-primary bg-primary/5 ring-2 ring-primary/30 shadow-sm"
+        : "border-border/60 hover:border-primary/40 hover:shadow-sm",
+      disabled && "opacity-50 cursor-not-allowed hover:border-border/60 hover:shadow-none"
     )}
   >
     <div className="flex items-center gap-2 text-primary mb-2">{icon}</div>
