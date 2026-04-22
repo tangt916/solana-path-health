@@ -66,7 +66,7 @@ export const Step2Health = ({ onBack, onNext }: Props) => {
   };
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-6">
       <div>
         <h2 className="font-serif text-2xl sm:text-3xl mb-1">Your health</h2>
         <p className="text-muted-foreground text-sm">
@@ -75,7 +75,7 @@ export const Step2Health = ({ onBack, onNext }: Props) => {
       </div>
 
       {/* Weight */}
-      <div>
+      <div className="space-y-1.5">
         <Label htmlFor="weight">How much do you currently weigh? (lbs)</Label>
         <Input
           id="weight"
@@ -92,11 +92,11 @@ export const Step2Health = ({ onBack, onNext }: Props) => {
       </div>
 
       {/* Height */}
-      <div>
+      <div className="space-y-1.5">
         <Label>Height</Label>
         <div className="grid grid-cols-2 gap-3">
           <Select
-            value={h.heightFeet}
+            value={h.heightFeet || undefined}
             onValueChange={(v) => updateHealth({ heightFeet: v })}
           >
             <SelectTrigger aria-invalid={!!errors.heightFeet}>
@@ -111,7 +111,7 @@ export const Step2Health = ({ onBack, onNext }: Props) => {
             </SelectContent>
           </Select>
           <Select
-            value={h.heightInches}
+            value={h.heightInches || undefined}
             onValueChange={(v) => updateHealth({ heightInches: v })}
           >
             <SelectTrigger>
@@ -138,7 +138,7 @@ export const Step2Health = ({ onBack, onNext }: Props) => {
         onChange={(v) => updateHealth({ hasAllergies: v })}
       />
       {h.hasAllergies && (
-        <div>
+        <div className="space-y-1.5">
           <Label htmlFor="allergies">Please list your allergies</Label>
           <Textarea
             id="allergies"
@@ -160,7 +160,7 @@ export const Step2Health = ({ onBack, onNext }: Props) => {
         onChange={(v) => updateHealth({ hasMedications: v })}
       />
       {h.hasMedications && (
-        <div>
+        <div className="space-y-1.5">
           <Label htmlFor="meds">List your medications</Label>
           <Textarea
             id="meds"
@@ -176,9 +176,9 @@ export const Step2Health = ({ onBack, onNext }: Props) => {
       )}
 
       {/* Conditions */}
-      <div>
+      <div className="space-y-1.5">
         <Label>Do you have any of the following conditions?</Label>
-        <div className="flex flex-wrap gap-2 mt-2">
+        <div className="flex flex-wrap gap-2">
           {CONDITIONS.map((c) => {
             const selected = h.conditions.includes(c);
             return (
@@ -188,10 +188,10 @@ export const Step2Health = ({ onBack, onNext }: Props) => {
                 onClick={() => toggleCondition(c)}
                 aria-pressed={selected}
                 className={cn(
-                  "rounded-full border px-3 py-1.5 text-sm transition-all",
+                  "px-4 py-2.5 rounded-xl border text-sm transition-all duration-200",
                   selected
-                    ? "border-primary bg-primary text-primary-foreground"
-                    : "border-border bg-card text-foreground hover:border-primary/50"
+                    ? "bg-primary text-primary-foreground border-primary shadow-sm font-medium"
+                    : "bg-white border-border/60 text-foreground/70 hover:border-primary/40 hover:text-foreground",
                 )}
               >
                 {c}
@@ -208,7 +208,7 @@ export const Step2Health = ({ onBack, onNext }: Props) => {
         onChange={(v) => updateHealth({ triedGLP1: v })}
       />
       {h.triedGLP1 && (
-        <div>
+        <div className="space-y-1.5">
           <Label htmlFor="glp1-detail">Which ones?</Label>
           <Input
             id="glp1-detail"
@@ -244,31 +244,35 @@ const YesNo = ({
   value: boolean;
   onChange: (v: boolean) => void;
 }) => (
-  <div>
+  <div className="space-y-1.5">
     <Label>{label}</Label>
-    <div className="flex gap-2 mt-1.5">
-      {[
-        { v: true, t: "Yes" },
-        { v: false, t: "No" },
-      ].map((o) => {
-        const sel = value === o.v;
-        return (
-          <button
-            key={o.t}
-            type="button"
-            onClick={() => onChange(o.v)}
-            aria-pressed={sel}
-            className={cn(
-              "flex-1 rounded-md border h-10 text-sm font-medium transition-all",
-              sel
-                ? "border-primary bg-primary text-primary-foreground"
-                : "border-border bg-card text-foreground hover:border-primary/50"
-            )}
-          >
-            {o.t}
-          </button>
-        );
-      })}
+    <div className="flex gap-3">
+      <button
+        type="button"
+        onClick={() => onChange(true)}
+        aria-pressed={value === true}
+        className={cn(
+          "flex-1 h-11 rounded-xl border text-sm font-medium transition-all duration-200",
+          value === true
+            ? "bg-primary text-primary-foreground border-primary shadow-sm"
+            : "bg-white border-border/60 text-muted-foreground hover:border-primary/40",
+        )}
+      >
+        Yes
+      </button>
+      <button
+        type="button"
+        onClick={() => onChange(false)}
+        aria-pressed={value === false}
+        className={cn(
+          "flex-1 h-11 rounded-xl border text-sm font-medium transition-all duration-200",
+          value === false
+            ? "bg-primary text-primary-foreground border-primary shadow-sm"
+            : "bg-white border-border/60 text-muted-foreground hover:border-primary/40",
+        )}
+      >
+        No
+      </button>
     </div>
   </div>
 );

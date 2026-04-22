@@ -54,7 +54,7 @@
     --input: 110 22% 80%;
     --ring: 140 25% 24%;
 
-    --radius: 2px;
+    --radius: 12px;
 
     --sidebar-background: 0 0% 100%;
     --sidebar-foreground: 140 30% 9%;
@@ -109,6 +109,17 @@
 @layer base {
   * {
     @apply border-border;
+    transition-property: color, background-color, border-color, box-shadow, transform;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+
+  input, select, textarea {
+    transition-duration: 200ms;
+  }
+
+  :focus-visible {
+    outline: none;
   }
 
   body {
