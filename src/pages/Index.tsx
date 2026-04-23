@@ -105,22 +105,22 @@ const Hero = () => (
             className="inline-flex items-center rounded-full px-7 py-3 text-sm font-medium transition-opacity hover:opacity-90"
             style={{ background: '#0f1f12', color: '#faf6ee' }}
           >
-            See if GLP-1 is right for me →
+            Start my wellness plan →
           </Link>
           <a
             href="#how-it-works"
             className="inline-flex items-center rounded-full px-7 py-3 text-sm font-medium border transition-opacity hover:opacity-70"
             style={{ borderColor: '#0f1f12', color: '#0f1f12' }}
           >
-            How does it work?
+            How it works
           </a>
         </div>
         {/* Trust badges */}
         <div className="mt-6 flex flex-wrap gap-2">
           {[
             '🩺 Licensed US providers',
+            '💬 1:1 coaching support',
             '📦 Delivered to your door',
-            '✓ No insurance needed',
           ].map((badge) => (
             <span
               key={badge}
@@ -132,7 +132,7 @@ const Hero = () => (
           ))}
         </div>
         <p className="mt-4" style={{ fontSize: '0.7rem', color: '#4a6040' }}>
-          No prescription guaranteed · Membership required
+          Membership required · Prescription not guaranteed
         </p>
       </div>
 
