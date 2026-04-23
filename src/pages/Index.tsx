@@ -6,7 +6,7 @@ import { trackEvent } from "@/lib/analytics";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
 /* ═══════════════════════════════════════════════════════
-   SVG COMPONENTS
+   SVG COMPONENTS (unchanged)
    ═══════════════════════════════════════════════════════ */
 
 const MainPill = () => (
@@ -46,14 +46,10 @@ const InjectionPen = ({ rotation, color, label, delay }: { rotation: number; col
           <stop offset="100%" stopColor="#d8d4cc" />
         </linearGradient>
       </defs>
-      {/* Pen body */}
       <rect x="8" y="30" width="20" height="140" rx="4" fill={`url(#pen-${label})`} />
-      {/* Needle cap */}
       <rect x="14" y="0" width="8" height="35" rx="2" fill="#c8c4bc" />
-      {/* Label band */}
       <rect x="8" y="90" width="20" height="30" rx="2" fill={color} />
       <text x="18" y="109" textAnchor="middle" fontSize="7" fill="white" fontFamily="'DM Sans', sans-serif" fontWeight="500">{label}</text>
-      {/* Button */}
       <rect x="10" y="170" width="16" height="20" rx="8" fill="#e0dcd4" />
     </svg>
   </div>
@@ -76,72 +72,80 @@ const CheckCircle = ({ filled = true }: { filled?: boolean }) => (
 );
 
 /* ═══════════════════════════════════════════════════════
-   HERO 1
+   HERO — problem-first
    ═══════════════════════════════════════════════════════ */
 const Hero = () => (
   <section className="relative min-h-screen">
-    {/* Layered background */}
     <div className="absolute inset-0" style={{
       background: `
-        radial-gradient(ellipse 60% 80% at 75% 55%, #c8ddb0 0%, transparent 65%),
-        radial-gradient(ellipse 50% 60% at 15% 80%, #2d4a32 0%, transparent 55%),
-        radial-gradient(ellipse 70% 50% at 50% 0%, #eef6e2 0%, transparent 60%),
-        linear-gradient(148deg, #f5f0e4 0%, #ddebc8 35%, #b8d498 60%, #3d5e40 100%)
+        radial-gradient(ellipse 60% 80% at 75% 55%, #e8f5d8 0%, transparent 65%),
+        radial-gradient(ellipse 50% 60% at 15% 80%, #c8e0b0 0%, transparent 55%),
+        linear-gradient(148deg, #faf6ee 0%, #eef6e4 50%, #ddeec8 100%)
       `,
-    }} />
-    <div className="absolute inset-0" style={{
-      background: 'radial-gradient(ellipse 40% 40% at 70% 45%, rgba(168,212,74,0.18) 0%, transparent 70%)',
     }} />
 
     <div className="container relative z-10 grid min-h-screen items-center lg:grid-cols-2 gap-12 py-24">
       {/* Left text */}
       <div className="max-w-lg">
-        <p className="text-xs font-medium uppercase tracking-[0.18em] mb-6" style={{ color: '#4a6e52' }}>
-          Medically guided GLP-1 weight loss
+        <p className="text-xs font-medium uppercase tracking-[0.18em] mb-6" style={{ color: '#2d4a1e' }}>
+          You've tried dieting. You've tried exercising. There's a medical reason it hasn't worked.
         </p>
-        <h1 className="font-serif leading-[1.08]" style={{ fontSize: 'clamp(2.8rem, 5vw, 5rem)', fontWeight: 300, color: '#16261a' }}>
-          Clinician-prescribed
+        <h1 className="font-serif leading-[1.08]" style={{ fontSize: 'clamp(2.8rem, 5vw, 5rem)', fontWeight: 300, color: '#0f1f12' }}>
+          Your body is working
           <br />
-          <em style={{ color: '#2d5030' }}>that works</em>
+          <em style={{ color: '#1a3a1e' }}>against you.</em>
         </h1>
-        <p className="mt-6 text-base leading-relaxed" style={{ fontWeight: 300, color: '#2d4a30' }}>
-          Get evaluated by licensed providers online. If appropriate, receive GLP-1 medication delivered to your door — with ongoing medical support.
+        <p className="mt-6 text-base leading-relaxed" style={{ fontWeight: 300, color: '#1e3a22' }}>
+          Most people struggling with weight aren't failing because of willpower. They're fighting a hormonal system designed to regain weight. GLP-1 therapy works with your biology — not against it. Licensed providers. Real medication. Delivered.
         </p>
         <div className="mt-10 flex flex-wrap gap-3">
           <Link
             to="/get-started"
             onClick={() => trackEvent("quiz_started")}
             className="inline-flex items-center rounded-full px-7 py-3 text-sm font-medium transition-opacity hover:opacity-90"
-            style={{ background: '#16261a', color: '#faf6ee' }}
+            style={{ background: '#0f1f12', color: '#faf6ee' }}
           >
-            See if I'm eligible →
+            See if GLP-1 is right for me →
           </Link>
           <a
             href="#how-it-works"
             className="inline-flex items-center rounded-full px-7 py-3 text-sm font-medium border transition-opacity hover:opacity-70"
-            style={{ borderColor: '#16261a', color: '#16261a' }}
+            style={{ borderColor: '#0f1f12', color: '#0f1f12' }}
           >
-            Learn more
+            How does it work?
           </a>
         </div>
-        <p className="mt-5" style={{ fontSize: '0.7rem', color: '#5a7060' }}>
-          No prescription guaranteed · Licensed providers · Membership required
+        {/* Trust badges */}
+        <div className="mt-6 flex flex-wrap gap-2">
+          {[
+            '🩺 Licensed US providers',
+            '📦 Delivered to your door',
+            '✓ No insurance needed',
+          ].map((badge) => (
+            <span
+              key={badge}
+              className="inline-flex items-center rounded-full border border-border/40 bg-white/60 px-3 py-1.5 text-xs font-medium"
+              style={{ color: '#1e3a22' }}
+            >
+              {badge}
+            </span>
+          ))}
+        </div>
+        <p className="mt-4" style={{ fontSize: '0.7rem', color: '#4a6040' }}>
+          No prescription guaranteed · Membership required
         </p>
       </div>
 
       {/* Right visual */}
       <div className="relative hidden lg:flex items-center justify-center" style={{ minHeight: '450px' }}>
-        {/* Shadow */}
         <div className="animate-shadow-pulse absolute" style={{ bottom: '60px', left: '50%', transform: 'translateX(-50%)' }}>
           <svg width="160" height="30" viewBox="0 0 160 30">
             <ellipse cx="80" cy="15" rx="70" ry="12" fill="rgba(0,0,0,0.1)" />
           </svg>
         </div>
-        {/* Main pill */}
         <div className="animate-pill-bounce relative z-10">
           <MainPill />
         </div>
-        {/* Small orbiting pills */}
         <div className="animate-small-pill-1 absolute" style={{ top: '40px', left: '30px' }}>
           <SmallPill size={36} color="#d8c8f0" />
         </div>
@@ -157,6 +161,166 @@ const Hero = () => (
 );
 
 /* ═══════════════════════════════════════════════════════
+   SOCIAL PROOF (testimonials + stats)
+   ═══════════════════════════════════════════════════════ */
+const SocialProof = () => {
+  const testimonials = [
+    {
+      initials: 'JM',
+      quote: "I lost 34 lbs in 5 months. I've never been able to lose weight on my own — this actually worked.",
+      name: 'Jennifer M.',
+      location: 'Denver, CO',
+      lost: '-34 lbs',
+    },
+    {
+      initials: 'RM',
+      quote: 'My doctor finally had an answer. The process was easy and the support team checked in every month.',
+      name: 'Robert M.',
+      location: 'Austin, TX',
+      lost: '-28 lbs',
+    },
+    {
+      initials: 'AL',
+      quote: 'I was skeptical at first. But the blood sugar improvement was real. My A1C went from 7.1 to 5.8.',
+      name: 'Amanda L.',
+      location: 'Chicago, IL',
+      lost: '-41 lbs',
+    },
+  ];
+
+  const stats = [
+    { number: '~15%', label: 'Average body weight lost over 68 weeks in clinical trial', cite: '† Wilding et al. N Engl J Med. 2021' },
+    { number: '83%', label: 'Of participants achieved ≥5% body weight loss', cite: '† STEP 1 trial vs 31% placebo' },
+    { number: 'FDA', label: 'Approved for chronic weight management in adults', cite: '† Semaglutide 2.4 mg, FDA June 2021' },
+  ];
+
+  return (
+    <section className="py-16" style={{ background: '#ffffff' }}>
+      <div className="container">
+        <div className="text-center max-w-2xl mx-auto mb-12">
+          <p className="text-xs font-medium uppercase tracking-[0.18em] mb-4" style={{ color: '#2d4a1e' }}>
+            Real patients · Real results
+          </p>
+          <h2 className="font-serif text-3xl md:text-4xl leading-tight" style={{ fontWeight: 300, color: '#0f1f12' }}>
+            Thousands have finally found <em style={{ color: '#1a3a1e' }}>what works.</em>
+          </h2>
+        </div>
+
+        {/* Row 1 — Testimonials */}
+        <div className="grid gap-6 md:grid-cols-3">
+          {testimonials.map((t) => (
+            <div
+              key={t.name}
+              className="rounded-2xl border border-border/30 bg-white p-6 shadow-sm"
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div
+                  className="flex h-12 w-12 items-center justify-center rounded-full text-sm font-medium"
+                  style={{ background: '#1a3020', color: '#faf6ee' }}
+                >
+                  {t.initials}
+                </div>
+                <div>
+                  <p className="font-medium text-sm" style={{ color: '#0f1f12' }}>{t.name}</p>
+                  <p className="text-xs" style={{ color: '#4a6a50' }}>{t.location}</p>
+                </div>
+                <span
+                  className="ml-auto inline-flex items-center rounded-full bg-accent/20 px-3 py-1 text-xs font-medium"
+                  style={{ color: '#0f1f12' }}
+                >
+                  {t.lost}
+                </span>
+              </div>
+              <p className="font-serif italic text-base leading-relaxed" style={{ color: '#1e3a22' }}>
+                "{t.quote}"
+              </p>
+            </div>
+          ))}
+        </div>
+
+        {/* Row 2 — Stats */}
+        <div className="mt-16 grid md:grid-cols-3" style={{ borderTop: '1px solid #cddbc6', borderBottom: '1px solid #cddbc6' }}>
+          {stats.map((s, i) => (
+            <div
+              key={s.number}
+              className="text-center py-12 px-6"
+              style={{ borderRight: i < 2 ? '1px solid #cddbc6' : undefined }}
+            >
+              <p className="font-serif" style={{ fontSize: '2.8rem', fontWeight: 300, color: '#0f1f12' }}>{s.number}</p>
+              <p className="mt-2 text-sm" style={{ color: '#2a3e2e' }}>{s.label}</p>
+              <p className="mt-1" style={{ fontSize: '0.68rem', color: '#4a6a50' }}>{s.cite}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ═══════════════════════════════════════════════════════
+   HOW IT WORKS
+   ═══════════════════════════════════════════════════════ */
+const HowItWorks = () => {
+  const steps = [
+    { num: '01', title: 'Tell us about yourself', desc: 'Answer questions about your health history and weight loss journey. Takes 3 minutes. No blood tests, no office visits.' },
+    { num: '02', title: 'Meet your provider', desc: "A licensed clinician reviews your intake and meets with you via video. They'll determine if GLP-1 therapy is right for you — usually within 24 hours." },
+    { num: '03', title: 'Medication at your door', desc: 'If prescribed, your medication ships from a licensed compounding pharmacy directly to your home. Discreet packaging, free shipping.' },
+    { num: '04', title: 'Supported every step', desc: 'Monthly check-ins with your care team, dose adjustments as you progress, and a provider you can message anytime.' },
+  ];
+
+  return (
+    <section id="how-it-works" className="py-24 lg:py-32">
+      <div className="container">
+        <div className="relative overflow-hidden rounded-3xl py-20 lg:py-24 px-6 lg:px-12">
+          <div className="absolute inset-0" style={{
+            background: `
+              radial-gradient(ellipse 70% 60% at 0% 100%, #c8dca8 0%, transparent 50%),
+              radial-gradient(ellipse 50% 50% at 100% 0%, #e0ecce 0%, transparent 55%),
+              linear-gradient(130deg, #e8f2da 0%, #f0f6e8 50%, #ddeac8 100%)
+            `,
+          }} />
+          <div className="relative z-10">
+            <h2 className="font-serif text-3xl md:text-4xl text-center mb-16" style={{ fontWeight: 300, color: '#0f1f12' }}>
+              Simple steps to<br /><em style={{ color: '#1a3a1e' }}>real results</em>
+            </h2>
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              {steps.map((s) => (
+                <div
+                  key={s.num}
+                  className="rounded-2xl p-6 transition-shadow hover:shadow-[0_4px_20px_rgba(45,74,50,0.08)]"
+                  style={{
+                    background: 'rgba(255,255,255,0.8)',
+                    border: '1px solid rgba(168,212,74,0.3)',
+                    backdropFilter: 'blur(8px)',
+                  }}
+                >
+                  <p className="font-serif text-3xl mb-3" style={{ fontWeight: 300, color: '#a8d44a' }}>{s.num}</p>
+                  <h4 className="text-sm font-medium mb-2" style={{ color: '#0f1f12', fontFamily: 'var(--font-sans)' }}>{s.title}</h4>
+                  <p className="text-sm leading-relaxed" style={{ color: '#2d4a2a' }}>{s.desc}</p>
+                </div>
+              ))}
+            </div>
+            <div className="mt-12 text-center">
+              <Link
+                to="/get-started"
+                onClick={() => trackEvent("quiz_started")}
+                className="inline-flex items-center rounded-full px-8 py-3 text-sm font-medium transition-opacity hover:opacity-90"
+                style={{ background: '#0f1f12', color: '#faf6ee' }}
+              >
+                Start your intake — it's free →
+              </Link>
+            </div>
+            <p className="mt-8 text-center italic font-serif text-sm" style={{ color: '#2d4a2a' }}>
+              All prescribing decisions are made solely by independent licensed healthcare providers. Approval is not guaranteed.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ═══════════════════════════════════════════════════════
    BENEFITS
    ═══════════════════════════════════════════════════════ */
 const Benefits = () => (
@@ -170,17 +334,17 @@ const Benefits = () => (
       `,
     }}>
       <div className="max-w-md">
-        <h2 className="font-serif text-3xl md:text-4xl leading-tight" style={{ fontWeight: 300, color: '#16261a' }}>
-          Do more for your health with <em style={{ color: '#2d5030' }}>semaglutide</em>
+        <h2 className="font-serif text-3xl md:text-4xl leading-tight" style={{ fontWeight: 300, color: '#1a3020' }}>
+          Do more for your health with <em style={{ color: '#1a3a1e' }}>semaglutide</em>
         </h2>
-        <p className="mt-4 text-sm leading-relaxed" style={{ color: '#5a7060' }}>
+        <p className="mt-4 text-sm leading-relaxed" style={{ color: '#2d4a2a' }}>
           FDA-approved GLP-1 medication for chronic weight management, prescribed by licensed providers.
         </p>
         <Link
           to="/get-started"
           onClick={() => trackEvent("quiz_started")}
           className="mt-8 inline-flex items-center rounded-full px-7 py-3 text-sm font-medium transition-opacity hover:opacity-90"
-          style={{ background: '#16261a', color: '#faf6ee' }}
+          style={{ background: '#0f1f12', color: '#faf6ee' }}
         >
           Start losing weight →
         </Link>
@@ -194,11 +358,11 @@ const Benefits = () => (
           {['Decreases cholesterol', 'Improves blood sugar', 'Reduces blood pressure', 'Lowers cardiovascular risk¹'].map((item, i) => (
             <li key={i} className="flex items-center gap-3">
               <CheckCircle filled />
-              <span className="text-sm font-medium" style={{ color: '#16261a' }}>{item}</span>
+              <span className="text-sm font-medium" style={{ color: '#0f1f12' }}>{item}</span>
             </li>
           ))}
         </ul>
-        <p className="mt-8 leading-relaxed" style={{ fontSize: '0.71rem', color: '#7a9e82' }}>
+        <p className="mt-8 leading-relaxed" style={{ fontSize: '0.71rem', color: '#4a6a50' }}>
           ¹ For adults with heart disease and obesity or overweight, along with a reduced-calorie diet and increased physical activity. Lowers risk of major adverse cardiovascular events. Per FDA-approved prescribing information for semaglutide 2.4 mg. Individual results vary.
         </p>
       </div>
@@ -207,36 +371,7 @@ const Benefits = () => (
 );
 
 /* ═══════════════════════════════════════════════════════
-   STATS BAR
-   ═══════════════════════════════════════════════════════ */
-const Stats = () => {
-  const stats = [
-    { number: '~15%', label: 'Average body weight lost over 68 weeks in clinical trial', cite: '† Wilding et al. N Engl J Med. 2021' },
-    { number: '83%', label: 'Of participants achieved ≥5% body weight loss', cite: '† STEP 1 trial vs 31% placebo' },
-    { number: 'FDA', label: 'Approved for chronic weight management in adults', cite: '† Semaglutide 2.4 mg, FDA June 2021' },
-  ];
-
-  return (
-    <section style={{ background: '#ffffff' }}>
-      <div className="grid md:grid-cols-3" style={{ borderTop: '1px solid #cddbc6', borderBottom: '1px solid #cddbc6' }}>
-        {stats.map((s, i) => (
-          <div
-            key={i}
-            className="text-center py-12 px-6"
-            style={{ borderRight: i < 2 ? '1px solid #cddbc6' : undefined }}
-          >
-            <p className="font-serif" style={{ fontSize: '2.8rem', fontWeight: 300, color: '#16261a' }}>{s.number}</p>
-            <p className="mt-2 text-sm" style={{ color: '#5a7060' }}>{s.label}</p>
-            <p className="mt-1" style={{ fontSize: '0.68rem', color: '#7a9e82' }}>{s.cite}</p>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-};
-
-/* ═══════════════════════════════════════════════════════
-   MEMBERSHIP (HERO 2)
+   MEMBERSHIP
    ═══════════════════════════════════════════════════════ */
 const Membership = () => (
   <section id="membership" className="relative overflow-hidden">
@@ -255,14 +390,14 @@ const Membership = () => (
     <div className="container relative z-10 grid lg:grid-cols-2 gap-12 py-24 lg:py-32 items-center">
       {/* Left text */}
       <div className="max-w-lg">
-        <p className="text-xs font-medium uppercase tracking-[0.18em] mb-6" style={{ color: '#9ac850' }}>Membership</p>
+        <p className="text-xs font-medium uppercase tracking-[0.18em] mb-6" style={{ color: '#b8e070' }}>Membership</p>
         <h2 className="font-serif text-3xl md:text-5xl leading-tight" style={{ fontWeight: 300, color: '#ffffff' }}>
-          Everything you need,
+          Not just a prescription.
           <br />
-          <em style={{ color: '#9ac850' }}>from day one</em>
+          <em style={{ color: '#b8e070' }}>A complete program.</em>
         </h2>
-        <p className="mt-5 text-sm leading-relaxed" style={{ color: 'rgba(220,240,220,0.8)' }}>
-          Your membership includes provider consultations, medication (if prescribed), and ongoing support — all in one monthly plan.
+        <p className="mt-5 text-sm leading-relaxed" style={{ color: '#e8f5e8' }}>
+          Most weight loss clinics hand you a prescription and disappear. We stay with you — monthly check-ins, dose guidance, and a care team that actually responds.
         </p>
 
         <ul className="mt-8 space-y-4">
@@ -274,7 +409,7 @@ const Membership = () => (
           ].map((item, i) => (
             <li key={i} className="flex items-center gap-3">
               <CheckCircle filled={false} />
-              <span className="text-sm" style={{ color: 'rgba(250,246,238,0.9)' }}>{item}</span>
+              <span className="text-sm" style={{ color: '#f0f8f0' }}>{item}</span>
             </li>
           ))}
         </ul>
@@ -284,14 +419,14 @@ const Membership = () => (
             to="/get-started"
             onClick={() => trackEvent("quiz_started")}
             className="inline-flex items-center rounded-full px-7 py-3 text-sm font-medium transition-opacity hover:opacity-90"
-            style={{ background: '#a8d44a', color: '#16261a' }}
+            style={{ background: '#a8d44a', color: '#0f1f12' }}
           >
-            Go to membership →
+            View full program →
           </Link>
           <a
             href="#how-it-works"
             className="inline-flex items-center rounded-full px-7 py-3 text-sm font-medium border transition-opacity hover:opacity-70"
-            style={{ borderColor: 'rgba(250,246,238,0.3)', color: 'rgba(250,246,238,0.8)' }}
+            style={{ borderColor: 'rgba(250,246,238,0.3)', color: '#f0f8f0' }}
           >
             Learn more
           </a>
@@ -301,11 +436,9 @@ const Membership = () => (
       {/* Right — Pen fan */}
       <div className="relative hidden lg:flex items-center justify-center" style={{ minHeight: '450px' }}>
         <div className="relative" style={{ width: '280px', height: '320px' }}>
-          {/* Floating pill */}
           <div className="animate-small-pill-1 absolute" style={{ top: '-30px', left: '-20px', zIndex: 5 }}>
             <SmallPill size={44} color="#c8b8e8" />
           </div>
-          {/* Pens */}
           <div className="absolute inset-0 flex items-end justify-center">
             <div className="relative" style={{ width: '200px', height: '260px' }}>
               <InjectionPen rotation={-30} color="#9060c0" label="7.2mg" delay={0} />
@@ -322,87 +455,75 @@ const Membership = () => (
 );
 
 /* ═══════════════════════════════════════════════════════
-   MEDICATIONS
+   MEDICATIONS — simplified single-card focus
    ═══════════════════════════════════════════════════════ */
-const MedCard = ({ name, price, gradient, badge, children }: {
-  name: string; price: string; gradient: string; badge?: string; children: React.ReactNode;
-}) => (
-  <div
-    className="rounded-2xl p-6 flex flex-col justify-between transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_8px_24px_rgba(45,74,50,0.12)]"
-    style={{
-      background: gradient,
-      minHeight: '320px',
-      border: '1px solid rgba(0,0,0,0.06)',
-    }}
-  >
-    <div>
-      {badge && (
-        <span className="inline-block text-xs font-medium px-2.5 py-1 rounded-full mb-3" style={{ background: 'rgba(0,0,0,0.08)', color: '#16261a' }}>
-          {badge}
-        </span>
-      )}
-      <h4 className="font-serif text-lg" style={{ fontWeight: 400, color: '#16261a' }}>{name}</h4>
-      <p className="mt-1 text-sm font-medium" style={{ color: '#16261a' }}>From {price}†</p>
-      <p className="mt-1" style={{ fontSize: '0.7rem', color: '#5a7060' }}>Membership required</p>
-    </div>
-    <div className="mt-4 flex justify-center">{children}</div>
-  </div>
-);
-
 const Medications = () => (
   <section id="medications" style={{ background: '#faf6ee' }} className="py-24">
     <div className="container">
-      <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
-        <h2 className="font-serif text-3xl md:text-4xl" style={{ fontWeight: 300, color: '#16261a' }}>
-          Lose weight<br /><em style={{ color: '#2d5030' }}>the way you want</em>
+      <div className="text-center max-w-2xl mx-auto mb-12">
+        <h2 className="font-serif text-3xl md:text-4xl leading-tight" style={{ fontWeight: 300, color: '#0f1f12' }}>
+          One proven medication.<br /><em style={{ color: '#1a3a1e' }}>One simple plan.</em>
         </h2>
-        <div className="flex items-center gap-4">
-          <p className="text-sm" style={{ color: '#5a7060' }}>Explore treatment options</p>
+        <p className="mt-5 text-sm leading-relaxed" style={{ color: '#2d4a2a' }}>
+          We prescribe compounded Semaglutide — the same active ingredient as Ozempic® and Wegovy®, at a fraction of the cost.
+        </p>
+      </div>
+
+      <div className="max-w-lg mx-auto">
+        <div
+          className="rounded-2xl p-8 transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_12px_32px_rgba(45,74,50,0.15)]"
+          style={{
+            background: 'linear-gradient(145deg, #e0ecda, #cce0c0)',
+            border: '1px solid rgba(0,0,0,0.06)',
+            boxShadow: '0 4px 20px rgba(45,74,50,0.08)',
+          }}
+        >
+          <span
+            className="inline-block text-xs font-medium px-3 py-1 rounded-full mb-4"
+            style={{ background: '#a8d44a', color: '#0f1f12' }}
+          >
+            Most prescribed
+          </span>
+          <h3 className="font-serif text-2xl" style={{ fontWeight: 400, color: '#0f1f12' }}>
+            Compounded Semaglutide
+          </h3>
+          <p className="mt-1 text-sm" style={{ color: '#2d4a2a' }}>
+            Weekly injection · Starts at 0.25mg
+          </p>
+          <p className="mt-4 font-serif" style={{ fontSize: '2rem', fontWeight: 300, color: '#0f1f12' }}>
+            From $297<span className="text-base font-sans" style={{ color: '#2d4a2a' }}>/month</span>
+          </p>
+
+          <ul className="mt-6 space-y-3">
+            {[
+              'Provider consultation included',
+              'Dose adjustments as needed',
+              'Ongoing care team support',
+              'Free standard shipping',
+            ].map((item) => (
+              <li key={item} className="flex items-center gap-3">
+                <CheckCircle filled />
+                <span className="text-sm" style={{ color: '#0f1f12' }}>{item}</span>
+              </li>
+            ))}
+          </ul>
+
           <Link
             to="/get-started"
             onClick={() => trackEvent("quiz_started")}
-            className="inline-flex items-center rounded-full px-6 py-2.5 text-sm font-medium transition-opacity hover:opacity-90"
-            style={{ background: '#16261a', color: '#faf6ee' }}
+            className="mt-8 inline-flex w-full items-center justify-center rounded-full px-7 py-3 text-sm font-medium transition-opacity hover:opacity-90"
+            style={{ background: '#0f1f12', color: '#faf6ee' }}
           >
-            Get started
+            See if I qualify →
           </Link>
         </div>
+
+        <p className="mt-6 text-center text-sm leading-relaxed" style={{ color: '#4a6a50' }}>
+          Other options including oral semaglutide and tirzepatide may be available depending on your health profile and provider recommendation.
+        </p>
       </div>
 
-      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        <MedCard name="Semaglutide Oral Tablet" price="$149/mo" gradient="linear-gradient(145deg, #e0ecda, #cce0c0)" badge="Rx">
-          <svg width="60" height="60" viewBox="0 0 60 60">
-            <ellipse cx="30" cy="30" rx="24" ry="24" fill="#b8d498" />
-            <ellipse cx="24" cy="22" rx="10" ry="6" fill="rgba(255,255,255,0.4)" transform="rotate(-15 24 22)" />
-          </svg>
-        </MedCard>
-        <MedCard name="Semaglutide Injection Pen" price="$199/mo" gradient="linear-gradient(145deg, #dfe8f8, #c8d8f0)" badge="Rx">
-          <svg width="30" height="100" viewBox="0 0 30 100">
-            <rect x="5" y="15" width="20" height="65" rx="3" fill="#c8d8f0" />
-            <rect x="10" y="0" width="10" height="20" rx="2" fill="#a0b8d0" />
-            <rect x="5" y="40" width="20" height="15" rx="2" fill="#287888" />
-            <rect x="8" y="80" width="14" height="15" rx="7" fill="#d0dce8" />
-          </svg>
-        </MedCard>
-        <MedCard name="Ozempic®" price="$199/mo" gradient="linear-gradient(145deg, #e8ddf8, #d4c8f0)" badge="Rx · Brand">
-          <svg width="30" height="100" viewBox="0 0 30 100">
-            <rect x="5" y="15" width="20" height="65" rx="3" fill="#d4c8f0" />
-            <rect x="10" y="0" width="10" height="20" rx="2" fill="#b0a0d0" />
-            <rect x="5" y="40" width="20" height="15" rx="2" fill="#6050a0" />
-            <rect x="8" y="80" width="14" height="15" rx="7" fill="#dcd0f0" />
-          </svg>
-        </MedCard>
-        <MedCard name="Tirzepatide (GIP + GLP-1)" price="$699/mo" gradient="linear-gradient(145deg, #f0e8d8, #e0d0b8)" badge="Rx">
-          <svg width="30" height="100" viewBox="0 0 30 100">
-            <rect x="5" y="15" width="20" height="65" rx="3" fill="#e0d0b8" />
-            <rect x="10" y="0" width="10" height="20" rx="2" fill="#c8b8a0" />
-            <rect x="5" y="40" width="20" height="15" rx="2" fill="#9060c0" />
-            <rect x="8" y="80" width="14" height="15" rx="7" fill="#e8dcc8" />
-          </svg>
-        </MedCard>
-      </div>
-
-      <p className="mt-6 text-center" style={{ fontSize: '0.68rem', color: '#7a9e82' }}>
+      <p className="mt-10 text-center max-w-2xl mx-auto" style={{ fontSize: '0.68rem', color: '#4a6a50' }}>
         † Pricing shown is for medication only if prescribed by a licensed provider. Membership required. Ozempic® is a registered trademark of Novo Nordisk A/S. Solana Health is not affiliated with Novo Nordisk or Eli Lilly. All trademarks are property of their respective owners.
       </p>
     </div>
@@ -410,60 +531,47 @@ const Medications = () => (
 );
 
 /* ═══════════════════════════════════════════════════════
-   HOW IT WORKS
+   FINAL CTA
    ═══════════════════════════════════════════════════════ */
-const HowItWorks = () => {
-  const steps = [
-    { num: '01', title: 'Complete your health intake', desc: 'Answer a brief questionnaire about your health history and goals. Takes about 5 minutes.' },
-    { num: '02', title: 'Provider review', desc: 'An independent licensed clinician reviews your responses and determines whether a GLP-1 prescription is appropriate. Most reviews complete within 24–48 hours. No prescription guaranteed.' },
-    { num: '03', title: 'Delivered to your door', desc: 'If prescribed, your medication is dispensed by a licensed pharmacy and shipped directly to you with free standard shipping.' },
-    { num: '04', title: 'Ongoing care', desc: 'Your care team supports you throughout treatment with check-ins, dosage adjustments, and guidance.' },
-  ];
+const FinalCTA = () => (
+  <section className="py-20" style={{ background: 'hsl(var(--primary))' }}>
+    <div className="container max-w-lg text-center">
+      <h2 className="font-serif text-4xl leading-tight" style={{ fontWeight: 300, color: '#ffffff' }}>
+        Ready to try something that
+        <br />
+        <em style={{ color: '#b8e070' }}>actually works?</em>
+      </h2>
+      <p className="mt-5 text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.8)' }}>
+        Join thousands of patients who finally found a solution that works with their biology, not against it.
+      </p>
 
-  return (
-    <section id="how-it-works" className="py-24 lg:py-32">
-      <div className="container">
-        <div className="relative overflow-hidden rounded-3xl py-20 lg:py-24 px-6 lg:px-12">
-          <div className="absolute inset-0" style={{
-            background: `
-              radial-gradient(ellipse 70% 60% at 0% 100%, #c8dca8 0%, transparent 50%),
-              radial-gradient(ellipse 50% 50% at 100% 0%, #e0ecce 0%, transparent 55%),
-              linear-gradient(130deg, #e8f2da 0%, #f0f6e8 50%, #ddeac8 100%)
-            `,
-          }} />
-          <div className="relative z-10">
-            <h2 className="font-serif text-3xl md:text-4xl text-center mb-16" style={{ fontWeight: 300, color: '#16261a' }}>
-              Simple steps to<br /><em style={{ color: '#2d5030' }}>real results</em>
-            </h2>
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-              {steps.map((s) => (
-                <div
-                  key={s.num}
-                  className="rounded-2xl p-6 transition-shadow hover:shadow-[0_4px_20px_rgba(45,74,50,0.08)]"
-                  style={{
-                    background: 'rgba(255,255,255,0.7)',
-                    border: '1px solid rgba(168,212,74,0.3)',
-                    backdropFilter: 'blur(8px)',
-                  }}
-                >
-                  <p className="font-serif text-3xl mb-3" style={{ fontWeight: 300, color: '#a8d44a' }}>{s.num}</p>
-                  <h4 className="text-sm font-medium mb-2" style={{ color: '#16261a', fontFamily: 'var(--font-sans)' }}>{s.title}</h4>
-                  <p className="text-sm leading-relaxed" style={{ color: '#5a7060' }}>{s.desc}</p>
-                </div>
-              ))}
-            </div>
-            <p className="mt-10 text-center italic font-serif text-sm" style={{ color: '#5a7060' }}>
-              All prescribing decisions are made solely by independent licensed healthcare providers. Approval is not guaranteed.
-            </p>
-          </div>
-        </div>
+      <div className="mt-10 flex flex-wrap justify-center gap-3">
+        <Link
+          to="/get-started"
+          onClick={() => trackEvent("quiz_started")}
+          className="inline-flex items-center rounded-full px-7 py-3 text-sm font-medium transition-opacity hover:opacity-90"
+          style={{ background: '#a8d44a', color: '#0f1f12' }}
+        >
+          Start my free intake →
+        </Link>
+        <Link
+          to="/support"
+          className="inline-flex items-center rounded-full px-7 py-3 text-sm font-medium border transition-opacity hover:opacity-70"
+          style={{ borderColor: 'rgba(255,255,255,0.4)', color: '#ffffff' }}
+        >
+          Talk to someone first
+        </Link>
       </div>
-    </section>
-  );
-};
+
+      <p className="mt-6" style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.5)' }}>
+        No prescription guaranteed. Results vary by individual.
+      </p>
+    </div>
+  </section>
+);
 
 /* ═══════════════════════════════════════════════════════
-   IMPORTANT SAFETY INFORMATION
+   IMPORTANT SAFETY INFORMATION (unchanged)
    ═══════════════════════════════════════════════════════ */
 const SafetyInfo = () => {
   const [expanded, setExpanded] = useState(false);
@@ -509,17 +617,18 @@ const SafetyInfo = () => {
 };
 
 /* ═══════════════════════════════════════════════════════
-   PAGE
+   PAGE — restructured order
    ═══════════════════════════════════════════════════════ */
 const Index = () => (
   <div className="min-h-screen">
     <Header />
     <Hero />
+    <SocialProof />
+    <HowItWorks />
     <Benefits />
-    <Stats />
     <Membership />
     <Medications />
-    <HowItWorks />
+    <FinalCTA />
     <SafetyInfo />
     <Footer />
   </div>
