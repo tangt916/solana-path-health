@@ -72,7 +72,7 @@ const CheckCircle = ({ filled = true }: { filled?: boolean }) => (
 );
 
 /* ═══════════════════════════════════════════════════════
-   HERO — problem-first
+   HERO — wellness coach positioning
    ═══════════════════════════════════════════════════════ */
 const Hero = () => (
   <section className="relative min-h-screen">
@@ -88,15 +88,15 @@ const Hero = () => (
       {/* Left text */}
       <div className="max-w-lg">
         <p className="text-xs font-medium uppercase tracking-[0.18em] mb-6" style={{ color: '#2d4a1e' }}>
-          You've tried dieting. You've tried exercising. There's a medical reason it hasn't worked.
+          Your comprehensive health & wellness coach
         </p>
         <h1 className="font-serif leading-[1.08]" style={{ fontSize: 'clamp(2.8rem, 5vw, 5rem)', fontWeight: 300, color: '#0f1f12' }}>
-          Your body is working
+          A smarter way
           <br />
-          <em style={{ color: '#1a3a1e' }}>against you.</em>
+          <em style={{ color: '#1a3a1e' }}>to feel your best.</em>
         </h1>
         <p className="mt-6 text-base leading-relaxed" style={{ fontWeight: 300, color: '#1e3a22' }}>
-          Most people struggling with weight aren't failing because of willpower. They're fighting a hormonal system designed to regain weight. GLP-1 therapy works with your biology — not against it. Licensed providers. Real medication. Delivered.
+          Personalized coaching, expert clinical care, and ongoing support — all in one place. We pair you with licensed providers and a dedicated care team who help you build sustainable habits around nutrition, movement, sleep, and (when appropriate) medication.
         </p>
         <div className="mt-10 flex flex-wrap gap-3">
           <Link
