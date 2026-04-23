@@ -161,37 +161,27 @@ const Hero = () => (
 );
 
 /* ═══════════════════════════════════════════════════════
-   SOCIAL PROOF (testimonials + stats)
+   PILLARS — what's included in your wellness plan
    ═══════════════════════════════════════════════════════ */
-const SocialProof = () => {
-  const testimonials = [
+const Pillars = () => {
+  const pillars = [
     {
-      initials: 'JM',
-      quote: "I lost 34 lbs in 5 months. I've never been able to lose weight on my own — this actually worked.",
-      name: 'Jennifer M.',
-      location: 'Denver, CO',
-      lost: '-34 lbs',
+      title: 'Personal coaching',
+      desc: 'A dedicated coach who helps you build sustainable habits around food, movement, and stress.',
     },
     {
-      initials: 'RM',
-      quote: 'My doctor finally had an answer. The process was easy and the support team checked in every month.',
-      name: 'Robert M.',
-      location: 'Austin, TX',
-      lost: '-28 lbs',
+      title: 'Clinical care',
+      desc: 'Licensed providers review your health, answer your questions, and adjust your plan as you progress.',
     },
     {
-      initials: 'AL',
-      quote: 'I was skeptical at first. But the blood sugar improvement was real. My A1C went from 7.1 to 5.8.',
-      name: 'Amanda L.',
-      location: 'Chicago, IL',
-      lost: '-41 lbs',
+      title: 'Whole-person support',
+      desc: 'Nutrition, sleep, mindset, and (when appropriate) prescription options — all coordinated in one place.',
     },
   ];
 
   const stats = [
     { number: '~15%', label: 'Average body weight lost over 68 weeks in clinical trial', cite: '† Wilding et al. N Engl J Med. 2021' },
     { number: '83%', label: 'Of participants achieved ≥5% body weight loss', cite: '† STEP 1 trial vs 31% placebo' },
-    { number: 'FDA', label: 'Approved for chronic weight management in adults', cite: '† Semaglutide 2.4 mg, FDA June 2021' },
   ];
 
   return (
@@ -199,52 +189,33 @@ const SocialProof = () => {
       <div className="container">
         <div className="text-center max-w-2xl mx-auto mb-12">
           <p className="text-xs font-medium uppercase tracking-[0.18em] mb-4" style={{ color: '#2d4a1e' }}>
-            Real patients · Real results
+            What you get
           </p>
           <h2 className="font-serif text-3xl md:text-4xl leading-tight" style={{ fontWeight: 300, color: '#0f1f12' }}>
-            Thousands have finally found <em style={{ color: '#1a3a1e' }}>what works.</em>
+            More than a prescription — <em style={{ color: '#1a3a1e' }}>a complete plan.</em>
           </h2>
         </div>
 
-        {/* Row 1 — Testimonials */}
+        {/* Pillars */}
         <div className="grid gap-6 md:grid-cols-3">
-          {testimonials.map((t) => (
+          {pillars.map((p) => (
             <div
-              key={t.name}
+              key={p.title}
               className="rounded-2xl border border-border/30 bg-white p-6 shadow-sm"
             >
-              <div className="flex items-center gap-3 mb-4">
-                <div
-                  className="flex h-12 w-12 items-center justify-center rounded-full text-sm font-medium"
-                  style={{ background: '#1a3020', color: '#faf6ee' }}
-                >
-                  {t.initials}
-                </div>
-                <div>
-                  <p className="font-medium text-sm" style={{ color: '#0f1f12' }}>{t.name}</p>
-                  <p className="text-xs" style={{ color: '#4a6a50' }}>{t.location}</p>
-                </div>
-                <span
-                  className="ml-auto inline-flex items-center rounded-full bg-accent/20 px-3 py-1 text-xs font-medium"
-                  style={{ color: '#0f1f12' }}
-                >
-                  {t.lost}
-                </span>
-              </div>
-              <p className="font-serif italic text-base leading-relaxed" style={{ color: '#1e3a22' }}>
-                "{t.quote}"
-              </p>
+              <h3 className="font-serif text-xl mb-2" style={{ fontWeight: 400, color: '#0f1f12' }}>{p.title}</h3>
+              <p className="text-sm leading-relaxed" style={{ color: '#2d4a2a' }}>{p.desc}</p>
             </div>
           ))}
         </div>
 
-        {/* Row 2 — Stats */}
-        <div className="mt-16 grid md:grid-cols-3" style={{ borderTop: '1px solid #cddbc6', borderBottom: '1px solid #cddbc6' }}>
+        {/* Stats */}
+        <div className="mt-16 grid md:grid-cols-2" style={{ borderTop: '1px solid #cddbc6', borderBottom: '1px solid #cddbc6' }}>
           {stats.map((s, i) => (
             <div
               key={s.number}
               className="text-center py-12 px-6"
-              style={{ borderRight: i < 2 ? '1px solid #cddbc6' : undefined }}
+              style={{ borderRight: i < stats.length - 1 ? '1px solid #cddbc6' : undefined }}
             >
               <p className="font-serif" style={{ fontSize: '2.8rem', fontWeight: 300, color: '#0f1f12' }}>{s.number}</p>
               <p className="mt-2 text-sm" style={{ color: '#2a3e2e' }}>{s.label}</p>
