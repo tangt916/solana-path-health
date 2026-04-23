@@ -11,7 +11,7 @@ import { Step2Health } from "@/components/intake/Step2Health";
 import { Step3Goals } from "@/components/intake/Step3Goals";
 import { Step4Booking } from "@/components/intake/Step4Booking";
 
-const STEP_LABELS = ["You", "Health", "Goals", "Book"];
+const STEP_LABELS = ["Goals", "Health", "You", "Book"];
 
 const GetStarted = () => {
   const { state, setStep, hasSavedProgress, resetForm } = useIntakeForm();
@@ -68,9 +68,9 @@ const GetStarted = () => {
                   labels={STEP_LABELS}
                 />
                 <div className="bg-white border border-border/40 rounded-2xl p-6 sm:p-10 shadow-[0_2px_16px_rgba(45,74,50,0.06)]">
-                  {state.step === 1 && <Step1Personal />}
+                  {state.step === 1 && <Step3Goals onBack={() => navigate("/")} onNext={goNext} />}
                   {state.step === 2 && <Step2Health onBack={goBack} onNext={goNext} />}
-                  {state.step === 3 && <Step3Goals onBack={goBack} onNext={goNext} />}
+                  {state.step === 3 && <Step1Personal onBack={goBack} onNext={goNext} />}
                   {state.step === 4 && <Step4Booking onBack={goBack} />}
                 </div>
               </div>

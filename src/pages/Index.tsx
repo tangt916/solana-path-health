@@ -72,7 +72,7 @@ const CheckCircle = ({ filled = true }: { filled?: boolean }) => (
 );
 
 /* ═══════════════════════════════════════════════════════
-   HERO — problem-first
+   HERO — wellness coach positioning
    ═══════════════════════════════════════════════════════ */
 const Hero = () => (
   <section className="relative min-h-screen">
@@ -88,15 +88,15 @@ const Hero = () => (
       {/* Left text */}
       <div className="max-w-lg">
         <p className="text-xs font-medium uppercase tracking-[0.18em] mb-6" style={{ color: '#2d4a1e' }}>
-          You've tried dieting. You've tried exercising. There's a medical reason it hasn't worked.
+          Your comprehensive health & wellness coach
         </p>
         <h1 className="font-serif leading-[1.08]" style={{ fontSize: 'clamp(2.8rem, 5vw, 5rem)', fontWeight: 300, color: '#0f1f12' }}>
-          Your body is working
+          A smarter way
           <br />
-          <em style={{ color: '#1a3a1e' }}>against you.</em>
+          <em style={{ color: '#1a3a1e' }}>to feel your best.</em>
         </h1>
         <p className="mt-6 text-base leading-relaxed" style={{ fontWeight: 300, color: '#1e3a22' }}>
-          Most people struggling with weight aren't failing because of willpower. They're fighting a hormonal system designed to regain weight. GLP-1 therapy works with your biology — not against it. Licensed providers. Real medication. Delivered.
+          Personalized coaching, expert clinical care, and ongoing support — all in one place. We pair you with licensed providers and a dedicated care team who help you build sustainable habits around nutrition, movement, sleep, and (when appropriate) medication.
         </p>
         <div className="mt-10 flex flex-wrap gap-3">
           <Link
@@ -105,22 +105,22 @@ const Hero = () => (
             className="inline-flex items-center rounded-full px-7 py-3 text-sm font-medium transition-opacity hover:opacity-90"
             style={{ background: '#0f1f12', color: '#faf6ee' }}
           >
-            See if GLP-1 is right for me →
+            Start my wellness plan →
           </Link>
           <a
             href="#how-it-works"
             className="inline-flex items-center rounded-full px-7 py-3 text-sm font-medium border transition-opacity hover:opacity-70"
             style={{ borderColor: '#0f1f12', color: '#0f1f12' }}
           >
-            How does it work?
+            How it works
           </a>
         </div>
         {/* Trust badges */}
         <div className="mt-6 flex flex-wrap gap-2">
           {[
             '🩺 Licensed US providers',
+            '💬 1:1 coaching support',
             '📦 Delivered to your door',
-            '✓ No insurance needed',
           ].map((badge) => (
             <span
               key={badge}
@@ -132,7 +132,7 @@ const Hero = () => (
           ))}
         </div>
         <p className="mt-4" style={{ fontSize: '0.7rem', color: '#4a6040' }}>
-          No prescription guaranteed · Membership required
+          Membership required · Prescription not guaranteed
         </p>
       </div>
 
@@ -161,37 +161,27 @@ const Hero = () => (
 );
 
 /* ═══════════════════════════════════════════════════════
-   SOCIAL PROOF (testimonials + stats)
+   PILLARS — what's included in your wellness plan
    ═══════════════════════════════════════════════════════ */
-const SocialProof = () => {
-  const testimonials = [
+const Pillars = () => {
+  const pillars = [
     {
-      initials: 'JM',
-      quote: "I lost 34 lbs in 5 months. I've never been able to lose weight on my own — this actually worked.",
-      name: 'Jennifer M.',
-      location: 'Denver, CO',
-      lost: '-34 lbs',
+      title: 'Personal coaching',
+      desc: 'A dedicated coach who helps you build sustainable habits around food, movement, and stress.',
     },
     {
-      initials: 'RM',
-      quote: 'My doctor finally had an answer. The process was easy and the support team checked in every month.',
-      name: 'Robert M.',
-      location: 'Austin, TX',
-      lost: '-28 lbs',
+      title: 'Clinical care',
+      desc: 'Licensed providers review your health, answer your questions, and adjust your plan as you progress.',
     },
     {
-      initials: 'AL',
-      quote: 'I was skeptical at first. But the blood sugar improvement was real. My A1C went from 7.1 to 5.8.',
-      name: 'Amanda L.',
-      location: 'Chicago, IL',
-      lost: '-41 lbs',
+      title: 'Whole-person support',
+      desc: 'Nutrition, sleep, mindset, and (when appropriate) prescription options — all coordinated in one place.',
     },
   ];
 
   const stats = [
     { number: '~15%', label: 'Average body weight lost over 68 weeks in clinical trial', cite: '† Wilding et al. N Engl J Med. 2021' },
     { number: '83%', label: 'Of participants achieved ≥5% body weight loss', cite: '† STEP 1 trial vs 31% placebo' },
-    { number: 'FDA', label: 'Approved for chronic weight management in adults', cite: '† Semaglutide 2.4 mg, FDA June 2021' },
   ];
 
   return (
@@ -199,52 +189,33 @@ const SocialProof = () => {
       <div className="container">
         <div className="text-center max-w-2xl mx-auto mb-12">
           <p className="text-xs font-medium uppercase tracking-[0.18em] mb-4" style={{ color: '#2d4a1e' }}>
-            Real patients · Real results
+            What you get
           </p>
           <h2 className="font-serif text-3xl md:text-4xl leading-tight" style={{ fontWeight: 300, color: '#0f1f12' }}>
-            Thousands have finally found <em style={{ color: '#1a3a1e' }}>what works.</em>
+            More than a prescription — <em style={{ color: '#1a3a1e' }}>a complete plan.</em>
           </h2>
         </div>
 
-        {/* Row 1 — Testimonials */}
+        {/* Pillars */}
         <div className="grid gap-6 md:grid-cols-3">
-          {testimonials.map((t) => (
+          {pillars.map((p) => (
             <div
-              key={t.name}
+              key={p.title}
               className="rounded-2xl border border-border/30 bg-white p-6 shadow-sm"
             >
-              <div className="flex items-center gap-3 mb-4">
-                <div
-                  className="flex h-12 w-12 items-center justify-center rounded-full text-sm font-medium"
-                  style={{ background: '#1a3020', color: '#faf6ee' }}
-                >
-                  {t.initials}
-                </div>
-                <div>
-                  <p className="font-medium text-sm" style={{ color: '#0f1f12' }}>{t.name}</p>
-                  <p className="text-xs" style={{ color: '#4a6a50' }}>{t.location}</p>
-                </div>
-                <span
-                  className="ml-auto inline-flex items-center rounded-full bg-accent/20 px-3 py-1 text-xs font-medium"
-                  style={{ color: '#0f1f12' }}
-                >
-                  {t.lost}
-                </span>
-              </div>
-              <p className="font-serif italic text-base leading-relaxed" style={{ color: '#1e3a22' }}>
-                "{t.quote}"
-              </p>
+              <h3 className="font-serif text-xl mb-2" style={{ fontWeight: 400, color: '#0f1f12' }}>{p.title}</h3>
+              <p className="text-sm leading-relaxed" style={{ color: '#2d4a2a' }}>{p.desc}</p>
             </div>
           ))}
         </div>
 
-        {/* Row 2 — Stats */}
-        <div className="mt-16 grid md:grid-cols-3" style={{ borderTop: '1px solid #cddbc6', borderBottom: '1px solid #cddbc6' }}>
+        {/* Stats */}
+        <div className="mt-16 grid md:grid-cols-2" style={{ borderTop: '1px solid #cddbc6', borderBottom: '1px solid #cddbc6' }}>
           {stats.map((s, i) => (
             <div
               key={s.number}
               className="text-center py-12 px-6"
-              style={{ borderRight: i < 2 ? '1px solid #cddbc6' : undefined }}
+              style={{ borderRight: i < stats.length - 1 ? '1px solid #cddbc6' : undefined }}
             >
               <p className="font-serif" style={{ fontSize: '2.8rem', fontWeight: 300, color: '#0f1f12' }}>{s.number}</p>
               <p className="mt-2 text-sm" style={{ color: '#2a3e2e' }}>{s.label}</p>
@@ -320,55 +291,7 @@ const HowItWorks = () => {
   );
 };
 
-/* ═══════════════════════════════════════════════════════
-   BENEFITS
-   ═══════════════════════════════════════════════════════ */
-const Benefits = () => (
-  <section className="grid lg:grid-cols-2">
-    {/* Left */}
-    <div className="flex items-center px-8 py-20 lg:px-16" style={{
-      background: `
-        radial-gradient(ellipse 80% 60% at 20% 100%, #c0d898 0%, transparent 55%),
-        radial-gradient(ellipse 60% 50% at 90% 10%, #e8f2d8 0%, transparent 50%),
-        linear-gradient(135deg, #e8f0d8 0%, #d0e4b8 100%)
-      `,
-    }}>
-      <div className="max-w-md">
-        <h2 className="font-serif text-3xl md:text-4xl leading-tight" style={{ fontWeight: 300, color: '#1a3020' }}>
-          Do more for your health with <em style={{ color: '#1a3a1e' }}>semaglutide</em>
-        </h2>
-        <p className="mt-4 text-sm leading-relaxed" style={{ color: '#2d4a2a' }}>
-          FDA-approved GLP-1 medication for chronic weight management, prescribed by licensed providers.
-        </p>
-        <Link
-          to="/get-started"
-          onClick={() => trackEvent("quiz_started")}
-          className="mt-8 inline-flex items-center rounded-full px-7 py-3 text-sm font-medium transition-opacity hover:opacity-90"
-          style={{ background: '#0f1f12', color: '#faf6ee' }}
-        >
-          Start losing weight →
-        </Link>
-      </div>
-    </div>
-
-    {/* Right */}
-    <div className="flex items-center px-8 py-20 lg:px-16" style={{ background: '#ffffff' }}>
-      <div className="max-w-sm">
-        <ul className="space-y-5">
-          {['Decreases cholesterol', 'Improves blood sugar', 'Reduces blood pressure', 'Lowers cardiovascular risk¹'].map((item, i) => (
-            <li key={i} className="flex items-center gap-3">
-              <CheckCircle filled />
-              <span className="text-sm font-medium" style={{ color: '#0f1f12' }}>{item}</span>
-            </li>
-          ))}
-        </ul>
-        <p className="mt-8 leading-relaxed" style={{ fontSize: '0.71rem', color: '#4a6a50' }}>
-          ¹ For adults with heart disease and obesity or overweight, along with a reduced-calorie diet and increased physical activity. Lowers risk of major adverse cardiovascular events. Per FDA-approved prescribing information for semaglutide 2.4 mg. Individual results vary.
-        </p>
-      </div>
-    </div>
-  </section>
-);
+/* Benefits section removed — copy was overly specific to a single FDA-approved indication */
 
 /* ═══════════════════════════════════════════════════════
    MEMBERSHIP
@@ -460,12 +383,16 @@ const Membership = () => (
 const Medications = () => (
   <section id="medications" style={{ background: '#faf6ee' }} className="py-24">
     <div className="container">
+      {/* Medications section — frame as one of several wellness tools, not the headline */}
       <div className="text-center max-w-2xl mx-auto mb-12">
+        <p className="text-xs font-medium uppercase tracking-[0.18em] mb-4" style={{ color: '#2d4a1e' }}>
+          When medication is part of your plan
+        </p>
         <h2 className="font-serif text-3xl md:text-4xl leading-tight" style={{ fontWeight: 300, color: '#0f1f12' }}>
-          One proven medication.<br /><em style={{ color: '#1a3a1e' }}>One simple plan.</em>
+          Prescription options,<br /><em style={{ color: '#1a3a1e' }}>if appropriate for you.</em>
         </h2>
         <p className="mt-5 text-sm leading-relaxed" style={{ color: '#2d4a2a' }}>
-          We prescribe compounded Semaglutide — the same active ingredient as Ozempic® and Wegovy®, at a fraction of the cost.
+          For some members, a licensed provider may prescribe a GLP-1 medication as part of a broader wellness plan. Eligibility, medication choice, and dosing are determined entirely by your provider.
         </p>
       </div>
 
@@ -623,12 +550,19 @@ const Index = () => (
   <div className="min-h-screen">
     <Header />
     <Hero />
-    <SocialProof />
+    <Pillars />
     <HowItWorks />
-    <Benefits />
     <Membership />
     <Medications />
     <FinalCTA />
+    {/* Compounded drug disclaimer */}
+    <div className="py-6" style={{ background: '#f5f0e8', borderTop: '1px solid #e0d8c8' }}>
+      <div className="container max-w-3xl">
+        <p style={{ fontSize: '0.7rem', lineHeight: '1.7', color: '#5a7060' }}>
+          <strong>Important:</strong> Compounded drug products are not approved or evaluated for safety, effectiveness, or quality by the FDA. Prescription products require an online consultation with a healthcare provider who will determine if a prescription is appropriate. Results may vary.
+        </p>
+      </div>
+    </div>
     <SafetyInfo />
     <Footer />
   </div>

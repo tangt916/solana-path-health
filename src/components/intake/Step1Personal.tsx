@@ -56,8 +56,13 @@ const schema = z.object({
 
 type Status = "idle" | "loading" | "exists_here" | "error";
 
-export const Step1Personal = () => {
-  const { state, updatePersonal, setStep } = useIntakeForm();
+interface Props {
+  onBack: () => void;
+  onNext: () => void;
+}
+
+export const Step1Personal = ({ onBack, onNext }: Props) => {
+  const { state, updatePersonal } = useIntakeForm();
   const navigate = useNavigate();
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -104,7 +109,7 @@ export const Step1Personal = () => {
       }
 
       setStatus("idle");
-      setStep(2);
+      onNext();
     } catch (e) {
       console.error(e);
       setStatus("error");
@@ -127,9 +132,9 @@ export const Step1Personal = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="font-serif text-2xl sm:text-3xl mb-1">Let's get started</h2>
+        <h2 className="font-serif text-2xl sm:text-3xl mb-1">A bit about you</h2>
         <p className="text-muted-foreground text-sm">
-          A few details so we can build your plan.
+          So your care team knows who they're working with.
         </p>
       </div>
 
@@ -211,14 +216,18 @@ export const Step1Personal = () => {
         <ErrorMessage variant="inline" title="Something went wrong" message={errorMsg} />
       )}
 
-      <Button
-        size="lg"
-        className="w-full"
-        onClick={handleContinue}
-        disabled={status === "loading"}
-      >
-        {status === "loading" ? <LoadingSpinner size="sm" /> : "Continue"}
-      </Button>
+      <div className="flex gap-3 pt-2">
+        <Button variant="outline" onClick={onBack} className="flex-1" disabled={status === "loading"}>
+          Back
+        </Button>
+        <Button
+          className="flex-1"
+          onClick={handleContinue}
+          disabled={status === "loading"}
+        >
+          {status === "loading" ? <LoadingSpinner size="sm" /> : "Continue"}
+        </Button>
+      </div>
     </div>
   );
 };
