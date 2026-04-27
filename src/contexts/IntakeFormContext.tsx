@@ -80,6 +80,7 @@ const initialState: IntakeFormState = {
     weightLbs: "",
     heightFeet: "",
     heightInches: "0",
+    goalWeight: "",
     hasAllergies: false,
     allergiesDetail: "",
     hasMedications: false,
@@ -87,6 +88,10 @@ const initialState: IntakeFormState = {
     conditions: [],
     triedGLP1: false,
     triedGLP1Detail: "",
+    isPregnantOrPlanning: false,
+    hasInsurance: false,
+    insuranceProvider: "",
+    state: "",
   },
   goalsInfo: {
     goalWeight: "",
