@@ -13,6 +13,7 @@ export interface HealthInfo {
   weightLbs: string;
   heightFeet: string;
   heightInches: string;
+  goalWeight: string;
   hasAllergies: boolean;
   allergiesDetail: string;
   hasMedications: boolean;
@@ -20,6 +21,10 @@ export interface HealthInfo {
   conditions: string[];
   triedGLP1: boolean;
   triedGLP1Detail: string;
+  isPregnantOrPlanning: boolean;
+  hasInsurance: boolean;
+  insuranceProvider: string;
+  state: string;
 }
 
 export type StrugglingDuration =
