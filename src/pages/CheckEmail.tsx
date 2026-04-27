@@ -1,5 +1,6 @@
+import { useEffect } from "react";
 import { useLocation, useNavigate, Navigate } from "react-router-dom";
-import { Mail, Calendar as CalendarIcon, Video } from "lucide-react";
+import { Mail, Calendar as CalendarIcon, Video, CheckCircle2 } from "lucide-react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
@@ -15,6 +16,10 @@ const CheckEmail = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const stateData = location.state as RouteState | null;
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, []);
 
   if (!stateData?.email) {
     return <Navigate to="/get-started" replace />;
