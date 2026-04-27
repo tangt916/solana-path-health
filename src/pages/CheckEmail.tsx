@@ -31,7 +31,21 @@ const CheckEmail = () => {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Header />
-      <main className="flex-1 py-12 sm:py-16">
+      {/* Top-of-page booking confirmation banner — visible immediately */}
+      <div className="bg-success/10 border-b border-success/30">
+        <div className="container max-w-3xl py-4 flex items-start gap-3">
+          <CheckCircle2 className="h-6 w-6 text-success shrink-0 mt-0.5" />
+          <div className="text-sm">
+            <p className="font-semibold text-foreground">Your appointment is booked.</p>
+            <p className="text-muted-foreground mt-0.5">
+              {isImmediate
+                ? `${appointment.providerName} will connect with you within 15 minutes of email verification.`
+                : `${appointment.providerName} · ${appointment.displayWhen}`}
+            </p>
+          </div>
+        </div>
+      </div>
+      <main className="flex-1 py-10 sm:py-14">
         <div className="max-w-md mx-auto px-4 text-center">
           <div
             className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10"
