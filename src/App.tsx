@@ -19,6 +19,7 @@ import Terms from "./pages/Terms";
 import TelehealthConsent from "./pages/TelehealthConsent";
 import NotFound from "./pages/NotFound";
 import GetStarted from "./pages/GetStarted";
+import SafetyInfo from "./pages/SafetyInfo";
 import { MarketingPopup } from "./components/MarketingPopup";
 
 const queryClient = new QueryClient();
@@ -64,6 +65,7 @@ const App = () => {
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/terms" element={<Terms />} />
                 <Route path="/telehealth-consent" element={<TelehealthConsent />} />
+                <Route path="/safety-info" element={<SafetyInfo />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </IntakeFormProvider>
