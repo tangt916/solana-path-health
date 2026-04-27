@@ -22,6 +22,34 @@ const CONDITIONS = [
   "None of the above",
 ];
 
+const US_STATES: Array<{ code: string; name: string }> = [
+  { code: "AL", name: "Alabama" }, { code: "AK", name: "Alaska" },
+  { code: "AZ", name: "Arizona" }, { code: "AR", name: "Arkansas" },
+  { code: "CA", name: "California" }, { code: "CO", name: "Colorado" },
+  { code: "CT", name: "Connecticut" }, { code: "DE", name: "Delaware" },
+  { code: "FL", name: "Florida" }, { code: "GA", name: "Georgia" },
+  { code: "HI", name: "Hawaii" }, { code: "ID", name: "Idaho" },
+  { code: "IL", name: "Illinois" }, { code: "IN", name: "Indiana" },
+  { code: "IA", name: "Iowa" }, { code: "KS", name: "Kansas" },
+  { code: "KY", name: "Kentucky" }, { code: "LA", name: "Louisiana" },
+  { code: "ME", name: "Maine" }, { code: "MD", name: "Maryland" },
+  { code: "MA", name: "Massachusetts" }, { code: "MI", name: "Michigan" },
+  { code: "MN", name: "Minnesota" }, { code: "MS", name: "Mississippi" },
+  { code: "MO", name: "Missouri" }, { code: "MT", name: "Montana" },
+  { code: "NE", name: "Nebraska" }, { code: "NV", name: "Nevada" },
+  { code: "NH", name: "New Hampshire" }, { code: "NJ", name: "New Jersey" },
+  { code: "NM", name: "New Mexico" }, { code: "NY", name: "New York" },
+  { code: "NC", name: "North Carolina" }, { code: "ND", name: "North Dakota" },
+  { code: "OH", name: "Ohio" }, { code: "OK", name: "Oklahoma" },
+  { code: "OR", name: "Oregon" }, { code: "PA", name: "Pennsylvania" },
+  { code: "RI", name: "Rhode Island" }, { code: "SC", name: "South Carolina" },
+  { code: "SD", name: "South Dakota" }, { code: "TN", name: "Tennessee" },
+  { code: "TX", name: "Texas" }, { code: "UT", name: "Utah" },
+  { code: "VT", name: "Vermont" }, { code: "VA", name: "Virginia" },
+  { code: "WA", name: "Washington" }, { code: "WV", name: "West Virginia" },
+  { code: "WI", name: "Wisconsin" }, { code: "WY", name: "Wyoming" },
+];
+
 interface Props {
   onBack: () => void;
   onNext: () => void;
@@ -51,7 +79,12 @@ export const Step2Health = ({ onBack, onNext }: Props) => {
     if (!h.weightLbs || isNaN(w) || w < 50 || w > 800) {
       e.weightLbs = "Please enter a valid weight (50–800 lbs)";
     }
+    const gw = parseInt(h.goalWeight);
+    if (!h.goalWeight || isNaN(gw) || gw < 50 || gw > 800) {
+      e.goalWeight = "Please enter a valid goal weight (50–800 lbs)";
+    }
     if (!h.heightFeet) e.heightFeet = "Please select your height";
+    if (!h.state) e.state = "Please select your state";
     if (h.hasAllergies && !h.allergiesDetail.trim()) {
       e.allergiesDetail = "Please list your allergies";
     }
@@ -60,6 +93,9 @@ export const Step2Health = ({ onBack, onNext }: Props) => {
     }
     if (h.triedGLP1 && !h.triedGLP1Detail.trim()) {
       e.triedGLP1Detail = "Please tell us which ones";
+    }
+    if (h.hasInsurance && !h.insuranceProvider.trim()) {
+      e.insuranceProvider = "Please enter your insurance provider";
     }
     setErrors(e);
     if (Object.keys(e).length === 0) onNext();
@@ -70,24 +106,30 @@ export const Step2Health = ({ onBack, onNext }: Props) => {
       <div>
         <h2 className="font-serif text-2xl sm:text-3xl mb-1">Your health</h2>
         <p className="text-muted-foreground text-sm">
-          Helps the provider build the right plan for you.
+          Helps your provider build the right plan for you.
         </p>
       </div>
 
-      {/* Weight */}
+      {/* State */}
       <div className="space-y-1.5">
-        <Label htmlFor="weight">How much do you currently weigh? (lbs)</Label>
-        <Input
-          id="weight"
-          type="number"
-          inputMode="numeric"
-          value={h.weightLbs}
-          onChange={(e) => updateHealth({ weightLbs: e.target.value })}
-          aria-invalid={!!errors.weightLbs}
-          placeholder="e.g. 210"
-        />
-        {errors.weightLbs && (
-          <p className="text-xs text-destructive mt-1">{errors.weightLbs}</p>
+        <Label htmlFor="state">What state do you live in?</Label>
+        <Select
+          value={h.state || undefined}
+          onValueChange={(v) => updateHealth({ state: v })}
+        >
+          <SelectTrigger id="state" aria-invalid={!!errors.state}>
+            <SelectValue placeholder="Select your state" />
+          </SelectTrigger>
+          <SelectContent>
+            {US_STATES.map((s) => (
+              <SelectItem key={s.code} value={s.code}>
+                {s.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        {errors.state && (
+          <p className="text-xs text-destructive mt-1">{errors.state}</p>
         )}
       </div>
 
@@ -131,24 +173,58 @@ export const Step2Health = ({ onBack, onNext }: Props) => {
         )}
       </div>
 
-      {/* Allergies */}
+      {/* Current weight */}
+      <div className="space-y-1.5">
+        <Label htmlFor="weight">Current weight (lbs)</Label>
+        <Input
+          id="weight"
+          type="number"
+          inputMode="numeric"
+          value={h.weightLbs}
+          onChange={(e) => updateHealth({ weightLbs: e.target.value })}
+          aria-invalid={!!errors.weightLbs}
+          placeholder="e.g. 210"
+        />
+        {errors.weightLbs && (
+          <p className="text-xs text-destructive mt-1">{errors.weightLbs}</p>
+        )}
+      </div>
+
+      {/* Goal weight */}
+      <div className="space-y-1.5">
+        <Label htmlFor="goalWeight">Goal weight (lbs)</Label>
+        <Input
+          id="goalWeight"
+          type="number"
+          inputMode="numeric"
+          value={h.goalWeight}
+          onChange={(e) => updateHealth({ goalWeight: e.target.value })}
+          aria-invalid={!!errors.goalWeight}
+          placeholder="e.g. 175"
+        />
+        {errors.goalWeight && (
+          <p className="text-xs text-destructive mt-1">{errors.goalWeight}</p>
+        )}
+      </div>
+
+      {/* Tried GLP-1 before */}
       <YesNo
-        label="Do you have any known allergies?"
-        value={h.hasAllergies}
-        onChange={(v) => updateHealth({ hasAllergies: v })}
+        label="Have you tried GLP-1 medications before?"
+        value={h.triedGLP1}
+        onChange={(v) => updateHealth({ triedGLP1: v })}
       />
-      {h.hasAllergies && (
+      {h.triedGLP1 && (
         <div className="space-y-1.5">
-          <Label htmlFor="allergies">Please list your allergies</Label>
-          <Textarea
-            id="allergies"
-            rows={2}
-            value={h.allergiesDetail}
-            onChange={(e) => updateHealth({ allergiesDetail: e.target.value })}
-            aria-invalid={!!errors.allergiesDetail}
+          <Label htmlFor="glp1-detail">Which ones?</Label>
+          <Input
+            id="glp1-detail"
+            value={h.triedGLP1Detail}
+            onChange={(e) => updateHealth({ triedGLP1Detail: e.target.value })}
+            placeholder="e.g. Ozempic, Wegovy"
+            aria-invalid={!!errors.triedGLP1Detail}
           />
-          {errors.allergiesDetail && (
-            <p className="text-xs text-destructive mt-1">{errors.allergiesDetail}</p>
+          {errors.triedGLP1Detail && (
+            <p className="text-xs text-destructive mt-1">{errors.triedGLP1Detail}</p>
           )}
         </div>
       )}
@@ -171,6 +247,28 @@ export const Step2Health = ({ onBack, onNext }: Props) => {
           />
           {errors.medicationsDetail && (
             <p className="text-xs text-destructive mt-1">{errors.medicationsDetail}</p>
+          )}
+        </div>
+      )}
+
+      {/* Allergies */}
+      <YesNo
+        label="Do you have any known allergies?"
+        value={h.hasAllergies}
+        onChange={(v) => updateHealth({ hasAllergies: v })}
+      />
+      {h.hasAllergies && (
+        <div className="space-y-1.5">
+          <Label htmlFor="allergies">Please list your allergies</Label>
+          <Textarea
+            id="allergies"
+            rows={2}
+            value={h.allergiesDetail}
+            onChange={(e) => updateHealth({ allergiesDetail: e.target.value })}
+            aria-invalid={!!errors.allergiesDetail}
+          />
+          {errors.allergiesDetail && (
+            <p className="text-xs text-destructive mt-1">{errors.allergiesDetail}</p>
           )}
         </div>
       )}
@@ -201,24 +299,34 @@ export const Step2Health = ({ onBack, onNext }: Props) => {
         </div>
       </div>
 
-      {/* Tried GLP-1 before */}
+      {/* Pregnancy / contraindications */}
       <YesNo
-        label="Have you tried GLP-1 medications before?"
-        value={h.triedGLP1}
-        onChange={(v) => updateHealth({ triedGLP1: v })}
+        label="Are you currently pregnant, breastfeeding, or planning pregnancy in the next year?"
+        value={h.isPregnantOrPlanning}
+        onChange={(v) => updateHealth({ isPregnantOrPlanning: v })}
       />
-      {h.triedGLP1 && (
+
+      {/* Insurance */}
+      <YesNo
+        label="Do you have health insurance you'd like us to consider?"
+        value={h.hasInsurance}
+        onChange={(v) => updateHealth({ hasInsurance: v })}
+      />
+      {h.hasInsurance && (
         <div className="space-y-1.5">
-          <Label htmlFor="glp1-detail">Which ones?</Label>
+          <Label htmlFor="insurance">Insurance provider</Label>
           <Input
-            id="glp1-detail"
-            value={h.triedGLP1Detail}
-            onChange={(e) => updateHealth({ triedGLP1Detail: e.target.value })}
-            placeholder="e.g. Ozempic, Wegovy"
-            aria-invalid={!!errors.triedGLP1Detail}
+            id="insurance"
+            value={h.insuranceProvider}
+            onChange={(e) => updateHealth({ insuranceProvider: e.target.value })}
+            placeholder="e.g. Blue Cross Blue Shield"
+            aria-invalid={!!errors.insuranceProvider}
           />
-          {errors.triedGLP1Detail && (
-            <p className="text-xs text-destructive mt-1">{errors.triedGLP1Detail}</p>
+          <p className="text-xs text-muted-foreground">
+            Insurance is not required — most members choose self-pay for faster access.
+          </p>
+          {errors.insuranceProvider && (
+            <p className="text-xs text-destructive mt-1">{errors.insuranceProvider}</p>
           )}
         </div>
       )}
