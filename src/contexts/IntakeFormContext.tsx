@@ -13,6 +13,7 @@ export interface HealthInfo {
   weightLbs: string;
   heightFeet: string;
   heightInches: string;
+  goalWeight: string;
   hasAllergies: boolean;
   allergiesDetail: string;
   hasMedications: boolean;
@@ -20,6 +21,10 @@ export interface HealthInfo {
   conditions: string[];
   triedGLP1: boolean;
   triedGLP1Detail: string;
+  isPregnantOrPlanning: boolean;
+  hasInsurance: boolean;
+  insuranceProvider: string;
+  state: string;
 }
 
 export type StrugglingDuration =
@@ -75,6 +80,7 @@ const initialState: IntakeFormState = {
     weightLbs: "",
     heightFeet: "",
     heightInches: "0",
+    goalWeight: "",
     hasAllergies: false,
     allergiesDetail: "",
     hasMedications: false,
@@ -82,6 +88,10 @@ const initialState: IntakeFormState = {
     conditions: [],
     triedGLP1: false,
     triedGLP1Detail: "",
+    isPregnantOrPlanning: false,
+    hasInsurance: false,
+    insuranceProvider: "",
+    state: "",
   },
   goalsInfo: {
     goalWeight: "",

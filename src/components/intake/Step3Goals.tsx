@@ -104,10 +104,6 @@ export const Step3Goals = ({ onBack, onNext }: Props) => {
 
   const handleNext = () => {
     const e: Record<string, string> = {};
-    const gw = parseInt(g.goalWeight);
-    if (!g.goalWeight || isNaN(gw) || gw < 50 || gw > 800) {
-      e.goalWeight = "Please enter a valid goal weight (50–800 lbs)";
-    }
     if (!g.strugglingDuration) e.strugglingDuration = "Please select an option";
     if (!g.activityLevel) e.activityLevel = "Please select an option";
     if (!g.hearAbout) e.hearAbout = "Please select an option";
@@ -120,24 +116,8 @@ export const Step3Goals = ({ onBack, onNext }: Props) => {
       <div>
         <h2 className="font-serif text-2xl sm:text-3xl mb-1">Your goals & lifestyle</h2>
         <p className="text-muted-foreground text-sm">
-          Last few questions before we book your visit.
+          A few last questions before we book your visit.
         </p>
-      </div>
-
-      <div className="space-y-1.5">
-        <Label htmlFor="goalWeight">Goal weight (lbs)</Label>
-        <Input
-          id="goalWeight"
-          type="number"
-          inputMode="numeric"
-          value={g.goalWeight}
-          onChange={(e) => updateGoals({ goalWeight: e.target.value })}
-          aria-invalid={!!errors.goalWeight}
-          placeholder="e.g. 175"
-        />
-        {errors.goalWeight && (
-          <p className="text-xs text-destructive mt-1">{errors.goalWeight}</p>
-        )}
       </div>
 
       <div className="space-y-1.5">

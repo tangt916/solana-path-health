@@ -233,7 +233,7 @@ const Pillars = () => {
    ═══════════════════════════════════════════════════════ */
 const HowItWorks = () => {
   const steps = [
-    { num: '01', title: 'Tell us about yourself', desc: 'Answer questions about your health history and weight loss journey. Takes 3 minutes. No blood tests, no office visits.' },
+    { num: '01', title: 'Tell us about yourself', desc: 'Answer a few questions about your health history and weight loss journey. No blood tests, no office visits.' },
     { num: '02', title: 'Meet your provider', desc: "A licensed clinician reviews your intake and meets with you via video. They'll determine if GLP-1 therapy is right for you — usually within 24 hours." },
     { num: '03', title: 'Medication at your door', desc: 'If prescribed, your medication ships from a licensed compounding pharmacy directly to your home. Discreet packaging, free shipping.' },
     { num: '04', title: 'Supported every step', desc: 'Monthly check-ins with your care team, dose adjustments as you progress, and a provider you can message anytime.' },
@@ -278,7 +278,7 @@ const HowItWorks = () => {
                 className="inline-flex items-center rounded-full px-8 py-3 text-sm font-medium transition-opacity hover:opacity-90"
                 style={{ background: '#0f1f12', color: '#faf6ee' }}
               >
-                Start your intake — it's free →
+                Start Losing Weight →
               </Link>
             </div>
             <p className="mt-8 text-center italic font-serif text-sm" style={{ color: '#2d4a2a' }}>
@@ -344,15 +344,8 @@ const Membership = () => (
             className="inline-flex items-center rounded-full px-7 py-3 text-sm font-medium transition-opacity hover:opacity-90"
             style={{ background: '#a8d44a', color: '#0f1f12' }}
           >
-            View full program →
+            Start Losing Weight →
           </Link>
-          <a
-            href="#how-it-works"
-            className="inline-flex items-center rounded-full px-7 py-3 text-sm font-medium border transition-opacity hover:opacity-70"
-            style={{ borderColor: 'rgba(250,246,238,0.3)', color: '#f0f8f0' }}
-          >
-            Learn more
-          </a>
         </div>
       </div>
 
@@ -441,7 +434,7 @@ const Medications = () => (
             className="mt-8 inline-flex w-full items-center justify-center rounded-full px-7 py-3 text-sm font-medium transition-opacity hover:opacity-90"
             style={{ background: '#0f1f12', color: '#faf6ee' }}
           >
-            See if I qualify →
+            Start Losing Weight →
           </Link>
         </div>
 
@@ -472,21 +465,21 @@ const FinalCTA = () => (
         Join thousands of patients who finally found a solution that works with their biology, not against it.
       </p>
 
-      <div className="mt-10 flex flex-wrap justify-center gap-3">
+      <div className="mt-10 flex flex-col items-center gap-4">
         <Link
           to="/get-started"
           onClick={() => trackEvent("quiz_started")}
-          className="inline-flex items-center rounded-full px-7 py-3 text-sm font-medium transition-opacity hover:opacity-90"
+          className="inline-flex items-center rounded-full px-8 py-3.5 text-sm font-medium transition-opacity hover:opacity-90"
           style={{ background: '#a8d44a', color: '#0f1f12' }}
         >
-          Start my free intake →
+          Start Losing Weight →
         </Link>
         <Link
           to="/support"
-          className="inline-flex items-center rounded-full px-7 py-3 text-sm font-medium border transition-opacity hover:opacity-70"
-          style={{ borderColor: 'rgba(255,255,255,0.4)', color: '#ffffff' }}
+          className="text-xs underline-offset-4 hover:underline transition-opacity hover:opacity-90"
+          style={{ color: 'rgba(255,255,255,0.65)' }}
         >
-          Talk to someone first
+          Have questions? Talk to support
         </Link>
       </div>
 
@@ -496,6 +489,95 @@ const FinalCTA = () => (
     </div>
   </section>
 );
+
+/* ═══════════════════════════════════════════════════════
+   FAQ
+   ═══════════════════════════════════════════════════════ */
+const FAQ = () => {
+  const [open, setOpen] = useState<number | null>(0);
+  const items = [
+    {
+      q: "What side effects will I experience?",
+      a: "Some patients experience mild side effects when starting GLP-1 medications, especially during the first few weeks as the body adjusts. Common side effects may include nausea, constipation, diarrhea, reduced appetite, bloating, fatigue, and mild stomach discomfort. These are often temporary and improve over time. Your provider may also adjust your dosage to help minimize discomfort.",
+      cta: { label: "View Full Medication Safety Information", to: "/safety-info" },
+    },
+    {
+      q: "Do I need insurance?",
+      a: "No. Many patients choose self-pay options for faster access and simpler pricing. Insurance may be accepted for certain prescription options depending on your treatment plan, but insurance is not required to get started.",
+    },
+    {
+      q: "How long does the intake take?",
+      a: "Most members complete the intake in just a few minutes. After you submit, a licensed provider typically reviews your information and meets with you within 24 hours.",
+    },
+    {
+      q: "Is a prescription guaranteed?",
+      a: "No. All prescribing decisions are made solely by independent licensed healthcare providers based on your individual health profile. Approval is not guaranteed.",
+    },
+    {
+      q: "Can I cancel anytime?",
+      a: "Yes. There are no long-term contracts — you can cancel your membership anytime from your dashboard.",
+    },
+  ];
+
+  return (
+    <section id="faq" className="py-20" style={{ background: '#faf6ee' }}>
+      <div className="container max-w-3xl">
+        <div className="text-center mb-10">
+          <p className="text-xs font-medium uppercase tracking-[0.18em] mb-3" style={{ color: '#2d4a1e' }}>
+            Frequently asked
+          </p>
+          <h2 className="font-serif text-3xl md:text-4xl leading-tight" style={{ fontWeight: 300, color: '#0f1f12' }}>
+            Questions, <em style={{ color: '#1a3a1e' }}>answered.</em>
+          </h2>
+        </div>
+        <div className="space-y-3">
+          {items.map((it, i) => {
+            const isOpen = open === i;
+            return (
+              <div
+                key={it.q}
+                className="rounded-2xl border bg-white overflow-hidden"
+                style={{ borderColor: 'rgba(45,74,30,0.12)' }}
+              >
+                <button
+                  type="button"
+                  onClick={() => setOpen(isOpen ? null : i)}
+                  aria-expanded={isOpen}
+                  className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left transition-colors hover:bg-muted/30"
+                >
+                  <span className="font-medium text-sm sm:text-base" style={{ color: '#0f1f12' }}>
+                    {it.q}
+                  </span>
+                  {isOpen ? (
+                    <ChevronUp className="h-5 w-5 shrink-0" style={{ color: '#2d4a1e' }} />
+                  ) : (
+                    <ChevronDown className="h-5 w-5 shrink-0" style={{ color: '#2d4a1e' }} />
+                  )}
+                </button>
+                {isOpen && (
+                  <div className="px-5 pb-5">
+                    <p className="text-sm leading-relaxed" style={{ color: '#2d4a2a' }}>
+                      {it.a}
+                    </p>
+                    {it.cta && (
+                      <Link
+                        to={it.cta.to}
+                        className="mt-4 inline-flex items-center rounded-full px-5 py-2.5 text-xs font-medium transition-opacity hover:opacity-90"
+                        style={{ background: '#0f1f12', color: '#faf6ee' }}
+                      >
+                        {it.cta.label} →
+                      </Link>
+                    )}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+};
 
 /* ═══════════════════════════════════════════════════════
    IMPORTANT SAFETY INFORMATION (unchanged)
@@ -554,6 +636,7 @@ const Index = () => (
     <HowItWorks />
     <Membership />
     <Medications />
+    <FAQ />
     <FinalCTA />
     {/* Compounded drug disclaimer */}
     <div className="py-6" style={{ background: '#f5f0e8', borderTop: '1px solid #e0d8c8' }}>
