@@ -233,7 +233,7 @@ const Pillars = () => {
    ═══════════════════════════════════════════════════════ */
 const HowItWorks = () => {
   const steps = [
-    { num: '01', title: 'Tell us about yourself', desc: 'Answer questions about your health history and weight loss journey. Takes 3 minutes. No blood tests, no office visits.' },
+    { num: '01', title: 'Tell us about yourself', desc: 'Answer a few questions about your health history and weight loss journey. No blood tests, no office visits.' },
     { num: '02', title: 'Meet your provider', desc: "A licensed clinician reviews your intake and meets with you via video. They'll determine if GLP-1 therapy is right for you — usually within 24 hours." },
     { num: '03', title: 'Medication at your door', desc: 'If prescribed, your medication ships from a licensed compounding pharmacy directly to your home. Discreet packaging, free shipping.' },
     { num: '04', title: 'Supported every step', desc: 'Monthly check-ins with your care team, dose adjustments as you progress, and a provider you can message anytime.' },
@@ -278,7 +278,7 @@ const HowItWorks = () => {
                 className="inline-flex items-center rounded-full px-8 py-3 text-sm font-medium transition-opacity hover:opacity-90"
                 style={{ background: '#0f1f12', color: '#faf6ee' }}
               >
-                Start your intake — it's free →
+                Start Losing Weight →
               </Link>
             </div>
             <p className="mt-8 text-center italic font-serif text-sm" style={{ color: '#2d4a2a' }}>
@@ -344,15 +344,8 @@ const Membership = () => (
             className="inline-flex items-center rounded-full px-7 py-3 text-sm font-medium transition-opacity hover:opacity-90"
             style={{ background: '#a8d44a', color: '#0f1f12' }}
           >
-            View full program →
+            Start Losing Weight →
           </Link>
-          <a
-            href="#how-it-works"
-            className="inline-flex items-center rounded-full px-7 py-3 text-sm font-medium border transition-opacity hover:opacity-70"
-            style={{ borderColor: 'rgba(250,246,238,0.3)', color: '#f0f8f0' }}
-          >
-            Learn more
-          </a>
         </div>
       </div>
 
@@ -441,7 +434,7 @@ const Medications = () => (
             className="mt-8 inline-flex w-full items-center justify-center rounded-full px-7 py-3 text-sm font-medium transition-opacity hover:opacity-90"
             style={{ background: '#0f1f12', color: '#faf6ee' }}
           >
-            See if I qualify →
+            Start Losing Weight →
           </Link>
         </div>
 
@@ -472,21 +465,21 @@ const FinalCTA = () => (
         Join thousands of patients who finally found a solution that works with their biology, not against it.
       </p>
 
-      <div className="mt-10 flex flex-wrap justify-center gap-3">
+      <div className="mt-10 flex flex-col items-center gap-4">
         <Link
           to="/get-started"
           onClick={() => trackEvent("quiz_started")}
-          className="inline-flex items-center rounded-full px-7 py-3 text-sm font-medium transition-opacity hover:opacity-90"
+          className="inline-flex items-center rounded-full px-8 py-3.5 text-sm font-medium transition-opacity hover:opacity-90"
           style={{ background: '#a8d44a', color: '#0f1f12' }}
         >
-          Start my free intake →
+          Start Losing Weight →
         </Link>
         <Link
           to="/support"
-          className="inline-flex items-center rounded-full px-7 py-3 text-sm font-medium border transition-opacity hover:opacity-70"
-          style={{ borderColor: 'rgba(255,255,255,0.4)', color: '#ffffff' }}
+          className="text-xs underline-offset-4 hover:underline transition-opacity hover:opacity-90"
+          style={{ color: 'rgba(255,255,255,0.65)' }}
         >
-          Talk to someone first
+          Have questions? Talk to support
         </Link>
       </div>
 
