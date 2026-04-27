@@ -636,6 +636,7 @@ const Index = () => (
     <HowItWorks />
     <Membership />
     <Medications />
+    <FAQ />
     <FinalCTA />
     {/* Compounded drug disclaimer */}
     <div className="py-6" style={{ background: '#f5f0e8', borderTop: '1px solid #e0d8c8' }}>
