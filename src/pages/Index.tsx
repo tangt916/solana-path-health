@@ -179,10 +179,7 @@ const Pillars = () => {
     },
   ];
 
-  const stats = [
-    { number: '~15%', label: 'Average body weight lost over 68 weeks in clinical trial', cite: '† Wilding et al. N Engl J Med. 2021' },
-    { number: '83%', label: 'Of participants achieved ≥5% body weight loss', cite: '† STEP 1 trial vs 31% placebo' },
-  ];
+  const stats: { number: string; label: string; cite: string }[] = [];
 
   return (
     <section className="py-16" style={{ background: '#ffffff' }}>
