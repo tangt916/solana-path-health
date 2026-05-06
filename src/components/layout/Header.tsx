@@ -45,7 +45,7 @@ const Header = () => {
           ) : (
             <>
               <a href="/#how-it-works" className="text-sm font-medium transition-colors hover:opacity-70" style={{ color: '#5a7060' }}>How it works</a>
-              <a href="/#medications" className="text-sm font-medium transition-colors hover:opacity-70" style={{ color: '#5a7060' }}>Treatment</a>
+              <a href="/#treatments" className="text-sm font-medium transition-colors hover:opacity-70" style={{ color: '#5a7060' }}>Treatment</a>
               <a href="/#faq" className="text-sm font-medium transition-colors hover:opacity-70" style={{ color: '#5a7060' }}>FAQ</a>
               <Link to="/safety-info" className="text-sm font-medium transition-colors hover:opacity-70" style={{ color: '#5a7060' }}>Safety info</Link>
             </>
@@ -92,7 +92,7 @@ const Header = () => {
             ) : (
               <>
                 <a href="/#how-it-works" className="text-sm font-medium" style={{ color: '#5a7060' }} onClick={() => setMobileOpen(false)}>How it works</a>
-                <a href="/#medications" className="text-sm font-medium" style={{ color: '#5a7060' }} onClick={() => setMobileOpen(false)}>Treatment</a>
+                <a href="/#treatments" className="text-sm font-medium" style={{ color: '#5a7060' }} onClick={() => setMobileOpen(false)}>Treatment</a>
                 <a href="/#faq" className="text-sm font-medium" style={{ color: '#5a7060' }} onClick={() => setMobileOpen(false)}>FAQ</a>
                 <Link to="/safety-info" className="text-sm font-medium" style={{ color: '#5a7060' }} onClick={() => setMobileOpen(false)}>Safety info</Link>
               </>
