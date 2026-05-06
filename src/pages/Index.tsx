@@ -88,15 +88,15 @@ const Hero = () => (
       {/* Left text */}
       <div className="max-w-lg">
         <p className="text-xs font-medium uppercase tracking-[0.18em] mb-6" style={{ color: '#2d4a1e' }}>
-          Your comprehensive health & wellness coach
+          Holistic health & wellness, delivered
         </p>
         <h1 className="font-serif leading-[1.08]" style={{ fontSize: 'clamp(2.8rem, 5vw, 5rem)', fontWeight: 300, color: '#0f1f12' }}>
-          A smarter way
+          Look, feel, and live
           <br />
-          <em style={{ color: '#1a3a1e' }}>to feel your best.</em>
+          <em style={{ color: '#1a3a1e' }}>like your best self.</em>
         </h1>
         <p className="mt-6 text-base leading-relaxed" style={{ fontWeight: 300, color: '#1e3a22' }}>
-          Personalized coaching, expert clinical care, and ongoing support — all in one place. We pair you with licensed providers and a dedicated care team who help you build sustainable habits around nutrition, movement, sleep, and (when appropriate) medication.
+          Personalized care for the things that actually move the needle on how you feel — weight, skin and longevity, hormones, and hair. Licensed providers, a dedicated care team, and treatments shipped to your door.
         </p>
         <div className="mt-10 flex flex-wrap gap-3">
           <Link
@@ -105,14 +105,14 @@ const Hero = () => (
             className="inline-flex items-center rounded-full px-7 py-3 text-sm font-medium transition-opacity hover:opacity-90"
             style={{ background: '#0f1f12', color: '#faf6ee' }}
           >
-            Start my wellness plan →
+            Find my treatment →
           </Link>
           <a
-            href="#how-it-works"
+            href="#treatments"
             className="inline-flex items-center rounded-full px-7 py-3 text-sm font-medium border transition-opacity hover:opacity-70"
             style={{ borderColor: '#0f1f12', color: '#0f1f12' }}
           >
-            How it works
+            Explore treatments
           </a>
         </div>
         {/* Trust badges */}
