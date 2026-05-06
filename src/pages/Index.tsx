@@ -206,20 +206,21 @@ const Pillars = () => {
           ))}
         </div>
 
-        {/* Stats */}
-        <div className="mt-16 grid md:grid-cols-2" style={{ borderTop: '1px solid #cddbc6', borderBottom: '1px solid #cddbc6' }}>
-          {stats.map((s, i) => (
-            <div
-              key={s.number}
-              className="text-center py-12 px-6"
-              style={{ borderRight: i < stats.length - 1 ? '1px solid #cddbc6' : undefined }}
-            >
-              <p className="font-serif" style={{ fontSize: '2.8rem', fontWeight: 300, color: '#0f1f12' }}>{s.number}</p>
-              <p className="mt-2 text-sm" style={{ color: '#2a3e2e' }}>{s.label}</p>
-              <p className="mt-1" style={{ fontSize: '0.68rem', color: '#4a6a50' }}>{s.cite}</p>
-            </div>
-          ))}
-        </div>
+        {stats.length > 0 && (
+          <div className="mt-16 grid md:grid-cols-2" style={{ borderTop: '1px solid #cddbc6', borderBottom: '1px solid #cddbc6' }}>
+            {stats.map((s, i) => (
+              <div
+                key={s.number}
+                className="text-center py-12 px-6"
+                style={{ borderRight: i < stats.length - 1 ? '1px solid #cddbc6' : undefined }}
+              >
+                <p className="font-serif" style={{ fontSize: '2.8rem', fontWeight: 300, color: '#0f1f12' }}>{s.number}</p>
+                <p className="mt-2 text-sm" style={{ color: '#2a3e2e' }}>{s.label}</p>
+                <p className="mt-1" style={{ fontSize: '0.68rem', color: '#4a6a50' }}>{s.cite}</p>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
