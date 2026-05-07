@@ -47,7 +47,6 @@ const App = () => {
             <IntakeFormProvider>
               <GAPageTracker />
               <ScrollToTop />
-              <MarketingPopup />
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/get-started" element={<GetStarted />} />
