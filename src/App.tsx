@@ -20,7 +20,6 @@ import TelehealthConsent from "./pages/TelehealthConsent";
 import NotFound from "./pages/NotFound";
 import GetStarted from "./pages/GetStarted";
 import SafetyInfo from "./pages/SafetyInfo";
-import { MarketingPopup } from "./components/MarketingPopup";
 import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
@@ -48,7 +47,6 @@ const App = () => {
             <IntakeFormProvider>
               <GAPageTracker />
               <ScrollToTop />
-              <MarketingPopup />
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/get-started" element={<GetStarted />} />
