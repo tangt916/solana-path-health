@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { RefreshCw } from "lucide-react";
 import { WelcomeModal } from "@/components/WelcomeModal";
 import Header from "@/components/layout/Header";
@@ -20,7 +20,6 @@ import { QuickLinks } from "@/components/dashboard/QuickLinks";
 
 const Dashboard = () => {
   const { user } = useAuth();
-  const navigate = useNavigate();
   const { toast } = useToast();
   const [searchParams, setSearchParams] = useSearchParams();
   const email = user?.email ?? null;
