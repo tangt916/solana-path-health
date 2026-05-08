@@ -19,6 +19,9 @@ import Terms from "./pages/Terms";
 import TelehealthConsent from "./pages/TelehealthConsent";
 import NotFound from "./pages/NotFound";
 import GetStarted from "./pages/GetStarted";
+import IntakeSelector from "./pages/IntakeSelector";
+import TreatmentPage from "./pages/TreatmentPage";
+import TreatmentIntake from "./pages/TreatmentIntake";
 import SafetyInfo from "./pages/SafetyInfo";
 import ScrollToTop from "./components/ScrollToTop";
 
@@ -49,7 +52,9 @@ const App = () => {
               <ScrollToTop />
               <Routes>
                 <Route path="/" element={<Index />} />
-                <Route path="/get-started" element={<GetStarted />} />
+                <Route path="/get-started" element={<IntakeSelector />} />
+                <Route path="/get-started/:slug" element={<TreatmentIntake />} />
+                <Route path="/treatments/:slug" element={<TreatmentPage />} />
                 <Route path="/check-email" element={<CheckEmail />} />
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/reset-password" element={<ResetPassword />} />

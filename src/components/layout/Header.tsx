@@ -1,8 +1,9 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
+import { TREATMENTS } from "@/config/treatments";
 
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -45,7 +46,25 @@ const Header = () => {
           ) : (
             <>
               <a href="/#how-it-works" className="text-sm font-medium transition-colors hover:opacity-70" style={{ color: '#5a7060' }}>How it works</a>
-              <a href="/#treatments" className="text-sm font-medium transition-colors hover:opacity-70" style={{ color: '#5a7060' }}>Treatment</a>
+              <div className="relative group">
+                <button className="text-sm font-medium transition-colors hover:opacity-70 inline-flex items-center gap-1" style={{ color: '#5a7060' }}>
+                  Treatments <ChevronDown className="h-3 w-3" />
+                </button>
+                <div className="absolute left-0 top-full pt-2 invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all">
+                  <div className="rounded-xl bg-white shadow-lg border border-border/40 p-2 w-64">
+                    {TREATMENTS.map((t) => (
+                      <Link
+                        key={t.slug}
+                        to={`/treatments/${t.slug}`}
+                        className="block rounded-lg px-3 py-2 text-sm hover:bg-muted/40 transition-colors"
+                        style={{ color: '#16261a' }}
+                      >
+                        {t.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
               <a href="/#faq" className="text-sm font-medium transition-colors hover:opacity-70" style={{ color: '#5a7060' }}>FAQ</a>
               <Link to="/safety-info" className="text-sm font-medium transition-colors hover:opacity-70" style={{ color: '#5a7060' }}>Safety info</Link>
             </>
@@ -92,8 +111,19 @@ const Header = () => {
             ) : (
               <>
                 <a href="/#how-it-works" className="text-sm font-medium" style={{ color: '#5a7060' }} onClick={() => setMobileOpen(false)}>How it works</a>
-                <a href="/#treatments" className="text-sm font-medium" style={{ color: '#5a7060' }} onClick={() => setMobileOpen(false)}>Treatment</a>
-                <a href="/#faq" className="text-sm font-medium" style={{ color: '#5a7060' }} onClick={() => setMobileOpen(false)}>FAQ</a>
+                <p className="text-xs uppercase tracking-wider mt-2" style={{ color: '#8a9a85' }}>Treatments</p>
+                {TREATMENTS.map((t) => (
+                  <Link
+                    key={t.slug}
+                    to={`/treatments/${t.slug}`}
+                    className="text-sm pl-3"
+                    style={{ color: '#5a7060' }}
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    {t.name}
+                  </Link>
+                ))}
+                <a href="/#faq" className="text-sm font-medium mt-2" style={{ color: '#5a7060' }} onClick={() => setMobileOpen(false)}>FAQ</a>
                 <Link to="/safety-info" className="text-sm font-medium" style={{ color: '#5a7060' }} onClick={() => setMobileOpen(false)}>Safety info</Link>
               </>
             )}
