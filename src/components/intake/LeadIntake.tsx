@@ -120,7 +120,7 @@ export const LeadIntake = ({ t }: Props) => {
       if (error && !error.message.toLowerCase().includes("duplicate")) {
         console.warn("lead save warning:", error.message);
       }
-      trackEvent("intake_submitted", { treatment: t.slug, answers });
+      trackEvent("intake_submitted", { treatment: t.slug, answers: JSON.stringify(answers) });
       setDone(true);
     } catch (e) {
       console.error(e);
