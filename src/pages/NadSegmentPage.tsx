@@ -1,10 +1,9 @@
-import { useParams, Navigate } from "react-router-dom";
-import { getNadSegment } from "@/config/nad-segments";
+import { Navigate } from "react-router-dom";
+import { getNadSegment, type NadSegmentConfig } from "@/config/nad-segments";
 import { NadSegmentLanding } from "@/components/nad/NadSegmentLanding";
 
-const NadSegmentPage = () => {
-  const { slug } = useParams<{ slug: string }>();
-  const segment = slug ? getNadSegment(slug) : undefined;
+const NadSegmentPage = ({ slug }: { slug: NadSegmentConfig["slug"] }) => {
+  const segment = getNadSegment(slug);
   if (!segment) return <Navigate to="/" replace />;
   return <NadSegmentLanding s={segment} />;
 };

@@ -72,9 +72,9 @@ const App = () => {
                 <Route path="/terms" element={<Terms />} />
                 <Route path="/telehealth-consent" element={<TelehealthConsent />} />
                 <Route path="/safety-info" element={<SafetyInfo />} />
-                <Route path="/nad-weight-loss" element={<NadSegmentPage />} />
-                <Route path="/nad-energy" element={<NadSegmentPage />} />
-                <Route path="/nad-anti-aging" element={<NadSegmentPage />} />
+                <Route path="/nad-weight-loss" element={<NadSegmentPage slug="nad-weight-loss" />} />
+                <Route path="/nad-energy" element={<NadSegmentPage slug="nad-energy" />} />
+                <Route path="/nad-anti-aging" element={<NadSegmentPage slug="nad-anti-aging" />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </IntakeFormProvider>
