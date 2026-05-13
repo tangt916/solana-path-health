@@ -1,8 +1,14 @@
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import { SEO } from "@/components/SEO";
 
 const Terms = () => (
   <div className="min-h-screen bg-muted/30">
+    <SEO
+      title="Terms of Service — Solana Health"
+      description="The terms governing your use of Solana Health's telehealth platform, subscriptions, and services."
+      path="/terms"
+    />
     <Header />
     <div className="container max-w-[680px] py-10 md:py-16">
       <div className="mb-6 rounded-md bg-amber-50 border border-amber-200 px-4 py-3 text-center">

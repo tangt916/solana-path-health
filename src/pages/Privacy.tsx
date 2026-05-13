@@ -1,8 +1,14 @@
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import { SEO } from "@/components/SEO";
 
 const Privacy = () => (
   <div className="min-h-screen bg-muted/30">
+    <SEO
+      title="Privacy Policy — Solana Health"
+      description="How Solana Health collects, uses, and protects your personal and health information across our telehealth platform."
+      path="/privacy"
+    />
     <Header />
     <div className="container max-w-[680px] py-10 md:py-16">
       <div className="mb-6 rounded-md bg-amber-50 border border-amber-200 px-4 py-3 text-center">
