@@ -78,6 +78,20 @@ const Support = () => {
 
   return (
     <div className="min-h-screen bg-muted/30">
+      <SEO
+        title="Support & Help Center — Solana Health"
+        description="Get help with your Solana Health account, medications, billing, and treatment questions. Reach our care team or browse common answers."
+        path="/support"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: faqs.map((f) => ({
+            "@type": "Question",
+            name: f.q,
+            acceptedAnswer: { "@type": "Answer", text: f.a },
+          })),
+        }}
+      />
       <Header />
       <div className="container max-w-3xl py-10 md:py-16">
         <div className="mb-8 text-center">

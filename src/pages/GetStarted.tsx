@@ -9,6 +9,7 @@ import { Step1Personal } from "@/components/intake/Step1Personal";
 import { Step2Health } from "@/components/intake/Step2Health";
 import { Step3Goals } from "@/components/intake/Step3Goals";
 import { Step4Booking } from "@/components/intake/Step4Booking";
+import { SEO } from "@/components/SEO";
 
 const STEP_LABELS = ["You", "Health", "Goals", "Book"];
 
@@ -30,6 +31,12 @@ const GetStarted = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-cream via-background to-muted/20">
+      <SEO
+        title="Start your weight loss intake — Solana Health"
+        description="Complete your medical intake in minutes. A licensed provider reviews your information and meets with you within 24 hours."
+        path="/get-started/weight-loss"
+        noindex
+      />
       <Header />
       <main className="flex-1 py-8 sm:py-12">
         <div className="max-w-2xl mx-auto px-4">

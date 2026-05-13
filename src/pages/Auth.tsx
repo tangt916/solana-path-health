@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { useToast } from "@/hooks/use-toast";
 import Header from "@/components/layout/Header";
+import { SEO } from "@/components/SEO";
 
 type AuthMode = "login" | "signup" | "magic" | "forgot" | "magic-sent" | "forgot-sent";
 
@@ -118,6 +119,12 @@ const Auth = () => {
 
   return (
     <div className="min-h-screen bg-muted/30">
+      <SEO
+        title="Sign in — Solana Health"
+        description="Sign in to your Solana Health account to access your dashboard, messages, and care team."
+        path="/auth"
+        noindex
+      />
       <Header />
       <div className="container flex items-center justify-center py-20">
         <div className="mx-auto w-full max-w-sm">

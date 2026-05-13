@@ -5,6 +5,7 @@ import { PageShell } from "@/components/ui/shared/PageShell";
 import { LeadIntake } from "@/components/intake/LeadIntake";
 import { getTreatment } from "@/config/treatments";
 import GetStarted from "./GetStarted";
+import { SEO } from "@/components/SEO";
 
 const TreatmentIntake = () => {
   const { slug = "" } = useParams<{ slug: string }>();
@@ -17,6 +18,12 @@ const TreatmentIntake = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-cream via-background to-muted/20">
+      <SEO
+        title={`${t.name} intake — Solana Health`}
+        description={`Start your ${t.name.toLowerCase()} intake. Tell us about your goals and a care advisor will follow up to help you get started.`}
+        path={`/get-started/${t.slug}`}
+        noindex
+      />
       <Header />
       <main className="flex-1 py-8 sm:py-12">
         <div className="max-w-2xl mx-auto px-4">

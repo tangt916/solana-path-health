@@ -3,15 +3,20 @@ import { useEffect } from "react";
 import { ShieldCheck, AlertTriangle, Phone, ArrowLeft } from "lucide-react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import { SEO } from "@/components/SEO";
 
 const SafetyInfoPage = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "auto" });
-    document.title = "Patient Information & Medication Safety | Solana Health";
   }, []);
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
+      <SEO
+        title="Patient Information & Medication Safety — Solana Health"
+        description="Important safety information, side effects, contraindications, and emergency guidance for medications prescribed through Solana Health."
+        path="/safety-info"
+      />
       <Header />
       <main className="flex-1">
         {/* Hero */}
