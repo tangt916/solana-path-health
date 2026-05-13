@@ -12,3 +12,9 @@ Allow: /
 
 User-agent: *
 Allow: /
+Disallow: /dashboard
+Disallow: /auth
+Disallow: /reset-password
+Disallow: /check-email
+
+Sitemap: https://solanahealth.co/sitemap.xml
