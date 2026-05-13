@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import { SEO } from "@/components/SEO";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
@@ -35,6 +36,11 @@ const TelehealthConsent = () => {
 
   return (
     <div className="min-h-screen bg-muted/30">
+      <SEO
+        title="Telehealth Informed Consent — Solana Health"
+        description="Informed consent for telehealth services delivered through Solana Health, including your rights, limitations, and privacy protections."
+        path="/telehealth-consent"
+      />
       <Header />
       <div className="container max-w-[680px] py-10 md:py-16">
         <div className="mb-6 rounded-md bg-amber-50 border border-amber-200 px-4 py-3 text-center">

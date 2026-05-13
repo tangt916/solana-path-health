@@ -16,6 +16,7 @@ import { ErrorMessage } from "@/components/ui/shared/ErrorMessage";
 import { TREATMENTS } from "@/config/treatments";
 import { supabase } from "@/integrations/supabase/client";
 import { trackEvent } from "@/lib/analytics";
+import { SEO } from "@/components/SEO";
 
 const schema = z.object({
   firstName: z.string().trim().min(1, "First name required").max(100),
@@ -66,6 +67,11 @@ const IntakeSelector = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-cream via-background to-muted/20">
+      <SEO
+        title="Find your treatment — Solana Health"
+        description="Pick a treatment area or let us guide you. Personalized weight loss, anti-aging, hormone, and hair loss programs from licensed US providers."
+        path="/get-started"
+      />
       <Header />
       <main className="flex-1 py-8 sm:py-12">
         <div className="max-w-2xl mx-auto px-4">

@@ -1,0 +1,26 @@
+# Solana Health
+
+> Holistic telehealth for weight loss, anti-aging, hormone therapy, and hair loss. Licensed US providers, evidence-based treatments, and ongoing care delivered to your door — starting at $179/month.
+
+Solana Health connects patients with independent, licensed US healthcare providers for personalized treatment programs across weight loss (GLP-1s like semaglutide and tirzepatide), anti-aging, hormone therapy, and hair loss. Programs include provider review, prescription if appropriate, ongoing care, and home delivery. Membership required; prescription not guaranteed.
+
+## Pages
+
+- [Home](/): Overview of Solana Health programs and how it works.
+- [Find my treatment](/get-started): Central intake to identify the right program.
+- [Weight loss program](/treatments/weight-loss): GLP-1-based, physician-guided weight loss.
+- [Anti-aging program](/treatments/anti-aging): Skin and longevity protocols.
+- [Hormone therapy program](/treatments/hormone-therapy): Hormone optimization for women and men.
+- [Hair loss program](/treatments/hair-loss): Topical and oral treatments for thinning hair.
+- [NAD+ for weight loss](/nad-weight-loss): Cellular metabolism support for women stuck on weight loss.
+- [NAD+ for energy](/nad-energy): NAD+ protocols for women experiencing chronic exhaustion.
+- [NAD+ for anti-aging](/nad-anti-aging): NAD+ protocols for cellular longevity.
+- [Patient safety information](/safety-info): Medication safety and important risk information.
+- [Support](/support): Help center and contact options.
+- [Privacy policy](/privacy): How we collect and protect your data.
+- [Terms of service](/terms): Terms governing use of the platform.
+- [Telehealth consent](/telehealth-consent): Informed consent for telehealth services.
+
+## Optional
+
+- [Sign in](/auth): Existing member login.
