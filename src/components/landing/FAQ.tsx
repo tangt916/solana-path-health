@@ -104,6 +104,15 @@ export const FAQ = () => {
             );
           })}
         </div>
+        <div className="mt-12 text-center">
+          <p className="text-sm text-muted-foreground mb-4">Still have a question?</p>
+          <Link
+            to="/support"
+            className="inline-flex items-center rounded-full bg-primary text-primary-foreground px-6 py-3 text-sm font-medium hover:opacity-95 transition-opacity"
+          >
+            Message our care team →
+          </Link>
+        </div>
       </div>
     </section>
   );
