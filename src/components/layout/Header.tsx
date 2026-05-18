@@ -1,63 +1,69 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Menu, X, ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { Menu, X, ChevronDown, ArrowRight } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { TREATMENTS } from "@/config/treatments";
 
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { user, signOut } = useAuth();
 
-  const isPortal = location.pathname.startsWith("/dashboard") ||
+  const isPortal =
+    location.pathname.startsWith("/dashboard") ||
     location.pathname.startsWith("/support");
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const handleLogout = async () => {
     await signOut();
     navigate("/");
   };
 
+  const navLinkCls =
+    "text-sm font-medium text-foreground/75 hover:text-foreground transition-colors";
+
   return (
     <header
-      className="sticky top-0 z-50"
-      style={{
-        background: 'rgba(250,246,238,0.92)',
-        backdropFilter: 'blur(16px)',
-        WebkitBackdropFilter: 'blur(16px)',
-        borderBottom: '1px solid #cddbc6',
-      }}
+      className={`sticky top-0 z-50 backdrop-blur-xl transition-colors ${
+        scrolled ? "border-b border-border/70" : "border-b border-transparent"
+      }`}
+      style={{ background: "hsl(var(--background) / 0.85)" }}
     >
-      <div className="container flex h-16 items-center justify-between">
+      <div className="container flex h-16 md:h-18 items-center justify-between">
         <Link to="/" className="flex items-center gap-2">
-          <span className="font-serif text-xl" style={{ fontWeight: 300, color: '#16261a' }}>
-            Solana Health
+          <span className="font-serif text-xl md:text-2xl text-primary tracking-tight">
+            Solana
           </span>
         </Link>
 
-        {/* Desktop nav */}
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav className="hidden items-center gap-8 lg:flex">
           {isPortal ? (
             <>
-              <Link to="/dashboard" className="text-sm font-medium transition-colors" style={{ color: '#5a7060' }}>Dashboard</Link>
-              <Link to="/support" className="text-sm font-medium transition-colors" style={{ color: '#5a7060' }}>Support</Link>
+              <Link to="/dashboard" className={navLinkCls}>Dashboard</Link>
+              <Link to="/support" className={navLinkCls}>Support</Link>
             </>
           ) : (
             <>
-              <a href="/#how-it-works" className="text-sm font-medium transition-colors hover:opacity-70" style={{ color: '#5a7060' }}>How it works</a>
+              <a href="/#how-it-works" className={navLinkCls}>How It Works</a>
               <div className="relative group">
-                <button className="text-sm font-medium transition-colors hover:opacity-70 inline-flex items-center gap-1" style={{ color: '#5a7060' }}>
-                  Treatments <ChevronDown className="h-3 w-3" />
+                <button className={`${navLinkCls} inline-flex items-center gap-1`}>
+                  Treatments <ChevronDown className="h-3.5 w-3.5" />
                 </button>
-                <div className="absolute left-0 top-full pt-2 invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all">
-                  <div className="rounded-xl bg-white shadow-lg border border-border/40 p-2 w-64">
+                <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all">
+                  <div className="rounded-2xl bg-card shadow-[0_18px_48px_hsl(var(--primary)/0.15)] border border-border p-2 w-72">
                     {TREATMENTS.map((t) => (
                       <Link
                         key={t.slug}
                         to={`/treatments/${t.slug}`}
-                        className="block rounded-lg px-3 py-2 text-sm hover:bg-muted/40 transition-colors"
-                        style={{ color: '#16261a' }}
+                        className="block rounded-xl px-4 py-3 text-sm text-foreground hover:bg-secondary transition-colors"
                       >
                         {t.name}
                       </Link>
@@ -65,86 +71,98 @@ const Header = () => {
                   </div>
                 </div>
               </div>
-              <a href="/#faq" className="text-sm font-medium transition-colors hover:opacity-70" style={{ color: '#5a7060' }}>FAQ</a>
-              <Link to="/safety-info" className="text-sm font-medium transition-colors hover:opacity-70" style={{ color: '#5a7060' }}>Safety info</Link>
+              <a href="/#pricing" className={navLinkCls}>Pricing</a>
+              <a href="/#faq" className={navLinkCls}>FAQ</a>
+              <Link to="/safety-info" className={navLinkCls}>Safety Info</Link>
             </>
           )}
         </nav>
 
-        <div className="hidden items-center gap-3 md:flex">
+        <div className="hidden items-center gap-3 lg:flex">
           {user ? (
             <>
-              <Button variant="ghost" size="sm" className="rounded-full px-5" style={{ color: '#16261a' }} asChild>
-                <Link to="/dashboard">Dashboard</Link>
-              </Button>
-              <Button size="sm" className="rounded-full px-5 border-0" style={{ background: '#16261a', color: '#faf6ee' }} onClick={handleLogout}>
+              <Link to="/dashboard" className="text-sm font-medium text-foreground hover:opacity-70">
+                Dashboard
+              </Link>
+              <button
+                onClick={handleLogout}
+                className="inline-flex items-center gap-1.5 rounded-full bg-primary text-primary-foreground px-5 py-2.5 text-sm font-medium hover:opacity-95 transition-opacity"
+              >
                 Log Out
-              </Button>
+              </button>
             </>
           ) : (
             <>
-              <Button variant="ghost" size="sm" className="rounded-full px-5" style={{ color: '#16261a' }} asChild>
-                <Link to="/auth">Log in</Link>
-              </Button>
-              <Button size="sm" className="rounded-full px-5 border-0" style={{ background: '#16261a', color: '#faf6ee' }} asChild>
-                <Link to="/get-started">Get started</Link>
-              </Button>
+              <Link to="/auth" className="text-sm font-medium text-foreground hover:opacity-70">
+                Log In
+              </Link>
+              <Link
+                to="/quiz"
+                className="inline-flex items-center gap-1.5 rounded-full bg-primary text-primary-foreground px-5 py-2.5 text-sm font-medium hover:opacity-95 transition-opacity"
+              >
+                Find My Protocol <ArrowRight className="h-4 w-4" />
+              </Link>
             </>
           )}
         </div>
 
-        {/* Mobile toggle */}
-        <button className="md:hidden" style={{ color: '#16261a' }} onClick={() => setMobileOpen(!mobileOpen)}>
+        <button
+          className="lg:hidden text-foreground"
+          aria-label="Toggle menu"
+          onClick={() => setMobileOpen(!mobileOpen)}
+        >
           {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </div>
 
-      {/* Mobile menu */}
       {mobileOpen && (
-        <div className="p-4 md:hidden" style={{ background: 'rgba(250,246,238,0.97)', borderTop: '1px solid #cddbc6' }}>
-          <nav className="flex flex-col gap-3">
+        <div className="lg:hidden border-t border-border bg-background">
+          <nav className="container py-5 flex flex-col gap-3">
             {isPortal ? (
               <>
-                <Link to="/dashboard" className="text-sm font-medium" style={{ color: '#5a7060' }} onClick={() => setMobileOpen(false)}>Dashboard</Link>
-                <Link to="/support" className="text-sm font-medium" style={{ color: '#5a7060' }} onClick={() => setMobileOpen(false)}>Support</Link>
+                <Link to="/dashboard" className={navLinkCls} onClick={() => setMobileOpen(false)}>Dashboard</Link>
+                <Link to="/support" className={navLinkCls} onClick={() => setMobileOpen(false)}>Support</Link>
               </>
             ) : (
               <>
-                <a href="/#how-it-works" className="text-sm font-medium" style={{ color: '#5a7060' }} onClick={() => setMobileOpen(false)}>How it works</a>
-                <p className="text-xs uppercase tracking-wider mt-2" style={{ color: '#8a9a85' }}>Treatments</p>
+                <a href="/#how-it-works" className={navLinkCls} onClick={() => setMobileOpen(false)}>How It Works</a>
+                <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground mt-2">Treatments</p>
                 {TREATMENTS.map((t) => (
                   <Link
                     key={t.slug}
                     to={`/treatments/${t.slug}`}
-                    className="text-sm pl-3"
-                    style={{ color: '#5a7060' }}
+                    className="text-sm text-foreground/80 pl-3"
                     onClick={() => setMobileOpen(false)}
                   >
                     {t.name}
                   </Link>
                 ))}
-                <a href="/#faq" className="text-sm font-medium mt-2" style={{ color: '#5a7060' }} onClick={() => setMobileOpen(false)}>FAQ</a>
-                <Link to="/safety-info" className="text-sm font-medium" style={{ color: '#5a7060' }} onClick={() => setMobileOpen(false)}>Safety info</Link>
+                <a href="/#pricing" className={`${navLinkCls} mt-2`} onClick={() => setMobileOpen(false)}>Pricing</a>
+                <a href="/#faq" className={navLinkCls} onClick={() => setMobileOpen(false)}>FAQ</a>
+                <Link to="/safety-info" className={navLinkCls} onClick={() => setMobileOpen(false)}>Safety Info</Link>
               </>
             )}
-            <div className="flex gap-2 pt-2">
+            <div className="flex gap-2 pt-3">
               {user ? (
                 <>
-                  <Button variant="ghost" size="sm" asChild className="flex-1 rounded-full">
-                    <Link to="/dashboard">Dashboard</Link>
-                  </Button>
-                  <Button size="sm" className="flex-1 rounded-full border-0" style={{ background: '#16261a', color: '#faf6ee' }} onClick={() => { handleLogout(); setMobileOpen(false); }}>
+                  <Link to="/dashboard" className="flex-1 text-center rounded-full border border-border px-4 py-2.5 text-sm" onClick={() => setMobileOpen(false)}>
+                    Dashboard
+                  </Link>
+                  <button
+                    onClick={() => { handleLogout(); setMobileOpen(false); }}
+                    className="flex-1 rounded-full bg-primary text-primary-foreground px-4 py-2.5 text-sm font-medium"
+                  >
                     Log Out
-                  </Button>
+                  </button>
                 </>
               ) : (
                 <>
-                  <Button variant="ghost" size="sm" asChild className="flex-1 rounded-full">
-                    <Link to="/auth">Log in</Link>
-                  </Button>
-                  <Button size="sm" asChild className="flex-1 rounded-full border-0" style={{ background: '#16261a', color: '#faf6ee' }}>
-                    <Link to="/get-started">Get started</Link>
-                  </Button>
+                  <Link to="/auth" className="flex-1 text-center rounded-full border border-border px-4 py-2.5 text-sm" onClick={() => setMobileOpen(false)}>
+                    Log In
+                  </Link>
+                  <Link to="/quiz" className="flex-1 text-center rounded-full bg-primary text-primary-foreground px-4 py-2.5 text-sm font-medium" onClick={() => setMobileOpen(false)}>
+                    Find My Protocol →
+                  </Link>
                 </>
               )}
             </div>
