@@ -182,13 +182,6 @@ const Medications = () => {
 };
 
 const Pricing = () => {
-  const plans = [
-    { term: "Monthly", price: "$297", per: "/mo", save: null, billed: "Billed monthly", tag: null },
-    { term: "3-month", price: "$267", per: "/mo", save: "Save $90", billed: "Billed $801", tag: null },
-    { term: "6-month", price: "$247", per: "/mo", save: "Save $300", billed: "Billed $1,482", tag: "Popular" },
-    { term: "9-month", price: "$229", per: "/mo", save: "Save $612", billed: "Billed $2,061", tag: null },
-    { term: "12-month", price: "$199", per: "/mo", save: "Save $1,176", billed: "Billed $2,388", tag: "Best value" },
-  ];
   const includes = [
     "Free initial provider consultation",
     "Medication (if prescribed) included",
@@ -206,35 +199,8 @@ const Pricing = () => {
           <h2 className={h2Cls} style={{ fontWeight: 300, color: FOREST }}>
             Straightforward pricing. <em style={{ color: GOLD }}>No hidden fees.</em>
           </h2>
-          <p className="mt-6 text-base" style={{ color: "#2d4a3a" }}>
-            As low as <span style={{ textDecoration: "line-through", opacity: 0.55 }}>$297</span>{" "}
-            <strong style={{ color: FOREST }}>$199/month</strong>
-          </p>
         </div>
 
-        <div className="mt-10 grid gap-4 md:grid-cols-5">
-          {plans.map((p) => (
-            <div
-              key={p.term}
-              className="relative rounded-2xl p-5 text-center border"
-              style={{
-                background: p.tag ? FOREST : "#fff",
-                color: p.tag ? WARM_WHITE : FOREST,
-                borderColor: p.tag ? FOREST : "rgba(28,58,46,0.12)",
-              }}
-            >
-              {p.tag && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full px-3 py-1 text-[10px] font-medium uppercase tracking-wider" style={{ background: GOLD, color: FOREST }}>
-                  ★ {p.tag}
-                </span>
-              )}
-              <p className="text-xs uppercase tracking-wider mb-3 opacity-80">{p.term}</p>
-              <p className="font-serif text-3xl" style={{ fontWeight: 400 }}>{p.price}<span className="text-sm opacity-70">{p.per}</span></p>
-              {p.save && <p className="mt-2 text-xs" style={{ color: p.tag ? GOLD : GOLD }}>{p.save}</p>}
-              <p className="mt-2 text-[11px] opacity-70">{p.billed}</p>
-            </div>
-          ))}
-        </div>
 
         <div className="mt-10 rounded-2xl p-7" style={{ background: SAGE }}>
           <p className="text-xs uppercase tracking-wider mb-4" style={{ color: GOLD }}>All plans include</p>
@@ -369,7 +335,7 @@ export const MetabolicLanding = () => (
     <WhoItsFor />
     <HowItWorks />
     <Medications />
-    
+    <Pricing />
     <SafetyBlock />
     <FAQ />
     <FinalCta />
