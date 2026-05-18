@@ -4,6 +4,14 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { TREATMENTS } from "@/config/treatments";
 
+const NAV_TREATMENTS: { name: string; to: string }[] = [
+  ...TREATMENTS.filter((t) => t.slug !== "hair-loss" && t.slug !== "anti-aging").map((t) => ({
+    name: t.name,
+    to: `/treatments/${t.slug}`,
+  })),
+  { name: "Peptide Therapy", to: "/peptides" },
+];
+
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
