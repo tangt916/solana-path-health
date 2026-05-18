@@ -1,14 +1,13 @@
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import { Hero } from "@/components/landing/Hero";
-import { Pillars } from "@/components/landing/Pillars";
-import { Treatments } from "@/components/landing/Treatments";
-import { HowItWorks } from "@/components/landing/HowItWorks";
-import { Membership } from "@/components/landing/Membership";
-import { Medications } from "@/components/landing/Medications";
+import { HeroV2 } from "@/components/landing/HeroV2";
+import { ResearchStatBar } from "@/components/landing/ResearchStatBar";
+import { WhatWeTreatV2 } from "@/components/landing/WhatWeTreatV2";
+import { HowItWorksV2 } from "@/components/landing/HowItWorksV2";
+import { MembershipV2 } from "@/components/landing/MembershipV2";
+import { LeadMagnet } from "@/components/landing/LeadMagnet";
 import { FAQ } from "@/components/landing/FAQ";
-import { FinalCTA } from "@/components/landing/FinalCTA";
-import { SafetyInfo } from "@/components/landing/SafetyInfo";
+import { FinalCTAV2 } from "@/components/landing/FinalCTAV2";
 import { SEO } from "@/components/SEO";
 
 const FAQ_ITEMS = [
@@ -20,10 +19,10 @@ const FAQ_ITEMS = [
 ];
 
 const Index = () => (
-  <div className="min-h-screen">
+  <div className="min-h-screen bg-background">
     <SEO
-      title="Solana Health — Holistic Telehealth for Weight, Skin, Hormones & Hair"
-      description="Licensed US providers for weight loss (GLP-1), anti-aging, hormone therapy, and hair loss. Online evaluation, home delivery, and ongoing care from $179/month."
+      title="Solana Health — Personalized wellness for women"
+      description="Licensed US providers for metabolic & weight health, hormones, NAD+ and peptides. Free assessment, provider-built protocols delivered to your door."
       path="/"
       jsonLd={[
         {
@@ -44,22 +43,16 @@ const Index = () => (
       ]}
     />
     <Header />
-    <Hero />
-    <Treatments />
-    <Pillars />
-    <HowItWorks />
-    <Membership />
-    <Medications />
-    <FAQ />
-    <FinalCTA />
-    <div className="py-6" style={{ background: '#f5f0e8', borderTop: '1px solid #e0d8c8' }}>
-      <div className="container max-w-3xl">
-        <p style={{ fontSize: '0.7rem', lineHeight: '1.7', color: '#5a7060' }}>
-          <strong>Important:</strong> Compounded drug products are not approved or evaluated for safety, effectiveness, or quality by the FDA. Prescription products require an online consultation with a healthcare provider who will determine if a prescription is appropriate. Results may vary.
-        </p>
-      </div>
-    </div>
-    <SafetyInfo />
+    <main>
+      <HeroV2 />
+      <ResearchStatBar />
+      <WhatWeTreatV2 />
+      <HowItWorksV2 />
+      <MembershipV2 />
+      <LeadMagnet />
+      <FAQ />
+      <FinalCTAV2 />
+    </main>
     <Footer />
   </div>
 );

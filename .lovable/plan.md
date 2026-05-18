@@ -1,56 +1,70 @@
+# Solana Health Homepage Rebrand
 
+Refresh the brand system and rebuild the homepage to match the new premium, warm-confident direction (Hims/Hers × Goop × boutique clinic). Keep all existing routes, treatments, intake flows, and backend untouched — this is a frontend/presentation refresh focused on the homepage, global header/footer, and shared design tokens.
 
-## Visual polish pass — what will change
+## 1. Design system updates
 
-A site-wide design refresh focused on radius, depth, smoothness, and spacing. **No copy, routes, logic, or color tokens change.**
+**`src/index.css` + `tailwind.config.ts`** — replace current palette tokens with the new warm-neutral system (all HSL):
+- `--background` warm white `#FAFAF8`
+- `--foreground` / `--primary` deep forest `#1C3A2E`
+- `--accent` soft gold `#C9A96E`
+- `--muted` / sage section bg `#E8EDE6`
+- `--border` subtle warm gray
+- Map `--primary-foreground` to warm white, keep semantic shadcn tokens consistent in light + dark.
 
-### 1. Design tokens (`src/index.css` + `tailwind.config.ts`)
-- `--radius`: `2px` → `12px` (the single biggest visual upgrade — every card, input, button rounds at once).
-- Tailwind `borderRadius` scale extended: `sm` 8 / `md` 10 / `lg` 12 / `xl` 16 / `2xl` 20 / `full`.
-- Add a global smooth-transition rule on `*` (color/bg/border/shadow/transform, 150ms, ease-out cubic) and a 200ms variant for form inputs.
-- Strip default focus outline in favor of the new ring style on `:focus-visible`.
+**Typography**
+- Add Playfair Display (serif headlines) + Inter (body) via Google Fonts in `index.html`.
+- Add `font-serif` → Playfair, `font-sans` → Inter in tailwind config.
+- Apply generous tracking, large headline sizes, body line-height ~1.65.
 
-### 2. Base UI primitives (`src/components/ui/`)
-| File | Change |
-|---|---|
-| `input.tsx` | `h-12`, `rounded-xl`, white bg, `border-border/60`, soft `ring-primary/30` focus, 200ms transition |
-| `select.tsx` | `SelectTrigger` matched to Input (h-12, rounded-xl, same focus ring) |
-| `label.tsx` | `text-foreground/80`, `mb-1.5 block` for consistent label→field spacing |
-| `button.tsx` | New variants: `default`/`outline`/`ghost` get `rounded-xl`, soft shadow, hover-shadow lift, `active:scale-[0.98]`. Sizes updated: `sm` h-8 / `default` h-10 / `lg` h-12 |
-| `card.tsx` | `rounded-2xl`, softer `border-border/40`, layered green-tinted shadow that grows on hover; `CardContent` p-6, `CardHeader` p-6 pb-3 |
+**Reusable primitives**
+- `PrimaryCTA` (forest fill, white text, "Find My Protocol →" default, links to `/quiz`).
+- `SecondaryCTA` (ghost/outline forest).
+- `TrustBar` (inline ✓ items).
+- `SafetyDisclaimer` (small gray legal text, reused under hero + in footer).
+- `FadeInOnScroll` wrapper (IntersectionObserver) for subtle scroll-in.
 
-### 3. Step indicator (`src/components/ui/shared/StepIndicator.tsx`)
-Replaced with a cleaner version: a thin progress bar above the dots with smooth width animation, then the numbered dots + labels row. Completed step shows a check, current step gets a primary ring.
+## 2. Routing
+- Ensure `/quiz` resolves. Current intake entry is `/get-started` / `IntakeSelector`. Add a `/quiz` route that renders `IntakeSelector` (or redirects) so every CTA in the new copy works without breaking existing links.
 
-### 4. Intake form polish
-- **`GetStarted.tsx`** — outer wrapper gets a subtle gradient background (`from-cream via-background to-muted/20`); the inner form card upgraded to `rounded-2xl`, layered shadow, `border-border/40`, more breathing room.
-- **`Step1Personal`, `Step2Health`, `Step3Goals`, `Step4Booking`** — outer container moves to `space-y-6`; field groups standardize to `space-y-1.5` (label/input pair). All Yes/No toggles in Step2 upgraded to `h-11 rounded-xl` pill toggles with shadow on selected state. Multi-select chips in Step2 (conditions) and Step3 (tried before) updated to `rounded-xl px-4 py-2.5` with shadow on selected state. `OptionCard` in Step4 already uses `rounded-xl` — bump to match new shadow language.
+## 3. Global chrome
 
-### 5. Homepage below-fold (`src/pages/Index.tsx`)
-Per spec, polish only — no copy or section reorder:
-- `HowItWorks` section gets `rounded-3xl overflow-hidden` wrapper around its gradient background, sits inside a container with vertical breathing room.
-- `Medications` section bumps to `py-24` (already there) and the `MedCard` component picks up `rounded-2xl` (currently `rounded-[20px]`, near-equivalent — we'll align it to the new scale and add the hover shadow).
-- **Skipped from spec:** the FAQ styling instruction — there is no FAQ accordion on the homepage, so nothing to apply it to. Will note this in the change summary.
+**`src/components/layout/Header.tsx`** — sticky, warm-white bg, subtle bottom border on scroll:
+- Left: Solana logo (serif wordmark).
+- Center: How It Works · Treatments ▾ (Metabolic & Weight Health, Hormone Health, Peptides) · Pricing · FAQ · Safety Info.
+- Right: `Log In` (text) + `Find My Protocol →` (primary CTA).
+- Mobile: hamburger drawer.
 
-### Risk / non-goals
-- Radix `Select` content popover keeps default radius — fine, it picks up the new `--radius` automatically.
-- Existing inline `style={{ borderRadius / background }}` on the homepage hero, membership, and stats sections is preserved (those are bespoke gradients we shouldn't touch).
-- No functional code, no validation, no API calls, no routes touched. Intake flow keeps working identically.
+**`src/components/layout/Footer.tsx`** — tagline, link columns, full legal block from copy, safety disclaimer.
 
-### Files touched (12)
-```
-src/index.css
-tailwind.config.ts
-src/components/ui/input.tsx
-src/components/ui/select.tsx
-src/components/ui/label.tsx
-src/components/ui/button.tsx
-src/components/ui/card.tsx
-src/components/ui/shared/StepIndicator.tsx
-src/pages/GetStarted.tsx
-src/components/intake/Step1Personal.tsx
-src/components/intake/Step2Health.tsx
-src/components/intake/Step3Goals.tsx
-src/components/intake/Step4Booking.tsx
-src/pages/Index.tsx
-```
+## 4. Homepage sections (rebuild `src/pages/Index.tsx` + section components)
+
+Replace the current landing sections with new ones in `src/components/landing/`:
+
+1. **`HeroV2.tsx`** — Serif H1 "You Shouldn't Have to Feel This Way.", subhead, primary + secondary CTA, inline 3-item trust bar, small FDA/compounding disclaimer below. Abstract warm-light background (gradient + soft sage shape, no faces).
+2. **`ResearchStatBar.tsx`** — auto-rotating ticker of the 3 medical-journal stats (NEJM, Cell Metabolism, Menopause Society) on sage band.
+3. **`WhatWeTreat.tsx`** — 3 cards (Metabolic & Weight Health, Hormone Health, NAD+ & Peptides) with new headlines/body/features and `Learn more →` linking to existing `/treatments/*` routes.
+4. **`HowItWorksV2.tsx`** — 4 numbered horizontal steps with icons, CTA + disclaimer.
+5. **`MembershipV2.tsx`** — 2-col: features list left, pricing callout right ("From $297/month · Cancel anytime", "See full pricing →").
+6. **`LeadMagnet.tsx`** — full-width sage section, email-only capture + button, sub-text about no spam. Wire submit to existing analytics `trackEvent('lead_magnet_submit')`; persist email via existing Supabase pattern if a `leads` table exists, otherwise just track + toast (call out in clarifying note).
+7. **`FinalCTAV2.tsx`** — centered headline, primary CTA, 3 trust signals, FDA disclaimer.
+8. **Footer** (already in chrome) — closes the page.
+
+All sections wrapped in `FadeInOnScroll`. Mobile-first responsive. Imagery limited to: abstract gradients, sage shapes, simple SVG icons, iPhone mockup placeholders, progress-ring/line-graph micro-animations (CSS/SVG, no face photography).
+
+## 5. SEO
+- Update `SEO` on Index: new title ("Solana Health — Personalized wellness for women"), description, FAQPage JSON-LD already present (keep but refresh Qs if changed). No copy in the user's brief redefines the FAQ — leave existing 5 questions or confirm via clarifying question.
+
+## 6. Out of scope (untouched)
+- Treatment landing pages, NAD segment pages, dashboard, intake forms, auth, edge functions, Stripe, Klaviyo script.
+- Existing route paths stay; only `/quiz` alias is added.
+
+## Technical notes
+- All colors via HSL tokens, no hardcoded hex in components.
+- New components colocated under `src/components/landing/` with `V2` suffix to avoid clobbering current files until swap is verified, then old `Hero.tsx` / `HowItWorks.tsx` / `Membership.tsx` / `FinalCTA.tsx` / `Pillars.tsx` are deleted.
+- Lead-magnet form: if no `leads` table exists in Supabase, add a migration for `public.leads (id, email, source, created_at)` with RLS allowing anon insert only.
+
+## Clarifying questions before implementation
+1. Lead-magnet email — should it create a `leads` table + store submissions, or just fire a Klaviyo identify event and show success?
+2. FAQ section copy — your brief lists 5 questions in the section list but doesn't provide them. Reuse the existing 5 FAQs, or do you want to send new copy?
+3. `/quiz` — alias to existing `/get-started` intake selector, OR build a new streamlined quiz?
