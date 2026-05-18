@@ -176,6 +176,9 @@ const Medications = () => {
         <p className="mt-8 max-w-3xl text-sm" style={{ color: "#5a7060" }}>
           <em>Note: Medication choice, dosing, and eligibility are determined entirely by your provider. Approval is not guaranteed.</em>
         </p>
+        <p className="mt-4 max-w-3xl" style={{ fontSize: "0.7rem", lineHeight: 1.7, color: "#5a7060" }}>
+          Compounded drug products are not approved or evaluated for safety, effectiveness, or quality by the FDA. Prescription products require an online consultation with a healthcare provider who will determine if a prescription is appropriate. Results may vary.
+        </p>
       </div>
     </section>
   );
@@ -279,9 +282,6 @@ const SafetyBlock = () => (
         <p>
           GLP-1 medications are <strong>not appropriate for</strong>: patients with a history of MTC or MEN 2, pregnant or breastfeeding women, or patients with Type 1 diabetes.
         </p>
-        <p style={{ color: "#5a7060" }}>
-          Compounded drug products are not approved or evaluated for safety, effectiveness, or quality by the FDA. Prescription products require an online consultation with a healthcare provider who will determine if a prescription is appropriate. Results may vary.
-        </p>
       </div>
       <div className="mt-6">
         <Link to="/safety-info" className="text-sm underline" style={{ color: FOREST }}>
@@ -372,7 +372,7 @@ export const MetabolicLanding = () => (
     <WhoItsFor />
     <HowItWorks />
     <Medications />
-    <Pricing />
+    
     <SafetyBlock />
     <FAQ />
     <FinalCta />
