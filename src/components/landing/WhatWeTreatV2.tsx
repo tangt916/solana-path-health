@@ -40,7 +40,7 @@ const CARDS = [
       "Peptide protocols for recovery, cellular health, and longevity",
       "Provider-guided, tracked, and adjusted over time",
     ],
-    to: "/nad-energy",
+    to: "/peptides",
   },
 ];
 
