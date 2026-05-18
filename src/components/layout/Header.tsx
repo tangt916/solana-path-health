@@ -67,10 +67,10 @@ const Header = () => {
                 </button>
                 <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all">
                   <div className="rounded-2xl bg-card shadow-[0_18px_48px_hsl(var(--primary)/0.15)] border border-border p-2 w-72">
-                    {TREATMENTS.map((t) => (
+                    {NAV_TREATMENTS.map((t) => (
                       <Link
-                        key={t.slug}
-                        to={`/treatments/${t.slug}`}
+                        key={t.to}
+                        to={t.to}
                         className="block rounded-xl px-4 py-3 text-sm text-foreground hover:bg-secondary transition-colors"
                       >
                         {t.name}
