@@ -2,77 +2,76 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap');
 
 @layer base {
   :root {
-    /* Brand palette */
-    --ink: 140 30% 9%;
-    --sage: 140 18% 37%;
-    --lime: 82 62% 55%;
-    --cream: 38 60% 95%;
-    --warm-white: 38 60% 95%;
-    --white: 0 0% 100%;
-    --muted-brand: 150 12% 40%;
-    --border-brand: 110 22% 80%;
-
-    --espresso: 140 30% 9%;
-    --forest: 140 25% 24%;
-    --forest-light: 140 20% 35%;
-    --gold: 82 62% 55%;
+    /* Solana brand palette — warm-confident */
+    --warm-white: 60 14% 98%;       /* #FAFAF8 */
+    --forest: 152 36% 17%;          /* #1C3A2E */
+    --forest-light: 152 26% 28%;
+    --gold: 38 47% 61%;             /* #C9A96E */
+    --sage-bg: 105 13% 92%;         /* #E8EDE6 */
+    --ink: 152 36% 12%;
+    --warm-gray: 30 6% 45%;
+    --warm-border: 40 10% 88%;
+    --cream: 60 14% 98%;
+    --sage: 105 13% 92%;
+    --lime: 38 47% 61%;
+    --espresso: 152 36% 12%;
 
     /* Font families */
-    --font-serif: 'Fraunces', Georgia, serif;
-    --font-sans: 'DM Sans', system-ui, sans-serif;
+    --font-serif: 'Playfair Display', Georgia, serif;
+    --font-sans: 'Inter', system-ui, sans-serif;
 
     /* Semantic tokens */
-    --background: 38 60% 95%;
-    --foreground: 140 30% 9%;
+    --background: 60 14% 98%;
+    --foreground: 152 36% 12%;
 
     --card: 0 0% 100%;
-    --card-foreground: 140 30% 9%;
+    --card-foreground: 152 36% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 140 30% 9%;
+    --popover-foreground: 152 36% 12%;
 
-    --primary: 140 25% 24%;
-    --primary-foreground: 38 60% 95%;
+    --primary: 152 36% 17%;
+    --primary-foreground: 60 14% 98%;
 
-    --secondary: 38 30% 90%;
-    --secondary-foreground: 140 30% 9%;
+    --secondary: 105 13% 92%;
+    --secondary-foreground: 152 36% 17%;
 
-    --muted: 110 15% 88%;
-    --muted-foreground: 150 12% 40%;
+    --muted: 105 13% 92%;
+    --muted-foreground: 30 6% 45%;
 
-    --accent: 82 62% 55%;
-    --accent-foreground: 140 30% 9%;
+    --accent: 38 47% 61%;
+    --accent-foreground: 152 36% 12%;
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive: 0 72% 45%;
+    --destructive-foreground: 60 14% 98%;
 
-    --border: 110 22% 80%;
-    --input: 110 22% 80%;
-    --ring: 140 25% 24%;
+    --border: 40 10% 88%;
+    --input: 40 10% 88%;
+    --ring: 152 36% 17%;
 
-    --radius: 12px;
+    --radius: 10px;
 
     --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 140 30% 9%;
-    --sidebar-primary: 140 25% 24%;
-    --sidebar-primary-foreground: 38 60% 95%;
-    --sidebar-accent: 82 62% 55%;
-    --sidebar-accent-foreground: 140 30% 9%;
-    --sidebar-border: 110 22% 80%;
-    --sidebar-ring: 140 25% 24%;
+    --sidebar-foreground: 152 36% 12%;
+    --sidebar-primary: 152 36% 17%;
+    --sidebar-primary-foreground: 60 14% 98%;
+    --sidebar-accent: 38 47% 61%;
+    --sidebar-accent-foreground: 152 36% 12%;
+    --sidebar-border: 40 10% 88%;
+    --sidebar-ring: 152 36% 17%;
 
     --surface-elevated: 0 0% 100%;
-    --surface-subtle: 38 40% 96%;
-    --success: 152 69% 41%;
-    --success-foreground: 0 0% 100%;
-    --warning: 82 62% 55%;
-    --warning-foreground: 140 30% 9%;
-    --info: 140 25% 24%;
-    --info-foreground: 38 60% 95%;
+    --surface-subtle: 60 14% 96%;
+    --success: 152 69% 30%;
+    --success-foreground: 60 14% 98%;
+    --warning: 38 47% 55%;
+    --warning-foreground: 152 36% 12%;
+    --info: 152 36% 17%;
+    --info-foreground: 60 14% 98%;
   }
 
   .dark {
