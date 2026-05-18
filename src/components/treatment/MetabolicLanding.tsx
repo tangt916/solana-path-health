@@ -282,9 +282,6 @@ const SafetyBlock = () => (
         <p>
           GLP-1 medications are <strong>not appropriate for</strong>: patients with a history of MTC or MEN 2, pregnant or breastfeeding women, or patients with Type 1 diabetes.
         </p>
-        <p style={{ color: "#5a7060" }}>
-          Compounded drug products are not approved or evaluated for safety, effectiveness, or quality by the FDA. Prescription products require an online consultation with a healthcare provider who will determine if a prescription is appropriate. Results may vary.
-        </p>
       </div>
       <div className="mt-6">
         <Link to="/safety-info" className="text-sm underline" style={{ color: FOREST }}>
