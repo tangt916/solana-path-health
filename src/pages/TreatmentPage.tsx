@@ -2,6 +2,7 @@ import { useParams, Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import { getTreatment } from "@/config/treatments";
 import { TreatmentLanding } from "@/components/treatment/TreatmentLanding";
+import { MetabolicLanding } from "@/components/treatment/MetabolicLanding";
 import { trackEvent } from "@/lib/analytics";
 import { SEO } from "@/components/SEO";
 
@@ -34,7 +35,7 @@ const TreatmentPage = () => {
           })),
         }}
       />
-      <TreatmentLanding t={t} />
+      {t.slug === "weight-loss" ? <MetabolicLanding /> : <TreatmentLanding t={t} />}
     </>
   );
 };
