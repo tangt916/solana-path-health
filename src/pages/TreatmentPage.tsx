@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { getTreatment } from "@/config/treatments";
 import { TreatmentLanding } from "@/components/treatment/TreatmentLanding";
 import { MetabolicLanding } from "@/components/treatment/MetabolicLanding";
+import { HormoneLanding } from "@/components/treatment/HormoneLanding";
 import { trackEvent } from "@/lib/analytics";
 import { SEO } from "@/components/SEO";
 
@@ -35,7 +36,13 @@ const TreatmentPage = () => {
           })),
         }}
       />
-      {t.slug === "weight-loss" ? <MetabolicLanding /> : <TreatmentLanding t={t} />}
+      {t.slug === "weight-loss" ? (
+        <MetabolicLanding />
+      ) : t.slug === "hormone-therapy" ? (
+        <HormoneLanding />
+      ) : (
+        <TreatmentLanding t={t} />
+      )}
     </>
   );
 };
