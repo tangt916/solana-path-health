@@ -50,9 +50,6 @@ const Hero = () => (
             </li>
           ))}
         </ul>
-        <p className="mt-8 max-w-2xl" style={{ fontSize: "0.7rem", lineHeight: 1.7, color: "#5a7060" }}>
-          Compounded drug products are not approved or evaluated for safety, effectiveness, or quality by the FDA. Prescription products require an online consultation with a healthcare provider who will determine if a prescription is appropriate. Results may vary.
-        </p>
       </div>
     </div>
   </section>
