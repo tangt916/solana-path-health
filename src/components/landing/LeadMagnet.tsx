@@ -81,9 +81,10 @@ export const LeadMagnet = () => {
               />
               <button
                 type="submit"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground px-6 py-3.5 text-sm font-medium hover:opacity-95 transition-opacity"
+                disabled={submitting}
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground px-6 py-3.5 text-sm font-medium hover:opacity-95 transition-opacity disabled:opacity-60"
               >
-                Send me the guide
+                {submitting ? "Sending…" : "Send me the guide"}
                 <ArrowRight className="h-4 w-4" />
               </button>
             </form>
