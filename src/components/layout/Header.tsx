@@ -4,14 +4,6 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { TREATMENTS } from "@/config/treatments";
 
-const NAV_TREATMENTS: { name: string; to: string }[] = [
-  ...TREATMENTS.filter((t) => t.slug !== "hair-loss" && t.slug !== "anti-aging").map((t) => ({
-    name: t.name,
-    to: `/treatments/${t.slug}`,
-  })),
-  { name: "Peptide Therapy", to: "/peptides" },
-];
-
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -67,10 +59,10 @@ const Header = () => {
                 </button>
                 <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all">
                   <div className="rounded-2xl bg-card shadow-[0_18px_48px_hsl(var(--primary)/0.15)] border border-border p-2 w-72">
-                    {NAV_TREATMENTS.map((t) => (
+                    {TREATMENTS.map((t) => (
                       <Link
-                        key={t.to}
-                        to={t.to}
+                        key={t.slug}
+                        to={`/treatments/${t.slug}`}
                         className="block rounded-xl px-4 py-3 text-sm text-foreground hover:bg-secondary transition-colors"
                       >
                         {t.name}
@@ -135,10 +127,10 @@ const Header = () => {
               <>
                 <a href="/#how-it-works" className={navLinkCls} onClick={() => setMobileOpen(false)}>How It Works</a>
                 <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground mt-2">Treatments</p>
-                {NAV_TREATMENTS.map((t) => (
+                {TREATMENTS.map((t) => (
                   <Link
-                    key={t.to}
-                    to={t.to}
+                    key={t.slug}
+                    to={`/treatments/${t.slug}`}
                     className="text-sm text-foreground/80 pl-3"
                     onClick={() => setMobileOpen(false)}
                   >
