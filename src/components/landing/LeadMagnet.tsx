@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { trackEvent } from "@/lib/analytics";
+import { supabase } from "@/integrations/supabase/client";
 import { FadeInOnScroll } from "./shared/FadeInOnScroll";
 
 declare global {
@@ -12,15 +13,22 @@ declare global {
 export const LeadMagnet = () => {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || !/^\S+@\S+\.\S+$/.test(email)) return;
+    const trimmed = email.trim().toLowerCase();
+    if (!trimmed || !/^\S+@\S+\.\S+$/.test(trimmed) || trimmed.length > 255) return;
+    setSubmitting(true);
     try {
-      window.klaviyo?.push(["identify", { email, $source: "homepage_lead_magnet" }]);
+      await supabase.from("leads").insert({ email: trimmed, source: "homepage_lead_magnet" });
     } catch {}
-    trackEvent("lead_magnet_submit", { email });
+    try {
+      window.klaviyo?.push(["identify", { email: trimmed, $source: "homepage_lead_magnet" }]);
+    } catch {}
+    trackEvent("lead_magnet_submit", { email: trimmed });
     setSubmitted(true);
+    setSubmitting(false);
   };
 
   return (
@@ -73,9 +81,10 @@ export const LeadMagnet = () => {
               />
               <button
                 type="submit"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground px-6 py-3.5 text-sm font-medium hover:opacity-95 transition-opacity"
+                disabled={submitting}
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground px-6 py-3.5 text-sm font-medium hover:opacity-95 transition-opacity disabled:opacity-60"
               >
-                Send me the guide
+                {submitting ? "Sending…" : "Send me the guide"}
                 <ArrowRight className="h-4 w-4" />
               </button>
             </form>

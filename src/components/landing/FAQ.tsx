@@ -4,27 +4,47 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 
 export const FAQ = () => {
   const [open, setOpen] = useState<number | null>(0);
-  const items = [
+  const items: Array<{ q: string; a: string; cta?: { label: string; to: string } }> = [
     {
-      q: "What side effects will I experience?",
-      a: "Some patients experience mild side effects when starting GLP-1 medications, especially during the first few weeks as the body adjusts. Common side effects may include nausea, constipation, diarrhea, reduced appetite, bloating, fatigue, and mild stomach discomfort. These are often temporary and improve over time. Your provider may also adjust your dosage to help minimize discomfort.",
-      cta: { label: "View Full Medication Safety Information", to: "/safety-info" },
+      q: "Do you accept insurance?",
+      a: "Solana is a cash-pay platform. We do not accept insurance or process insurance claims. All program costs are transparent and listed on our pricing pages. Some patients use HSA or FSA funds for eligible expenses — check with your plan administrator.",
     },
     {
-      q: "Do I need insurance?",
-      a: "No. Many patients choose self-pay options for faster access and simpler pricing. Insurance may be accepted for certain prescription options depending on your treatment plan, but insurance is not required to get started.",
+      q: "How does the consultation work?",
+      a: "After you complete the intake assessment, a licensed provider reviews your health history and meets with you via video (typically 15–20 minutes). They'll ask questions, review your goals, and determine what — if anything — is clinically appropriate for you. The consultation is free. No prescription is guaranteed.",
     },
     {
       q: "How long does the intake take?",
-      a: "Most members complete the intake in just a few minutes. After you submit, a licensed provider typically reviews your information and meets with you within 24 hours.",
+      a: "The online assessment takes approximately 5–10 minutes. Your video consultation is typically scheduled within 24 hours of completing intake.",
+    },
+    {
+      q: "What states do you serve?",
+      a: "Solana is actively expanding state availability. Enter your state during intake to confirm we currently serve your area.",
+    },
+    {
+      q: "Where does my medication come from?",
+      a: "All prescriptions are filled by licensed compounding pharmacies in the United States. Compounded drug products are not approved or evaluated for safety, effectiveness, or quality by the FDA.",
+    },
+    {
+      q: "How is my medication shipped?",
+      a: "Standard shipping is free. Medications are shipped in discreet packaging with no identifying information on the outside. Most orders arrive within 5–7 business days of prescription approval.",
     },
     {
       q: "Is a prescription guaranteed?",
-      a: "No. All prescribing decisions are made solely by independent licensed healthcare providers based on your individual health profile. Approval is not guaranteed.",
+      a: "No. Whether any prescription is appropriate for you is determined entirely by your licensed provider. If a prescription is not issued, you will not be charged for medication. The consultation remains free.",
+      cta: { label: "View Full Medication Safety Information", to: "/safety-info" },
     },
     {
       q: "Can I cancel anytime?",
-      a: "Yes. There are no long-term contracts — you can cancel your membership anytime from your dashboard.",
+      a: "Yes. Monthly plans can be cancelled before the next billing date with no penalty. Multi-month plans (3, 6, 9, 12 months) are billed in advance — cancellation stops future renewals but does not include refunds for the current period.",
+    },
+    {
+      q: "What if my medication isn't working?",
+      a: "Message your care coordinator. Your provider can adjust your dose, change your protocol, or discuss alternative options. Monthly check-ins are included in all plans specifically for this.",
+    },
+    {
+      q: "How is my health information protected?",
+      a: "Solana is fully HIPAA-compliant. Your health information is encrypted, never sold, and only shared with your licensed provider and the dispensing pharmacy as required for your care. See our Privacy Policy for full details.",
     },
   ];
 
@@ -36,8 +56,11 @@ export const FAQ = () => {
             Frequently asked
           </p>
           <h2 className="font-serif text-4xl md:text-5xl leading-[1.1] text-foreground font-normal">
-            Questions, <em className="not-italic text-primary">answered.</em>
+            Everything you <em className="not-italic text-primary">need to know.</em>
           </h2>
+          <p className="mt-5 text-base md:text-lg leading-relaxed text-muted-foreground">
+            Still have questions? Message our care team anytime.
+          </p>
         </div>
         <div className="space-y-3">
           {items.map((it, i) => {
@@ -80,6 +103,15 @@ export const FAQ = () => {
               </div>
             );
           })}
+        </div>
+        <div className="mt-12 text-center">
+          <p className="text-sm text-muted-foreground mb-4">Still have a question?</p>
+          <Link
+            to="/support"
+            className="inline-flex items-center rounded-full bg-primary text-primary-foreground px-6 py-3 text-sm font-medium hover:opacity-95 transition-opacity"
+          >
+            Message our care team →
+          </Link>
         </div>
       </div>
     </section>
