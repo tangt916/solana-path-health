@@ -56,8 +56,11 @@ export const FAQ = () => {
             Frequently asked
           </p>
           <h2 className="font-serif text-4xl md:text-5xl leading-[1.1] text-foreground font-normal">
-            Questions, <em className="not-italic text-primary">answered.</em>
+            Everything you <em className="not-italic text-primary">need to know.</em>
           </h2>
+          <p className="mt-5 text-base md:text-lg leading-relaxed text-muted-foreground">
+            Still have questions? Message our care team anytime.
+          </p>
         </div>
         <div className="space-y-3">
           {items.map((it, i) => {
