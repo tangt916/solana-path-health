@@ -5,14 +5,12 @@ export const FadeInOnScroll = ({
   children,
   className,
   delay = 0,
-  as: As = "div",
 }: {
   children: React.ReactNode;
   className?: string;
   delay?: number;
-  as?: keyof JSX.IntrinsicElements;
 }) => {
-  const ref = useRef<HTMLElement | null>(null);
+  const ref = useRef<HTMLDivElement | null>(null);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -34,8 +32,8 @@ export const FadeInOnScroll = ({
   }, []);
 
   return (
-    <As
-      ref={ref as never}
+    <div
+      ref={ref}
       style={{ transitionDelay: `${delay}ms` }}
       className={cn(
         "transition-all duration-700 ease-out",
@@ -44,6 +42,6 @@ export const FadeInOnScroll = ({
       )}
     >
       {children}
-    </As>
+    </div>
   );
 };
