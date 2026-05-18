@@ -135,10 +135,10 @@ const Header = () => {
               <>
                 <a href="/#how-it-works" className={navLinkCls} onClick={() => setMobileOpen(false)}>How It Works</a>
                 <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground mt-2">Treatments</p>
-                {TREATMENTS.map((t) => (
+                {NAV_TREATMENTS.map((t) => (
                   <Link
-                    key={t.slug}
-                    to={`/treatments/${t.slug}`}
+                    key={t.to}
+                    to={t.to}
                     className="text-sm text-foreground/80 pl-3"
                     onClick={() => setMobileOpen(false)}
                   >
