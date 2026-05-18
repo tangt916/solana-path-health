@@ -29,38 +29,48 @@ export const FAQ = () => {
   ];
 
   return (
-    <section id="faq" className="py-20" style={{ background: '#faf6ee' }}>
+    <section id="faq" className="py-24 md:py-32 bg-background">
       <div className="container max-w-3xl">
-        <div className="text-center mb-10">
-          <p className="text-xs font-medium uppercase tracking-[0.18em] mb-3" style={{ color: '#2d4a1e' }}>
+        <div className="text-center mb-12">
+          <p className="text-xs font-medium uppercase tracking-[0.22em] text-accent mb-4">
             Frequently asked
           </p>
-          <h2 className="font-serif text-3xl md:text-4xl leading-tight" style={{ fontWeight: 300, color: '#0f1f12' }}>
-            Questions, <em style={{ color: '#1a3a1e' }}>answered.</em>
+          <h2 className="font-serif text-4xl md:text-5xl leading-[1.1] text-foreground font-normal">
+            Questions, <em className="not-italic text-primary">answered.</em>
           </h2>
         </div>
         <div className="space-y-3">
           {items.map((it, i) => {
             const isOpen = open === i;
             return (
-              <div key={it.q} className="rounded-2xl border bg-white overflow-hidden" style={{ borderColor: 'rgba(45,74,30,0.12)' }}>
+              <div
+                key={it.q}
+                className="rounded-2xl border border-border bg-card overflow-hidden"
+              >
                 <button
                   type="button"
                   onClick={() => setOpen(isOpen ? null : i)}
                   aria-expanded={isOpen}
-                  className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left transition-colors hover:bg-muted/30"
+                  className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-secondary/50"
                 >
-                  <span className="font-medium text-sm sm:text-base" style={{ color: '#0f1f12' }}>{it.q}</span>
-                  {isOpen ? <ChevronUp className="h-5 w-5 shrink-0" style={{ color: '#2d4a1e' }} /> : <ChevronDown className="h-5 w-5 shrink-0" style={{ color: '#2d4a1e' }} />}
+                  <span className="font-medium text-base text-foreground">
+                    {it.q}
+                  </span>
+                  {isOpen ? (
+                    <ChevronUp className="h-5 w-5 shrink-0 text-primary" />
+                  ) : (
+                    <ChevronDown className="h-5 w-5 shrink-0 text-primary" />
+                  )}
                 </button>
                 {isOpen && (
-                  <div className="px-5 pb-5">
-                    <p className="text-sm leading-relaxed" style={{ color: '#2d4a2a' }}>{it.a}</p>
+                  <div className="px-6 pb-6">
+                    <p className="text-sm leading-relaxed text-muted-foreground">
+                      {it.a}
+                    </p>
                     {it.cta && (
                       <Link
                         to={it.cta.to}
-                        className="mt-4 inline-flex items-center rounded-full px-5 py-2.5 text-xs font-medium transition-opacity hover:opacity-90"
-                        style={{ background: '#0f1f12', color: '#faf6ee' }}
+                        className="mt-4 inline-flex items-center rounded-full bg-primary text-primary-foreground px-5 py-2.5 text-xs font-medium hover:opacity-95 transition-opacity"
                       >
                         {it.cta.label} →
                       </Link>
