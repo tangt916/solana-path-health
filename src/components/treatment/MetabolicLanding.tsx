@@ -372,7 +372,7 @@ export const MetabolicLanding = () => (
     <WhoItsFor />
     <HowItWorks />
     <Medications />
-    <Pricing />
+    
     <SafetyBlock />
     <FAQ />
     <FinalCta />
