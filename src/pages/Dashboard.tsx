@@ -17,6 +17,7 @@ import { OrdersSection } from "@/components/dashboard/OrdersSection";
 import { MessagesSection } from "@/components/dashboard/MessagesSection";
 import { ReferralCreditsCard } from "@/components/dashboard/ReferralCreditsCard";
 import { QuickLinks } from "@/components/dashboard/QuickLinks";
+import { RelevantArticles } from "@/components/dashboard/RelevantArticles";
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -33,8 +34,18 @@ const Dashboard = () => {
     appointmentTime?: string;
     isImmediate?: boolean;
   }>({});
+  const [intakeProblems, setIntakeProblems] = useState<string[]>([]);
 
   useEffect(() => {
+    // Hydrate problems from the intake form (sessionStorage) for article matching.
+    try {
+      const raw = sessionStorage.getItem("intakeFormState");
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed?.problems)) setIntakeProblems(parsed.problems);
+      }
+    } catch { /* ignore */ }
+
     const isNew = searchParams.get("newUser") === "true";
     const seen = sessionStorage.getItem("welcomeModalSeen") === "true";
     if (!isNew || seen) return;
@@ -150,6 +161,7 @@ const Dashboard = () => {
           {!loading && !error && data && (
             <>
               <StatusBanner caseRow={data.caseRow} />
+              <RelevantArticles problems={intakeProblems} />
               <AppointmentsSection
                 appointments={futureAppointments}
                 cancellingId={cancellingId}
