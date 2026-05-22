@@ -50,8 +50,8 @@ export const Step2Contact = ({ onBack, onNext }: Props) => {
         source: "intake_partial",
         email_opt_in: true,
         problems: state.problems,
-        segmentation: state.segmentation as unknown as Record<string, unknown>,
-      })
+        segmentation: state.segmentation,
+      } as never)
       .then(({ error }) => {
         if (error && !error.message.toLowerCase().includes("duplicate")) {
           savedRef.current = false;
@@ -88,8 +88,8 @@ export const Step2Contact = ({ onBack, onNext }: Props) => {
         source: "intake_form",
         email_opt_in: true,
         problems: state.problems,
-        segmentation: state.segmentation as unknown as Record<string, unknown>,
-      });
+        segmentation: state.segmentation,
+      } as never);
       if (error && !error.message.toLowerCase().includes("duplicate")) {
         console.warn("marketing_leads insert skipped:", error.message);
       }
