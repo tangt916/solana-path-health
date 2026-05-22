@@ -375,9 +375,11 @@ export type Database = {
           last_name: string | null
           patient_id: string | null
           phone: string | null
+          problems: string[] | null
           promo_code: string | null
           promo_expiry: string | null
           promo_used: boolean | null
+          segmentation: Json | null
           sms_opt_in: boolean | null
           source: string | null
         }
@@ -391,9 +393,11 @@ export type Database = {
           last_name?: string | null
           patient_id?: string | null
           phone?: string | null
+          problems?: string[] | null
           promo_code?: string | null
           promo_expiry?: string | null
           promo_used?: boolean | null
+          segmentation?: Json | null
           sms_opt_in?: boolean | null
           source?: string | null
         }
@@ -407,9 +411,11 @@ export type Database = {
           last_name?: string | null
           patient_id?: string | null
           phone?: string | null
+          problems?: string[] | null
           promo_code?: string | null
           promo_expiry?: string | null
           promo_used?: boolean | null
+          segmentation?: Json | null
           sms_opt_in?: boolean | null
           source?: string | null
         }
