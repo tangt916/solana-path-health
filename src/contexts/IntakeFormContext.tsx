@@ -6,7 +6,7 @@ export interface PersonalInfo {
   lastName: string;
   email: string;
   phone: string;
-  state: string; // US state code, e.g. "CA"
+  state: string;
 }
 
 export interface HealthInfo {
@@ -50,20 +50,31 @@ export interface GoalsInfo {
   referralCode: string;
 }
 
+/**
+ * Segmentation captured to power retargeting + messaging tests.
+ * None of this is medically required — it's marketing/UX data.
+ */
+export interface SegmentationInfo {
+  ageRange: string;     // "18-29" | "30-39" | "40-49" | "50-59" | "60+"
+  gender: string;       // "Female" | "Male" | "Non-binary" | "Prefer not to say"
+  primaryMotivation: string; // "Confidence" | "Energy" | "Longevity" | "Medical concern" | "How I look" | "How I feel"
+  urgency: string;      // "ASAP" | "Within a month" | "Just exploring"
+  budgetComfort: string; // "Under $100/mo" | "$100-200/mo" | "$200+/mo" | "Not sure yet"
+}
+
 export type AppointmentType = "immediate" | "scheduled";
 
 export interface AppointmentSelection {
   type: AppointmentType;
-  // For type === "scheduled": full slot info from MockCalendar.
   slot?: TimeSlot;
-  // For type === "immediate": canned details.
   providerName: string;
-  // ISO timestamp for immediate, slot.date+time encoded for scheduled.
   displayWhen: string;
 }
 
 export interface IntakeFormState {
-  step: number; // 1..4
+  step: number; // 1..5
+  problems: string[]; // slugs from PROBLEM_OPTIONS
+  segmentation: SegmentationInfo;
   personalInfo: PersonalInfo;
   healthInfo: HealthInfo;
   goalsInfo: GoalsInfo;
@@ -75,6 +86,14 @@ const STORAGE_KEY = "intakeFormState";
 
 const initialState: IntakeFormState = {
   step: 1,
+  problems: [],
+  segmentation: {
+    ageRange: "",
+    gender: "",
+    primaryMotivation: "",
+    urgency: "",
+    budgetComfort: "",
+  },
   personalInfo: { firstName: "", lastName: "", email: "", phone: "", state: "" },
   healthInfo: {
     weightLbs: "",
@@ -108,6 +127,8 @@ const initialState: IntakeFormState = {
 interface ContextValue {
   state: IntakeFormState;
   setStep: (step: number) => void;
+  setProblems: (problems: string[]) => void;
+  updateSegmentation: (data: Partial<SegmentationInfo>) => void;
   updatePersonal: (data: Partial<PersonalInfo>) => void;
   updateHealth: (data: Partial<HealthInfo>) => void;
   updateGoals: (data: Partial<GoalsInfo>) => void;
@@ -129,7 +150,10 @@ export const IntakeFormProvider = ({ children }: { children: ReactNode }) => {
       const saved = sessionStorage.getItem(STORAGE_KEY);
       if (saved) {
         const parsed = JSON.parse(saved) as IntakeFormState;
-        setState({ ...initialState, ...parsed });
+        setState({ ...initialState, ...parsed,
+          segmentation: { ...initialState.segmentation, ...(parsed.segmentation ?? {}) },
+          problems: parsed.problems ?? [],
+        });
         if (parsed.step > 1 || parsed.personalInfo?.email) {
           setHasSavedProgress(true);
         }
@@ -159,8 +183,11 @@ export const IntakeFormProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [state, hydrated]);
 
-  const setStep = useCallback(
-    (step: number) => setState((s) => ({ ...s, step })),
+  const setStep = useCallback((step: number) => setState((s) => ({ ...s, step })), []);
+  const setProblems = useCallback((problems: string[]) => setState((s) => ({ ...s, problems })), []);
+  const updateSegmentation = useCallback(
+    (data: Partial<SegmentationInfo>) =>
+      setState((s) => ({ ...s, segmentation: { ...s.segmentation, ...data } })),
     []
   );
   const updatePersonal = useCallback(
@@ -179,8 +206,7 @@ export const IntakeFormProvider = ({ children }: { children: ReactNode }) => {
     []
   );
   const setAppointment = useCallback(
-    (appt: AppointmentSelection | null) =>
-      setState((s) => ({ ...s, appointment: appt })),
+    (appt: AppointmentSelection | null) => setState((s) => ({ ...s, appointment: appt })),
     []
   );
   const setReferralCode = useCallback(
@@ -199,6 +225,8 @@ export const IntakeFormProvider = ({ children }: { children: ReactNode }) => {
       value={{
         state,
         setStep,
+        setProblems,
+        updateSegmentation,
         updatePersonal,
         updateHealth,
         updateGoals,
