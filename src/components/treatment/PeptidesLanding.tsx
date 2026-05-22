@@ -439,11 +439,11 @@ export const PeptidesLanding = () => (
     <Header />
     <Hero />
     <WhoItsFor />
-    <TabbedProtocols />
+    <PeptidesCarousel />
+    <FinalCta />
     <Includes />
     <SafetyBlock />
     <FAQ />
-    <FinalCta />
     <SafetyInfo />
     <Footer />
   </div>
