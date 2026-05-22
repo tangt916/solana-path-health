@@ -17,6 +17,7 @@ import { OrdersSection } from "@/components/dashboard/OrdersSection";
 import { MessagesSection } from "@/components/dashboard/MessagesSection";
 import { ReferralCreditsCard } from "@/components/dashboard/ReferralCreditsCard";
 import { QuickLinks } from "@/components/dashboard/QuickLinks";
+import { RelevantArticles } from "@/components/dashboard/RelevantArticles";
 
 const Dashboard = () => {
   const { user } = useAuth();
