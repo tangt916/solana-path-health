@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { SafetyInfo } from "@/components/landing/SafetyInfo";
 import { trackEvent } from "@/lib/analytics";
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel";
 
 const FOREST = "#1C3A2E";
 const GOLD = "#C9A96E";
@@ -189,81 +189,85 @@ const PROTOCOLS: Record<string, { label: string; eyebrow: string; items: Peptide
   },
 };
 
-const TabbedProtocols = () => {
-  const keys = Object.keys(PROTOCOLS);
-  const [active, setActive] = useState(keys[0]);
-  const cat = PROTOCOLS[active];
-  return (
-    <section className="py-20" style={{ background: WARM_WHITE }}>
-      <div className="container">
-        <div className="max-w-2xl mb-10">
-          <p className={eyebrowCls} style={{ color: GOLD }}>The protocols</p>
-          <h2 className={h2Cls} style={{ fontWeight: 300, color: FOREST }}>
-            Targeted protocols, <em style={{ color: GOLD }}>matched to your goals.</em>
-          </h2>
-          <p className="mt-4 text-sm" style={{ color: "#2d4a3a" }}>
-            Browse by category. Your provider determines which protocols &mdash; if any &mdash; are appropriate for you.
-          </p>
-        </div>
+const ALL_PEPTIDES: (Peptide & { category: string })[] = Object.entries(PROTOCOLS).flatMap(
+  ([, cat]) => cat.items.map((p) => ({ ...p, category: cat.label }))
+);
 
-        <div role="tablist" aria-label="Peptide categories" className="flex flex-wrap gap-2 mb-8">
-          {keys.map((k) => {
-            const isActive = k === active;
-            return (
-              <button
-                key={k}
-                role="tab"
-                aria-selected={isActive}
-                onClick={() => setActive(k)}
-                className="px-5 py-2 rounded-full text-sm font-medium transition-all border"
-                style={{
-                  background: isActive ? FOREST : "transparent",
-                  color: isActive ? WARM_WHITE : FOREST,
-                  borderColor: isActive ? FOREST : "rgba(28,58,46,0.2)",
-                }}
-              >
-                {PROTOCOLS[k].label}
-              </button>
-            );
-          })}
-        </div>
-
-        <p className="text-xs uppercase tracking-wider mb-6" style={{ color: GOLD }}>
-          {cat.eyebrow}
+const PeptidesCarousel = () => (
+  <section className="py-20" style={{ background: WARM_WHITE }}>
+    <div className="container">
+      <div className="max-w-2xl mb-10">
+        <p className={eyebrowCls} style={{ color: GOLD }}>The protocols</p>
+        <h2 className={h2Cls} style={{ fontWeight: 300, color: FOREST }}>
+          Every peptide we offer, <em style={{ color: GOLD }}>in one place.</em>
+        </h2>
+        <p className="mt-4 text-sm" style={{ color: "#2d4a3a" }}>
+          Browse every protocol available through Solana. Your provider determines which &mdash; if any &mdash; are appropriate for you.
         </p>
-
-        <div className="grid gap-6 md:grid-cols-2">
-          {cat.items.map((p) => (
-            <div key={p.name} className="relative rounded-2xl bg-white p-7 border" style={{ borderColor: "rgba(28,58,46,0.1)" }}>
-              {p.tag && (
-                <span className="absolute -top-3 left-6 rounded-full px-3 py-1 text-[10px] font-medium uppercase tracking-wider" style={{ background: GOLD, color: FOREST }}>
-                  {p.tag}
-                </span>
-              )}
-              <h3 className="font-serif text-2xl mb-3" style={{ fontWeight: 500, color: FOREST }}>{p.name}</h3>
-              <p className="text-sm leading-relaxed" style={{ color: "#2d4a3a" }}>{p.what}</p>
-              {p.delivery && (
-                <ul className="mt-4 space-y-2">
-                  {p.delivery.map((d) => (
-                    <li key={d} className="flex items-start gap-2 text-sm" style={{ color: "#2d4a3a" }}>
-                      <span style={{ color: GOLD }}>•</span> {d}
-                    </li>
-                  ))}
-                </ul>
-              )}
-              <p className="mt-5 text-sm" style={{ color: FOREST }}>
-                {p.priceWas && (
-                  <>From <span style={{ textDecoration: "line-through", opacity: 0.55 }}>{p.priceWas}</span>{" "}</>
-                )}
-                <strong>{p.priceNow}</strong>
-              </p>
-            </div>
-          ))}
-        </div>
       </div>
-    </section>
-  );
-};
+
+      <Carousel opts={{ align: "start" }} className="w-full">
+        <CarouselContent className="-ml-4">
+          {ALL_PEPTIDES.map((p) => (
+            <CarouselItem key={p.name} className="pl-4 md:basis-1/2 lg:basis-1/3">
+              <div className="relative h-full rounded-2xl bg-white p-7 border" style={{ borderColor: "rgba(28,58,46,0.1)" }}>
+                {p.tag && (
+                  <span className="absolute -top-3 left-6 rounded-full px-3 py-1 text-[10px] font-medium uppercase tracking-wider" style={{ background: GOLD, color: FOREST }}>
+                    {p.tag}
+                  </span>
+                )}
+                <p className="text-[10px] uppercase tracking-wider mb-2" style={{ color: GOLD }}>{p.category}</p>
+                <h3 className="font-serif text-2xl mb-3" style={{ fontWeight: 500, color: FOREST }}>{p.name}</h3>
+                <p className="text-sm leading-relaxed" style={{ color: "#2d4a3a" }}>{p.what}</p>
+                {p.delivery && (
+                  <ul className="mt-4 space-y-2">
+                    {p.delivery.map((d) => (
+                      <li key={d} className="flex items-start gap-2 text-sm" style={{ color: "#2d4a3a" }}>
+                        <span style={{ color: GOLD }}>•</span> {d}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                <p className="mt-5 text-sm" style={{ color: FOREST }}>
+                  {p.priceWas && (
+                    <>From <span style={{ textDecoration: "line-through", opacity: 0.55 }}>{p.priceWas}</span>{" "}</>
+                  )}
+                  <strong>{p.priceNow}</strong>
+                </p>
+              </div>
+            </CarouselItem>
+          ))}
+          <CarouselItem className="pl-4 md:basis-1/2 lg:basis-1/3">
+            <div
+              className="relative h-full rounded-2xl p-7 border flex flex-col justify-center text-center"
+              style={{ borderColor: GOLD, borderStyle: "dashed", background: SAGE }}
+            >
+              <p className="text-[10px] uppercase tracking-wider mb-3" style={{ color: GOLD }}>More options</p>
+              <h3 className="font-serif text-2xl mb-3" style={{ fontWeight: 500, color: FOREST }}>
+                Looking for something specific?
+              </h3>
+              <p className="text-sm leading-relaxed mb-5" style={{ color: "#2d4a3a" }}>
+                More peptide protocols are available beyond what&rsquo;s listed here. Contact your provider about your specific needs and goals.
+              </p>
+              <Link
+                to="/get-started/anti-aging"
+                onClick={() => trackEvent("quiz_started", { treatment: "peptides_more_options" })}
+                className="inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-medium transition-opacity hover:opacity-90 mx-auto"
+                style={{ background: FOREST, color: WARM_WHITE }}
+              >
+                Talk to a provider →
+              </Link>
+            </div>
+          </CarouselItem>
+        </CarouselContent>
+        <div className="hidden md:block">
+          <CarouselPrevious />
+          <CarouselNext />
+        </div>
+      </Carousel>
+    </div>
+  </section>
+);
 
 const Includes = () => {
   const items = [
@@ -435,11 +439,11 @@ export const PeptidesLanding = () => (
     <Header />
     <Hero />
     <WhoItsFor />
-    <TabbedProtocols />
+    <PeptidesCarousel />
+    <FinalCta />
     <Includes />
     <SafetyBlock />
     <FAQ />
-    <FinalCta />
     <SafetyInfo />
     <Footer />
   </div>

@@ -46,9 +46,12 @@ export const HeroV2 = () => (
         <FadeInOnScroll delay={220}>
           <div className="mt-9 flex flex-col sm:flex-row gap-3 items-center justify-center">
             <PrimaryCTA size="lg">Take the Free Assessment</PrimaryCTA>
-            <SecondaryCTA to="/#treatments" size="lg">
+            <a
+              href="#treatments"
+              className="inline-flex items-center justify-center rounded-full border border-primary/30 text-primary font-medium tracking-tight transition-colors hover:bg-primary/5 px-7 py-3.5 text-base"
+            >
               Explore Treatments
-            </SecondaryCTA>
+            </a>
           </div>
         </FadeInOnScroll>
 
