@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { SafetyInfo } from "@/components/landing/SafetyInfo";
 import { trackEvent } from "@/lib/analytics";
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel";
 
 const FOREST = "#1C3A2E";
 const GOLD = "#C9A96E";
