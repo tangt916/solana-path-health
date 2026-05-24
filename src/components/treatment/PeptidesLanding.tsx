@@ -4,24 +4,11 @@ import Footer from "@/components/layout/Footer";
 import { SafetyInfo } from "@/components/landing/SafetyInfo";
 import { trackEvent } from "@/lib/analytics";
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel";
-
-const FOREST = "#1C3A2E";
-const GOLD = "#C9A96E";
-const WARM_WHITE = "#FAFAF8";
-const SAGE = "#E8EDE6";
-
-const eyebrowCls = "text-xs font-medium uppercase tracking-[0.18em] mb-4";
-const h2Cls = "font-serif text-3xl md:text-4xl leading-tight";
+import { FOREST, GOLD, WARM_WHITE, SAGE, eyebrowCls, h2Cls } from "./shared";
+import { PrimaryCta as SharedPrimaryCta } from "./PrimaryCta";
 
 const PrimaryCta = ({ label = "Build Your Protocol →" }: { label?: string }) => (
-  <Link
-    to="/get-started/anti-aging"
-    onClick={() => trackEvent("quiz_started", { treatment: "peptides" })}
-    className="inline-flex items-center rounded-full px-8 py-3.5 text-sm font-medium transition-opacity hover:opacity-90"
-    style={{ background: FOREST, color: WARM_WHITE }}
-  >
-    {label}
-  </Link>
+  <SharedPrimaryCta to="/get-started/anti-aging" treatment="peptides" label={label} />
 );
 
 const Hero = () => (
