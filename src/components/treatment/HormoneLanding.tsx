@@ -3,24 +3,11 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { SafetyInfo } from "@/components/landing/SafetyInfo";
 import { trackEvent } from "@/lib/analytics";
+import { FOREST, GOLD, WARM_WHITE, SAGE, eyebrowCls, h2Cls } from "./shared";
+import { PrimaryCta as SharedPrimaryCta } from "./PrimaryCta";
 
-const FOREST = "#1C3A2E";
-const GOLD = "#C9A96E";
-const WARM_WHITE = "#FAFAF8";
-const SAGE = "#E8EDE6";
-
-const eyebrowCls = "text-xs font-medium uppercase tracking-[0.18em] mb-4";
-const h2Cls = "font-serif text-3xl md:text-4xl leading-tight";
-
-const PrimaryCta = ({ label = "Take the Free Assessment →" }: { label?: string }) => (
-  <Link
-    to="/get-started/hormone-therapy"
-    onClick={() => trackEvent("quiz_started", { treatment: "hormone-therapy" })}
-    className="inline-flex items-center rounded-full px-8 py-3.5 text-sm font-medium transition-opacity hover:opacity-90"
-    style={{ background: FOREST, color: WARM_WHITE }}
-  >
-    {label}
-  </Link>
+const PrimaryCta = ({ label }: { label?: string }) => (
+  <SharedPrimaryCta to="/get-started/hormone-therapy" treatment="hormone-therapy" label={label} />
 );
 
 const Hero = () => (
