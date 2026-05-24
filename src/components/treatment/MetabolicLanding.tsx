@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { SafetyInfo } from "@/components/landing/SafetyInfo";
+import { trackEvent } from "@/lib/analytics";
 import { FOREST, GOLD, WARM_WHITE, SAGE, eyebrowCls, h2Cls } from "./shared";
 import { PrimaryCta as SharedPrimaryCta } from "./PrimaryCta";
 
