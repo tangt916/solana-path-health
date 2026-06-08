@@ -4,6 +4,7 @@ import { getTreatment } from "@/config/treatments";
 import { TreatmentLanding } from "@/components/treatment/TreatmentLanding";
 import { MetabolicLanding } from "@/components/treatment/MetabolicLanding";
 import { HormoneLanding } from "@/components/treatment/HormoneLanding";
+import { PeptidesLanding } from "@/components/treatment/PeptidesLanding";
 import { trackEvent } from "@/lib/analytics";
 import { SEO } from "@/components/SEO";
 
