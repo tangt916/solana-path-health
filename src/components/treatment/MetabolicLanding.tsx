@@ -378,7 +378,7 @@ const FAQS = [
   { q: "What is microdosing?", a: "Microdosing uses smaller-than-standard GLP-1 doses for appetite support, gentler side-effect profiles, and weight maintenance — often after reaching a goal weight or for a more measured approach." },
   { q: "How quickly will I see results?", a: "Many patients notice reduced appetite within the first 1–2 weeks. Visible weight changes typically appear over 4–12 weeks. Results vary by individual and protocol." },
   { q: "Am I eligible?", a: "Eligibility depends on your health history, BMI, and clinical factors. The free assessment helps your clinician determine whether GLP-1 treatment is appropriate for you." },
-  { q: "Do I need insurance?", a: "No. Solana operates as a direct-pay program with transparent monthly pricing — no insurance required." },
+  { q: "Do I need insurance?", a: "No. Solana Health operates as a direct-pay program with transparent monthly pricing — no insurance required." },
 ];
 
 const FAQ = () => {

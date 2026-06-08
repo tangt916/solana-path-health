@@ -37,7 +37,7 @@ export const HeroV2 = () => (
         <FadeInOnScroll delay={120}>
           <p className="mt-7 text-lg md:text-xl leading-relaxed text-muted-foreground max-w-2xl mx-auto">
             The exhaustion, weight gain, and mental fog most women accept as
-            &ldquo;just getting older&rdquo; are treatable. Solana pairs you
+            &ldquo;just getting older&rdquo; are treatable. Solana Health pairs you
             with a licensed provider who looks at your whole biology — and
             builds a protocol actually designed for you.
           </p>

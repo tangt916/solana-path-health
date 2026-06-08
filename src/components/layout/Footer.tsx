@@ -7,7 +7,7 @@ const Footer = () => {
       <div className="container py-16 md:py-20">
         <div className="grid gap-12 md:grid-cols-12">
           <div className="md:col-span-5">
-            <span className="font-serif text-3xl tracking-tight">Solana</span>
+            <span className="font-serif text-3xl tracking-tight">Solana Health</span>
             <p className="mt-4 text-sm md:text-base leading-relaxed text-primary-foreground/70 max-w-sm">
               Personalized wellness for women. Licensed providers. Real results.
             </p>

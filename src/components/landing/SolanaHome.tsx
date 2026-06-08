@@ -280,7 +280,7 @@ const WhySolana = () => {
       style={{ background: "linear-gradient(180deg,#ffffff,#f6f8f4)" }}>
       <div className="container">
         <div className="mx-auto max-w-2xl text-center">
-          <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-[#3d6b4a]">Why Solana</p>
+          <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-[#3d6b4a]">Why Solana Health</p>
           <h2 className="mt-4 font-serif text-4xl font-light leading-tight text-[#0f1f12] md:text-5xl">
             Premium care, <em className="not-italic" style={{ color: "#3d6b4a" }}>thoughtfully delivered.</em>
           </h2>

@@ -57,7 +57,7 @@ export const WhatWeTreatV2 = () => (
           </h2>
           <p className="mt-5 text-base md:text-lg leading-relaxed text-muted-foreground">
             Most wellness programs address one symptom and ignore the rest.
-            Solana looks at the full picture — because your energy, weight,
+            Solana Health looks at the full picture — because your energy, weight,
             hormones, and longevity are all connected.
           </p>
         </div>

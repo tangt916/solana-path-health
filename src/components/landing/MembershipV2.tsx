@@ -25,7 +25,7 @@ export const MembershipV2 = () => (
             </h2>
             <p className="mt-5 text-base md:text-lg leading-relaxed text-muted-foreground">
               Most telehealth clinics hand you a prescription and disappear.
-              Solana stays with you.
+              Solana Health stays with you.
             </p>
             <ul className="mt-8 space-y-3.5">
               {INCLUDED.map((item) => (
