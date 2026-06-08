@@ -41,6 +41,8 @@ const TreatmentPage = () => {
         <MetabolicLanding />
       ) : t.slug === "hormone-therapy" ? (
         <HormoneLanding />
+      ) : t.slug === "anti-aging" ? (
+        <PeptidesLanding />
       ) : (
         <TreatmentLanding t={t} />
       )}
