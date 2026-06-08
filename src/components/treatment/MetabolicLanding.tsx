@@ -1,333 +1,471 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import {
+  Sparkles, TrendingDown, Brain, Salad, HeartPulse, ShieldCheck, Stethoscope, Truck,
+  ArrowRight, ChevronDown, ClipboardList, Pill, RefreshCw, Target, Activity, Smile,
+} from "lucide-react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { SafetyInfo } from "@/components/landing/SafetyInfo";
 import { trackEvent } from "@/lib/analytics";
-import { FOREST, GOLD, WARM_WHITE, SAGE, eyebrowCls, h2Cls } from "./shared";
-import { PrimaryCta as SharedPrimaryCta } from "./PrimaryCta";
+import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import { FOREST, GOLD, WARM_WHITE, SAGE } from "./shared";
 
-const PrimaryCta = ({ label }: { label?: string }) => (
-  <SharedPrimaryCta to="/get-started/weight-loss" treatment="weight-loss" label={label} />
+const QUIZ = "/get-started/weight-loss";
+const eyebrow = "text-[11px] font-medium uppercase tracking-[0.22em]";
+const heading = "font-serif leading-[1.05]";
+
+/* ----------------------------- buttons ----------------------------- */
+const PrimaryBtn = ({ to = QUIZ, children, onClick, className = "" }: { to?: string; children: React.ReactNode; onClick?: () => void; className?: string }) => (
+  <Link to={to} onClick={onClick}
+    className={`inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-medium text-white shadow-[0_12px_30px_-10px_rgba(28,58,46,0.5)] transition-all hover:-translate-y-0.5 ${className}`}
+    style={{ background: `linear-gradient(135deg, ${FOREST} 0%, #2d5a3d 60%, ${FOREST} 100%)` }}>
+    {children}<ArrowRight className="h-4 w-4" />
+  </Link>
 );
+
+const GhostBtn = ({ to, children }: { to: string; children: React.ReactNode }) => (
+  <Link to={to} className="inline-flex items-center justify-center gap-2 rounded-full border px-7 py-3.5 text-sm font-medium transition-all hover:bg-white"
+    style={{ borderColor: `${FOREST}33`, color: FOREST }}>{children}</Link>
+);
+
+/* ----------------------------- HERO ----------------------------- */
+const JourneyChart = () => {
+  const milestones = [
+    { label: "Week 1", y: 88, note: "Start" },
+    { label: "Week 4", y: 70, note: "Adjustment" },
+    { label: "Week 12", y: 45, note: "Momentum" },
+    { label: "Week 24", y: 22, note: "Sustained" },
+  ];
+  const w = 360, h = 200, pad = 24;
+  const xs = (i: number) => pad + (i * (w - pad * 2)) / (milestones.length - 1);
+  const ys = (v: number) => pad + ((100 - v) * (h - pad * 2)) / 100;
+  const path = milestones.map((m, i) => `${i === 0 ? "M" : "L"} ${xs(i)} ${ys(m.y)}`).join(" ");
+  const area = `${path} L ${xs(milestones.length - 1)} ${h - pad} L ${xs(0)} ${h - pad} Z`;
+
+  return (
+    <div className="relative mx-auto w-full max-w-md">
+      <div className="relative overflow-hidden rounded-[2rem] border bg-white/55 p-6 backdrop-blur-xl"
+        style={{ borderColor: "rgba(255,255,255,0.8)", boxShadow: "0 24px 60px -25px rgba(28,58,46,0.3)" }}>
+        <div aria-hidden className="absolute inset-0 -z-10"
+          style={{ background: `linear-gradient(135deg, ${SAGE} 0%, rgba(232,220,200,0.5) 60%, #fff 100%)` }} />
+
+        <div className="flex items-center justify-between">
+          <div>
+            <p className={eyebrow} style={{ color: GOLD }}>Your Progress</p>
+            <p className="mt-1 font-serif text-lg" style={{ color: FOREST }}>Sustainable journey</p>
+          </div>
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-white/70 px-3 py-1 text-xs backdrop-blur" style={{ color: FOREST }}>
+            <TrendingDown className="h-3.5 w-3.5" style={{ color: GOLD }} /> On track
+          </span>
+        </div>
+
+        <svg viewBox={`0 0 ${w} ${h}`} className="mt-5 w-full">
+          <defs>
+            <linearGradient id="areaG" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stopColor={FOREST} stopOpacity="0.35" />
+              <stop offset="100%" stopColor={FOREST} stopOpacity="0" />
+            </linearGradient>
+          </defs>
+          <path d={area} fill="url(#areaG)" />
+          <path d={path} fill="none" stroke={FOREST} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+          {milestones.map((m, i) => (
+            <g key={m.label}>
+              <circle cx={xs(i)} cy={ys(m.y)} r="6" fill="white" stroke={GOLD} strokeWidth="2.5" />
+              <text x={xs(i)} y={h - 6} textAnchor="middle" fontSize="10" fill={FOREST} opacity="0.7">{m.label}</text>
+            </g>
+          ))}
+        </svg>
+      </div>
+
+      {/* floating cards */}
+      {[
+        { icon: Brain, label: "Reduced Cravings", top: "-4%", left: "-10%", delay: 0 },
+        { icon: Salad, label: "Better Portions", top: "30%", right: "-12%", delay: 600 },
+        { icon: TrendingDown, label: "Sustainable Progress", bottom: "10%", left: "-12%", delay: 1200 },
+        { icon: HeartPulse, label: "Personalized Care", bottom: "-6%", right: "-6%", delay: 1800 },
+      ].map((c) => {
+        const Icon = c.icon;
+        return (
+          <div key={c.label} className="absolute hidden md:block"
+            style={{ top: c.top, left: c.left, right: c.right, bottom: c.bottom, animation: `floatY 6s ease-in-out ${c.delay}ms infinite` }}>
+            <div className="rounded-2xl border bg-white/65 px-4 py-2.5 backdrop-blur-xl shadow-[0_12px_30px_-12px_rgba(28,58,46,0.25)]"
+              style={{ borderColor: "rgba(255,255,255,0.7)" }}>
+              <div className="flex items-center gap-2.5">
+                <span className="flex h-8 w-8 items-center justify-center rounded-xl" style={{ background: `linear-gradient(135deg, ${SAGE}, #dceadd)` }}>
+                  <Icon className="h-3.5 w-3.5" style={{ color: FOREST }} />
+                </span>
+                <p className="text-xs font-medium" style={{ color: FOREST }}>{c.label}</p>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
 
 const Hero = () => (
-  <section className="relative" style={{ background: WARM_WHITE }}>
-    <div className={`container relative z-10 py-20 md:py-28`}>
-      <div className="max-w-3xl">
-        <p className={eyebrowCls} style={{ color: GOLD }}>Metabolic &amp; Weight Health</p>
-        <h1 className="font-serif leading-[1.08]" style={{ fontSize: "clamp(2.4rem, 4.5vw, 4.25rem)", fontWeight: 300, color: FOREST }}>
-          Your weight isn&rsquo;t a willpower problem.<br />
-          <em style={{ color: GOLD }}>It&rsquo;s a biology problem.</em>
+  <section className="relative overflow-hidden bg-white">
+    <div aria-hidden className="pointer-events-none absolute inset-0">
+      <div className="absolute -top-32 -left-32 h-[520px] w-[520px] rounded-full blur-3xl opacity-60"
+        style={{ background: "radial-gradient(closest-side, rgba(168,200,160,0.55), transparent)" }} />
+      <div className="absolute -bottom-40 -right-20 h-[520px] w-[520px] rounded-full blur-3xl opacity-50"
+        style={{ background: "radial-gradient(closest-side, rgba(201,169,110,0.3), transparent)" }} />
+    </div>
+
+    <div className="container relative grid items-center gap-12 py-20 md:py-24 lg:grid-cols-[1.05fr_0.95fr]">
+      <div>
+        <span className={`inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 ${eyebrow}`}
+          style={{ borderColor: `${FOREST}22`, color: FOREST, background: "rgba(255,255,255,0.7)", backdropFilter: "blur(8px)" }}>
+          <Sparkles className="h-3.5 w-3.5" style={{ color: GOLD }} /> Medical Weight Loss
+        </span>
+        <h1 className={`mt-6 ${heading}`} style={{ fontSize: "clamp(2.4rem, 5.2vw, 4.4rem)", fontWeight: 300, color: FOREST }}>
+          Weight loss that works <em className="not-italic" style={{ background: `linear-gradient(135deg, ${GOLD}, #8a6a2a)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>with your body.</em>
         </h1>
-        <p className="mt-6 text-base leading-relaxed max-w-2xl" style={{ color: "#2d4a3a" }}>
-          After years of doing everything right &mdash; eating well, exercising, cutting back &mdash; and still not seeing results, most women blame themselves. They shouldn&rsquo;t. Metabolic shifts change how your body processes food, stores fat, and signals hunger. Solana addresses the biology, not just the behavior.
+        <p className="mt-5 max-w-xl text-base md:text-lg" style={{ color: "#3a5a44" }}>
+          Personalized medical weight loss with compounded, branded, and microdose GLP-1 options.
         </p>
-        <div className="mt-8">
-          <PrimaryCta />
+        <p className="mt-3 max-w-xl text-sm" style={{ color: "#5a7060" }}>
+          No crash diets. No all-or-nothing approach. Just a plan built around your goals, lifestyle, and long-term success.
+        </p>
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <PrimaryBtn onClick={() => trackEvent("quiz_started", { treatment: "weight-loss", cta: "hero" })}>Check Eligibility</PrimaryBtn>
+          <GhostBtn to="#options">Explore Options</GhostBtn>
         </div>
-        <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm" style={{ color: FOREST }}>
-          {[
-            "Free provider consultation",
-            "Shipped to your door",
-            "Monthly check-ins included",
-            "Cancel anytime",
-          ].map((b) => (
-            <li key={b} className="inline-flex items-center gap-2">
-              <span style={{ color: GOLD }}>✓</span> {b}
-            </li>
-          ))}
-        </ul>
+      </div>
+
+      <JourneyChart />
+    </div>
+
+    <style>{`@keyframes floatY {0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)}}`}</style>
+  </section>
+);
+
+/* --------------------- GOALS --------------------- */
+const GOALS = [
+  { title: "Feel More In Control Around Food", body: "Reduce food noise and build healthier eating habits.", icon: Brain },
+  { title: "Lose Weight Sustainably", body: "Long-term progress, not short-term dieting.", icon: TrendingDown },
+  { title: "Improve Metabolic Health", body: "Support overall health alongside weight loss.", icon: HeartPulse },
+  { title: "Feel Better In Your Body", body: "Move, dress, and live with greater confidence.", icon: Smile },
+];
+
+const Goals = () => (
+  <section className="relative py-20 md:py-24" style={{ background: "linear-gradient(180deg,#fff,#f6f8f4)" }}>
+    <div className="container">
+      <div className="mx-auto max-w-xl text-center">
+        <p className={eyebrow} style={{ color: GOLD }}>Your goals</p>
+        <h2 className={`mt-3 ${heading}`} style={{ fontSize: "clamp(1.9rem,3.4vw,2.8rem)", fontWeight: 300, color: FOREST }}>
+          What are you hoping to <em className="not-italic" style={{ color: GOLD }}>change?</em>
+        </h2>
+      </div>
+
+      <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {GOALS.map((g) => {
+          const Icon = g.icon;
+          return (
+            <Link key={g.title} to={QUIZ}
+              onClick={() => trackEvent("quiz_started", { treatment: "weight-loss", goal: g.title })}
+              className="group relative overflow-hidden rounded-3xl border bg-white/70 p-7 backdrop-blur-xl transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_24px_50px_-20px_rgba(28,58,46,0.25)]"
+              style={{ borderColor: "rgba(255,255,255,0.8)", boxShadow: "0 8px 24px -16px rgba(28,58,46,0.18)" }}>
+              <div aria-hidden className="pointer-events-none absolute -top-16 -right-16 h-40 w-40 rounded-full opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100"
+                style={{ background: `radial-gradient(circle, ${GOLD}55, transparent)` }} />
+              <span className="relative flex h-12 w-12 items-center justify-center rounded-2xl transition-transform duration-500 group-hover:scale-110"
+                style={{ background: `linear-gradient(135deg, ${SAGE}, #dceadd)` }}>
+                <Icon className="h-5 w-5" style={{ color: FOREST }} />
+              </span>
+              <h3 className="relative mt-5 font-serif text-lg" style={{ color: FOREST, fontWeight: 500 }}>{g.title}</h3>
+              <p className="relative mt-2 text-sm leading-relaxed" style={{ color: "#3a5a44" }}>{g.body}</p>
+            </Link>
+          );
+        })}
       </div>
     </div>
   </section>
 );
 
-const WhoItsFor = () => {
-  const bullets = [
-    "You&rsquo;re eating well and exercising but your weight won&rsquo;t budge",
-    "Your appetite feels out of control &mdash; not because of cravings, but because you&rsquo;re always hungry",
-    "You&rsquo;ve noticed weight shifting even though your habits haven&rsquo;t changed",
-    "You&rsquo;ve tried other programs and hit a wall after the first few weeks",
-    "You want clinical support &mdash; not a diet plan",
-  ];
-  return (
-    <section className="py-20" style={{ background: SAGE }}>
-      <div className="container max-w-3xl">
-        <p className={eyebrowCls} style={{ color: GOLD }}>Who it&rsquo;s for</p>
-        <h2 className={h2Cls} style={{ fontWeight: 300, color: FOREST }}>This program is for you if:</h2>
-        <ul className="mt-8 space-y-4">
-          {bullets.map((b, i) => (
-            <li key={i} className="flex items-start gap-4 text-base leading-relaxed" style={{ color: "#1e3a22" }}>
-              <span className="mt-1 font-serif text-lg" style={{ color: GOLD }}>→</span>
-              <span dangerouslySetInnerHTML={{ __html: b }} />
-            </li>
-          ))}
-        </ul>
+/* --------------------- OPTIONS --------------------- */
+type Opt = { name: string; best: string; highlights: string[]; tag?: string; gradient: string; accent: string };
+const OPTIONS: Opt[] = [
+  {
+    name: "Compounded GLP-1",
+    best: "Budget-conscious patients.",
+    highlights: ["Lower cost", "Flexible dosing", "Personalized approach"],
+    gradient: "linear-gradient(135deg,#f0f7e8,#a8c8a0 70%,#3d6b4a)",
+    accent: "#2d5a3d",
+  },
+  {
+    name: "Branded GLP-1",
+    best: "Patients seeking FDA-approved branded medications.",
+    highlights: ["Brand-name medications", "Established treatment options"],
+    tag: "Most popular",
+    gradient: "linear-gradient(135deg,#fdf4e8,#e8dcc8 70%,#c9a96e)",
+    accent: "#8a6a2a",
+  },
+  {
+    name: "Microdose GLP-1",
+    best: "A lower-dose wellness-focused approach.",
+    highlights: ["Smaller doses", "Appetite support", "Weight maintenance support"],
+    gradient: "linear-gradient(135deg,#e8f4ee,#c7d6c0 70%,#5a8a5c)",
+    accent: "#2d5a4d",
+  },
+];
+
+const OptionCard = ({ o }: { o: Opt }) => (
+  <div className="group relative h-full overflow-hidden rounded-3xl border bg-white/60 p-7 backdrop-blur-xl transition-all duration-500 hover:-translate-y-2"
+    style={{ borderColor: "rgba(255,255,255,0.7)", boxShadow: "0 16px 40px -20px rgba(28,58,46,0.22)" }}>
+    <div aria-hidden className="absolute inset-0 opacity-90" style={{ background: o.gradient }} />
+    <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-white/40 via-white/15 to-white/40" />
+    <div aria-hidden className="absolute -right-8 -bottom-8 h-40 w-24 rounded-[40%_40%_30%_30%/55%_55%_15%_15%] opacity-60 blur-[2px] transition-transform duration-500 group-hover:rotate-6 group-hover:scale-110"
+      style={{ background: `linear-gradient(180deg, ${o.accent}aa, ${o.accent}55)` }} />
+    <div className="relative">
+      {o.tag && (
+        <span className="mb-4 inline-flex rounded-full bg-white/80 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.18em] backdrop-blur"
+          style={{ color: o.accent }}>{o.tag}</span>
+      )}
+      <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/70 backdrop-blur-xl">
+        <Pill className="h-5 w-5" style={{ color: o.accent }} />
+      </span>
+      <h3 className="mt-5 font-serif text-2xl" style={{ color: FOREST, fontWeight: 500 }}>{o.name}</h3>
+      <p className={`mt-4 ${eyebrow}`} style={{ color: o.accent }}>Best for</p>
+      <p className="mt-1 text-sm" style={{ color: "#3a5a44" }}>{o.best}</p>
+      <p className={`mt-5 ${eyebrow}`} style={{ color: o.accent }}>Highlights</p>
+      <ul className="mt-2 space-y-1.5">
+        {o.highlights.map((h) => (
+          <li key={h} className="flex items-start gap-2 text-sm" style={{ color: "#2d4a3a" }}>
+            <span style={{ color: o.accent }}>•</span> {h}
+          </li>
+        ))}
+      </ul>
+      <Link to={QUIZ} onClick={() => trackEvent("quiz_started", { treatment: "weight-loss", option: o.name })}
+        className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium transition-all hover:gap-2.5" style={{ color: FOREST }}>
+        See if it fits <ArrowRight className="h-3.5 w-3.5" />
+      </Link>
+    </div>
+  </div>
+);
+
+const Options = () => (
+  <section id="options" className="relative bg-white py-20 md:py-24">
+    <div className="container">
+      <div className="mx-auto max-w-xl text-center">
+        <p className={eyebrow} style={{ color: GOLD }}>Your options</p>
+        <h2 className={`mt-3 ${heading}`} style={{ fontSize: "clamp(1.9rem,3.4vw,2.8rem)", fontWeight: 300, color: FOREST }}>
+          Choose the approach that <em className="not-italic" style={{ color: GOLD }}>fits your goals.</em>
+        </h2>
       </div>
-    </section>
-  );
-};
 
-const HowItWorks = () => {
-  const steps = [
-    {
-      n: "01",
-      title: "Free assessment + consultation",
-      body: "Your licensed provider reviews your health history, goals, and current medications. They&rsquo;ll determine whether a GLP-1 program is appropriate for you &mdash; no guessing, no one-size-fits-all.",
-    },
-    {
-      n: "02",
-      title: "Your protocol, prescribed",
-      body: "If appropriate, your provider prescribes compounded semaglutide or tirzepatide with a dosing schedule tailored to your starting point and goals.",
-    },
-    {
-      n: "03",
-      title: "Delivered to your door",
-      body: "Your medication ships from a licensed compounding pharmacy. Discreet packaging. Free standard shipping.",
-    },
-    {
-      n: "04",
-      title: "Ongoing support",
-      body: "Monthly provider check-ins to track progress and adjust dosing. Message your care coordinator anytime. Nutrition and habit coaching included.",
-    },
-  ];
-  return (
-    <section className="py-20" style={{ background: WARM_WHITE }}>
-      <div className="container">
-        <div className="max-w-2xl mb-12">
-          <p className={eyebrowCls} style={{ color: GOLD }}>How it works</p>
-          <h2 className={h2Cls} style={{ fontWeight: 300, color: FOREST }}>
-            A metabolic program built around <em style={{ color: GOLD }}>your biology.</em>
-          </h2>
-        </div>
-        <div className="grid gap-6 md:grid-cols-2">
-          {steps.map((s) => (
-            <div key={s.n} className="rounded-2xl p-7" style={{ background: SAGE }}>
-              <p className="font-serif text-3xl mb-3" style={{ color: GOLD, fontWeight: 400 }}>{s.n}</p>
-              <h3 className="font-serif text-xl mb-2" style={{ fontWeight: 500, color: FOREST }}>{s.title}</h3>
-              <p className="text-sm leading-relaxed" style={{ color: "#2d4a3a" }} dangerouslySetInnerHTML={{ __html: s.body }} />
-            </div>
-          ))}
-        </div>
+      <div className="mt-12 hidden gap-6 md:grid md:grid-cols-3">
+        {OPTIONS.map((o) => <OptionCard key={o.name} o={o} />)}
       </div>
-    </section>
-  );
-};
-
-const Medications = () => {
-  const meds = [
-    {
-      name: "Compounded semaglutide",
-      tag: "Most prescribed",
-      body: "Weekly self-injection · Starts at 0.25mg, titrated by your provider. Targets appetite regulation and metabolic rate.",
-    },
-    {
-      name: "Compounded tirzepatide",
-      tag: null,
-      body: "Weekly self-injection · Dual GIP/GLP-1 action. For patients whose providers recommend a dual-agonist approach.",
-    },
-    {
-      name: "Oral semaglutide",
-      tag: null,
-      body: "Daily oral tablet · No injections required. Available depending on health profile and provider recommendation.",
-    },
-  ];
-  return (
-    <section className="py-20" style={{ background: SAGE }}>
-      <div className="container">
-        <div className="max-w-2xl mb-4">
-          <p className={eyebrowCls} style={{ color: GOLD }}>What you might be prescribed</p>
-          <h2 className={h2Cls} style={{ fontWeight: 300, color: FOREST }}>
-            Prescription options, <em style={{ color: GOLD }}>if appropriate for you.</em>
-          </h2>
-          <p className="mt-4 text-sm" style={{ color: "#2d4a3a" }}>
-            All prescribing decisions are made solely by your licensed provider based on your individual health profile.
-          </p>
-        </div>
-        <div className="mt-10 grid gap-6 md:grid-cols-3">
-          {meds.map((m) => (
-            <div key={m.name} className="relative rounded-2xl bg-white p-6 border" style={{ borderColor: "rgba(28,58,46,0.1)" }}>
-              {m.tag && (
-                <span className="absolute -top-3 left-6 rounded-full px-3 py-1 text-[10px] font-medium uppercase tracking-wider" style={{ background: GOLD, color: FOREST }}>
-                  {m.tag}
-                </span>
-              )}
-              <h3 className="font-serif text-xl mb-3" style={{ fontWeight: 500, color: FOREST }}>{m.name}</h3>
-              <p className="text-sm leading-relaxed" style={{ color: "#2d4a3a" }}>{m.body}</p>
-            </div>
-          ))}
-        </div>
-        <p className="mt-8 max-w-3xl text-sm" style={{ color: "#5a7060" }}>
-          <em>Note: Medication choice, dosing, and eligibility are determined entirely by your provider. Approval is not guaranteed.</em>
-        </p>
-        <p className="mt-4 max-w-3xl" style={{ fontSize: "0.7rem", lineHeight: 1.7, color: "#5a7060" }}>
-          Compounded drug products are not approved or evaluated for safety, effectiveness, or quality by the FDA. Prescription products require an online consultation with a healthcare provider who will determine if a prescription is appropriate. Results may vary.
-        </p>
-      </div>
-    </section>
-  );
-};
-
-const Pricing = () => {
-  const includes = [
-    "Free initial provider consultation",
-    "Medication (if prescribed) included",
-    "Monthly provider check-ins + dose adjustments",
-    "Dedicated care coordinator — message anytime",
-    "Nutrition and habit coaching",
-    "Free standard shipping",
-    "Cancel anytime",
-  ];
-  return (
-    <section className="py-20" style={{ background: WARM_WHITE }}>
-      <div className="container">
-        <div className="text-center max-w-2xl mx-auto mb-4">
-          <p className={eyebrowCls} style={{ color: GOLD }}>Pricing</p>
-          <h2 className={h2Cls} style={{ fontWeight: 300, color: FOREST }}>
-            Straightforward pricing. <em style={{ color: GOLD }}>No hidden fees.</em>
-          </h2>
-        </div>
-
-
-        <div className="mt-10 rounded-2xl p-7" style={{ background: SAGE }}>
-          <p className="text-xs uppercase tracking-wider mb-4" style={{ color: GOLD }}>All plans include</p>
-          <ul className="grid gap-2 md:grid-cols-2">
-            {includes.map((i) => (
-              <li key={i} className="flex items-start gap-2 text-sm" style={{ color: FOREST }}>
-                <span style={{ color: GOLD }}>✓</span> {i}
-              </li>
+      <div className="mt-12 md:hidden">
+        <Carousel opts={{ align: "start" }}>
+          <CarouselContent className="-ml-4">
+            {OPTIONS.map((o) => (
+              <CarouselItem key={o.name} className="basis-[88%] pl-4"><OptionCard o={o} /></CarouselItem>
             ))}
-          </ul>
-        </div>
-
-        <div className="mt-10 text-center">
-          <PrimaryCta label="Start with the free assessment →" />
-        </div>
-
-        <p className="mt-6 max-w-3xl mx-auto text-center" style={{ fontSize: "0.7rem", lineHeight: 1.7, color: "#5a7060" }}>
-          Pricing shown is for the full program including medication if prescribed. Membership required. Prescription not guaranteed. If a prescription is not appropriate for you, you will not be charged for medication.
-        </p>
-        <p className="mt-4 max-w-3xl mx-auto text-center" style={{ fontSize: "0.7rem", lineHeight: 1.7, color: "#5a7060" }}>
-          Subscription automatically renews. Cancel anytime before your next billing date. By selecting a plan you authorize Solana Health to charge your payment method on a recurring basis. See full <Link to="/terms" className="underline">Terms of Service</Link>.
-        </p>
-      </div>
-    </section>
-  );
-};
-
-const SafetyBlock = () => (
-  <section className="py-16" style={{ background: "#f5f0e8", borderTop: "1px solid #e0d8c8" }}>
-    <div className="container max-w-3xl">
-      <p className="text-xs uppercase tracking-wider mb-3" style={{ color: "#8a6a2a" }}>⚠ Important Safety Information</p>
-      <h2 className="font-serif text-2xl mb-4" style={{ color: FOREST, fontWeight: 400 }}>
-        Warning: Risk of thyroid C-cell tumors
-      </h2>
-      <div className="space-y-4 text-sm leading-relaxed" style={{ color: "#3a3a2a" }}>
-        <p>
-          In rodent studies, semaglutide caused thyroid C-cell tumors. It is unknown whether semaglutide causes thyroid C-cell tumors, including medullary thyroid carcinoma (MTC), in humans. GLP-1 medications are contraindicated in patients with a personal or family history of MTC or Multiple Endocrine Neoplasia syndrome type 2 (MEN 2).
-        </p>
-        <p>
-          Additional risks include: pancreatitis, gallbladder problems, low blood sugar (especially with other diabetes medications), kidney problems, increased heart rate, and suicidal behavior or thinking. Common side effects include nausea, vomiting, diarrhea, constipation, and stomach pain.
-        </p>
-        <p>
-          GLP-1 medications are <strong>not appropriate for</strong>: patients with a history of MTC or MEN 2, pregnant or breastfeeding women, or patients with Type 1 diabetes.
-        </p>
-      </div>
-      <div className="mt-6">
-        <Link to="/safety-info" className="text-sm underline" style={{ color: FOREST }}>
-          View full safety information →
-        </Link>
+          </CarouselContent>
+        </Carousel>
       </div>
     </div>
   </section>
 );
+
+/* --------------------- WHY --------------------- */
+const WHY = [
+  { icon: Brain, title: "Reduced Food Noise" },
+  { icon: Target, title: "Appetite Control" },
+  { icon: Salad, title: "Healthier Habits" },
+  { icon: HeartPulse, title: "Personalized Support" },
+  { icon: RefreshCw, title: "Long-Term Sustainability" },
+  { icon: Stethoscope, title: "Clinician Guidance" },
+];
+
+const Why = () => (
+  <section className="py-20" style={{ background: "linear-gradient(180deg,#f6f8f4,#fff)" }}>
+    <div className="container">
+      <div className="mx-auto max-w-xl text-center">
+        <p className={eyebrow} style={{ color: GOLD }}>Why GLP-1</p>
+        <h2 className={`mt-3 ${heading}`} style={{ fontSize: "clamp(1.9rem,3.4vw,2.6rem)", fontWeight: 300, color: FOREST }}>
+          Why patients <em className="not-italic" style={{ color: GOLD }}>choose GLP-1.</em>
+        </h2>
+      </div>
+      <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {WHY.map(({ icon: Icon, title }) => (
+          <div key={title} className="flex items-center gap-4 rounded-2xl border bg-white/70 p-5 backdrop-blur-xl transition-all hover:-translate-y-1"
+            style={{ borderColor: "rgba(28,58,46,0.08)" }}>
+            <span className="flex h-11 w-11 items-center justify-center rounded-xl" style={{ background: `linear-gradient(135deg, ${SAGE}, #dceadd)` }}>
+              <Icon className="h-5 w-5" style={{ color: FOREST }} />
+            </span>
+            <p className="font-serif text-base" style={{ color: FOREST }}>{title}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+/* --------------------- TIMELINE --------------------- */
+const STEPS = [
+  { icon: ClipboardList, label: "Complete Assessment", sub: "5 minutes" },
+  { icon: Stethoscope, label: "Clinician Review", sub: "Personalized recommendations" },
+  { icon: Pill, label: "Start Treatment", sub: "Shipped if prescribed" },
+  { icon: Activity, label: "Ongoing Support", sub: "Adjustments & follow-up" },
+];
+
+const Timeline = () => (
+  <section className="bg-white py-20 md:py-24">
+    <div className="container">
+      <div className="mx-auto max-w-xl text-center">
+        <p className={eyebrow} style={{ color: GOLD }}>How it works</p>
+        <h2 className={`mt-3 ${heading}`} style={{ fontSize: "clamp(1.9rem,3.4vw,2.6rem)", fontWeight: 300, color: FOREST }}>
+          From assessment to <em className="not-italic" style={{ color: GOLD }}>doorstep.</em>
+        </h2>
+      </div>
+
+      <div className="relative mt-16">
+        <div aria-hidden className="absolute left-0 right-0 top-9 hidden h-px md:block"
+          style={{ background: `linear-gradient(90deg, transparent, ${FOREST}30 15%, ${FOREST}30 85%, transparent)` }} />
+        <div className="grid gap-10 md:grid-cols-4">
+          {STEPS.map((s, i) => {
+            const Icon = s.icon;
+            return (
+              <div key={s.label} className="relative text-center animate-fade-in" style={{ animationDelay: `${i * 120}ms`, animationFillMode: "both" }}>
+                <div className="mx-auto flex h-[72px] w-[72px] items-center justify-center rounded-full border bg-white shadow-[0_8px_22px_-10px_rgba(28,58,46,0.3)]"
+                  style={{ borderColor: `${FOREST}22` }}>
+                  <Icon className="h-5 w-5" style={{ color: FOREST }} />
+                </div>
+                <p className="mt-5 font-serif text-lg" style={{ color: FOREST }}>{s.label}</p>
+                <p className="mt-1 text-xs" style={{ color: GOLD }}>{s.sub}</p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  </section>
+);
+
+/* --------------------- NOT SURE --------------------- */
+const NotSure = () => (
+  <section className="relative overflow-hidden py-20 md:py-24">
+    <div aria-hidden className="absolute inset-0"
+      style={{ background: `linear-gradient(135deg, ${SAGE} 0%, #fff 50%, rgba(232,220,200,0.5) 100%)` }} />
+    <div aria-hidden className="absolute -top-32 left-1/2 h-[420px] w-[420px] -translate-x-1/2 rounded-full blur-3xl opacity-50"
+      style={{ background: `radial-gradient(circle, ${GOLD}44, transparent)` }} />
+    <div className="container relative">
+      <div className="mx-auto max-w-2xl rounded-[2rem] border bg-white/75 p-10 text-center backdrop-blur-xl md:p-14"
+        style={{ borderColor: "rgba(255,255,255,0.8)", boxShadow: "0 24px 60px -25px rgba(28,58,46,0.25)" }}>
+        <p className={eyebrow} style={{ color: GOLD }}>Not sure which option?</p>
+        <h2 className={`mt-3 ${heading}`} style={{ fontSize: "clamp(1.8rem,3.2vw,2.6rem)", fontWeight: 300, color: FOREST }}>
+          That's exactly why we start with <em className="not-italic" style={{ color: GOLD }}>your goals.</em>
+        </h2>
+        <p className="mt-5 text-base leading-relaxed" style={{ color: "#3a5a44" }}>
+          Most people don't know whether compounded, branded, or microdose GLP-1 is the best fit. A licensed clinician reviews your information and helps determine which options may be appropriate.
+        </p>
+        <div className="mt-8 flex justify-center">
+          <PrimaryBtn onClick={() => trackEvent("quiz_started", { treatment: "weight-loss", cta: "not_sure" })}>Start Assessment</PrimaryBtn>
+        </div>
+      </div>
+    </div>
+  </section>
+);
+
+/* --------------------- FAQ --------------------- */
+const FAQS = [
+  { q: "What is GLP-1?", a: "GLP-1 (glucagon-like peptide-1) is a hormone that helps regulate appetite and blood sugar. GLP-1 medications support feelings of fullness, reduce food noise, and slow stomach emptying." },
+  { q: "What's the difference between compounded and branded GLP-1?", a: "Branded GLP-1 medications (like Wegovy® or Zepbound®) are FDA-approved products. Compounded GLP-1 is prepared by a licensed compounding pharmacy and is often more flexible and affordable, but is not individually FDA-approved." },
+  { q: "What is microdosing?", a: "Microdosing uses smaller-than-standard GLP-1 doses for appetite support, gentler side-effect profiles, and weight maintenance — often after reaching a goal weight or for a more measured approach." },
+  { q: "How quickly will I see results?", a: "Many patients notice reduced appetite within the first 1–2 weeks. Visible weight changes typically appear over 4–12 weeks. Results vary by individual and protocol." },
+  { q: "Am I eligible?", a: "Eligibility depends on your health history, BMI, and clinical factors. The free assessment helps your clinician determine whether GLP-1 treatment is appropriate for you." },
+  { q: "Do I need insurance?", a: "No. Solana operates as a direct-pay program with transparent monthly pricing — no insurance required." },
+];
 
 const FAQ = () => {
-  const faqs = [
-    {
-      q: "Is a GLP-1 prescription guaranteed?",
-      a: "No. Whether a GLP-1 medication is appropriate for you is determined entirely by your licensed provider based on your health history, current medications, and clinical profile. If a prescription isn't right for you, your provider will discuss other options. You will not be charged for medication that isn't prescribed.",
-    },
-    {
-      q: "What's the difference between semaglutide and tirzepatide?",
-      a: "Both are GLP-1 receptor agonists that reduce appetite and support weight loss. Tirzepatide also activates GIP receptors (a dual-agonist), which some research suggests produces stronger results. Your provider will recommend one based on your health profile, not on cost or convenience.",
-    },
-    {
-      q: "Do I need to inject myself?",
-      a: "Compounded semaglutide and tirzepatide are typically administered as weekly self-injections using a small pen needle — most patients describe it as nearly painless. Oral semaglutide is also available for patients whose providers determine it's appropriate.",
-    },
-    {
-      q: "What side effects should I expect?",
-      a: "The most common side effects are nausea, constipation, reduced appetite, and mild stomach discomfort — especially in the first few weeks as your body adjusts. These typically improve as your dose stabilizes. Your provider will titrate your dose to minimize discomfort.",
-    },
-    {
-      q: "How long until I see results?",
-      a: "Most patients notice reduced appetite within the first 2–4 weeks. Meaningful weight changes typically appear by month 2–3. Clinical trials show an average of 15–20% body weight reduction over 12–18 months with consistent use.",
-    },
-    {
-      q: "Can I take this if I'm already on other medications?",
-      a: "Disclose all current medications and supplements during your intake — your provider will review for interactions. GLP-1 medications are not appropriate for everyone, particularly those on certain diabetes medications or with specific medical histories.",
-    },
-  ];
+  const [open, setOpen] = useState<number | null>(0);
   return (
-    <section className="py-20" style={{ background: SAGE }}>
-      <div className="container max-w-3xl">
-        <div className="text-center mb-12">
-          <p className={eyebrowCls} style={{ color: GOLD }}>FAQ</p>
-          <h2 className={h2Cls} style={{ fontWeight: 300, color: FOREST }}>Common questions</h2>
+    <section className="bg-white py-20 md:py-24">
+      <div className="container max-w-2xl">
+        <div className="mb-10 text-center">
+          <p className={eyebrow} style={{ color: GOLD }}>FAQ</p>
+          <h2 className={`mt-3 ${heading}`} style={{ fontSize: "clamp(1.8rem,3.2vw,2.4rem)", fontWeight: 300, color: FOREST }}>
+            Common <em className="not-italic" style={{ color: GOLD }}>questions.</em>
+          </h2>
         </div>
-        <div className="space-y-4">
-          {faqs.map((f) => (
-            <details key={f.q} className="rounded-2xl border bg-white p-5 shadow-sm group" style={{ borderColor: "rgba(28,58,46,0.1)" }}>
-              <summary className="cursor-pointer font-serif text-lg list-none flex items-start justify-between gap-4" style={{ color: FOREST }}>
-                <span>{f.q}</span>
-                <span className="text-xl leading-none transition-transform group-open:rotate-45" style={{ color: GOLD }}>+</span>
-              </summary>
-              <p className="mt-3 text-sm leading-relaxed" style={{ color: "#2d4a3a" }}>{f.a}</p>
-            </details>
-          ))}
+        <div className="space-y-3">
+          {FAQS.map((f, i) => {
+            const isOpen = open === i;
+            return (
+              <div key={f.q} className="rounded-2xl border bg-white/70 backdrop-blur-xl"
+                style={{ borderColor: "rgba(28,58,46,0.1)", boxShadow: isOpen ? "0 12px 30px -20px rgba(28,58,46,0.3)" : "none" }}>
+                <button onClick={() => setOpen(isOpen ? null : i)} className="flex w-full items-center justify-between gap-4 p-5 text-left">
+                  <span className="font-serif text-base" style={{ color: FOREST }}>{f.q}</span>
+                  <ChevronDown className="h-5 w-5 shrink-0 transition-transform" style={{ color: GOLD, transform: isOpen ? "rotate(180deg)" : "rotate(0deg)" }} />
+                </button>
+                <div className="grid overflow-hidden transition-all duration-300" style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}>
+                  <div className="min-h-0"><p className="px-5 pb-5 text-sm leading-relaxed" style={{ color: "#3a5a44" }}>{f.a}</p></div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
   );
 };
 
+/* --------------------- FINAL CTA --------------------- */
 const FinalCta = () => (
-  <section className="py-20" style={{ background: FOREST }}>
-    <div className="container max-w-xl text-center">
-      <h2 className="font-serif text-4xl leading-tight" style={{ fontWeight: 300, color: WARM_WHITE }}>
-        Ready to work <em style={{ color: GOLD }}>with your biology?</em>
+  <section className="relative overflow-hidden py-24 md:py-28" style={{ background: FOREST }}>
+    <div aria-hidden className="absolute inset-0 opacity-60"
+      style={{ background: `radial-gradient(circle at 20% 20%, ${GOLD}33, transparent 50%), radial-gradient(circle at 80% 80%, #a8c8a044, transparent 50%)` }} />
+    <div className="container relative max-w-xl text-center">
+      <TrendingDown className="mx-auto h-7 w-7" style={{ color: GOLD }} />
+      <h2 className={`mt-5 ${heading}`} style={{ fontSize: "clamp(1.9rem,3.8vw,3rem)", fontWeight: 300, color: WARM_WHITE }}>
+        Take the first step toward <em className="not-italic" style={{ color: GOLD }}>sustainable weight loss.</em>
       </h2>
-      <div className="mt-10 flex flex-col items-center gap-4">
-        <Link
-          to="/get-started/weight-loss"
-          onClick={() => trackEvent("quiz_started", { treatment: "weight-loss" })}
-          className="inline-flex items-center rounded-full px-8 py-3.5 text-sm font-medium transition-opacity hover:opacity-90"
-          style={{ background: GOLD, color: FOREST }}
-        >
-          Take the free assessment →
-        </Link>
-        <Link to="/support" className="text-xs underline-offset-4 hover:underline" style={{ color: "rgba(255,255,255,0.65)" }}>
-          Have questions? Message our care team
+      <p className="mt-5 text-sm md:text-base" style={{ color: "rgba(255,255,255,0.8)" }}>
+        Discover which GLP-1 options may fit your goals.
+      </p>
+      <div className="mt-8 flex justify-center">
+        <Link to={QUIZ} onClick={() => trackEvent("quiz_started", { treatment: "weight-loss", cta: "final" })}
+          className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-sm font-medium shadow-xl transition-all hover:-translate-y-0.5" style={{ color: FOREST }}>
+          Check Eligibility <ArrowRight className="h-4 w-4" />
         </Link>
       </div>
+      <p className="mt-10 text-[11px] leading-relaxed" style={{ color: "rgba(255,255,255,0.6)" }}>
+        Treatment requires clinician review and approval. Prescription medications are only provided when medically appropriate. Individual results vary.
+      </p>
     </div>
   </section>
+);
+
+const StickyMobileCta = () => (
+  <div className="fixed inset-x-0 bottom-0 z-40 border-t bg-white/90 p-3 backdrop-blur-xl md:hidden"
+    style={{ borderColor: "rgba(28,58,46,0.12)", boxShadow: "0 -12px 30px -15px rgba(28,58,46,0.25)" }}>
+    <Link to={QUIZ} onClick={() => trackEvent("quiz_started", { treatment: "weight-loss", cta: "sticky_mobile" })}
+      className="flex w-full items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-medium text-white"
+      style={{ background: `linear-gradient(135deg, ${FOREST}, #2d5a3d)` }}>
+      Check Eligibility <ArrowRight className="h-4 w-4" />
+    </Link>
+  </div>
 );
 
 export const MetabolicLanding = () => (
-  <div className="min-h-screen" style={{ background: WARM_WHITE }}>
+  <div className="min-h-screen bg-white">
     <Header />
     <Hero />
-    <WhoItsFor />
-    <HowItWorks />
-    <Medications />
-    <Pricing />
-    <SafetyBlock />
+    <Goals />
+    <Options />
+    <Why />
+    <Timeline />
+    <NotSure />
     <FAQ />
     <FinalCta />
     <SafetyInfo />
     <Footer />
+    <StickyMobileCta />
+    <div className="h-20 md:hidden" />
   </div>
 );
 
