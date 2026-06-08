@@ -40,7 +40,7 @@ const Header = () => {
       <div className="container flex h-16 md:h-18 items-center justify-between">
         <Link to="/" className="flex items-center gap-2">
           <span className="font-serif text-xl md:text-2xl text-primary tracking-tight">
-            Solana
+            Solana Health
           </span>
         </Link>
 

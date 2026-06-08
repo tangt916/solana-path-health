@@ -7,7 +7,7 @@ export const FAQ = () => {
   const items: Array<{ q: string; a: string; cta?: { label: string; to: string } }> = [
     {
       q: "Do you accept insurance?",
-      a: "Solana is a cash-pay platform. We do not accept insurance or process insurance claims. All program costs are transparent and listed on our pricing pages. Some patients use HSA or FSA funds for eligible expenses — check with your plan administrator.",
+      a: "Solana Health is a cash-pay platform. We do not accept insurance or process insurance claims. All program costs are transparent and listed on our pricing pages. Some patients use HSA or FSA funds for eligible expenses — check with your plan administrator.",
     },
     {
       q: "How does the consultation work?",
@@ -19,7 +19,7 @@ export const FAQ = () => {
     },
     {
       q: "What states do you serve?",
-      a: "Solana is actively expanding state availability. Enter your state during intake to confirm we currently serve your area.",
+      a: "Solana Health is actively expanding state availability. Enter your state during intake to confirm we currently serve your area.",
     },
     {
       q: "Where does my medication come from?",
@@ -44,7 +44,7 @@ export const FAQ = () => {
     },
     {
       q: "How is my health information protected?",
-      a: "Solana is fully HIPAA-compliant. Your health information is encrypted, never sold, and only shared with your licensed provider and the dispensing pharmacy as required for your care. See our Privacy Policy for full details.",
+      a: "Solana Health is fully HIPAA-compliant. Your health information is encrypted, never sold, and only shared with your licensed provider and the dispensing pharmacy as required for your care. See our Privacy Policy for full details.",
     },
   ];
 

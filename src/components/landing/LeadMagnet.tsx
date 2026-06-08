@@ -50,7 +50,7 @@ export const LeadMagnet = () => {
               &ldquo;Why You&apos;re Exhausted, Why the Weight Won&apos;t Move,
               and What Actually Works&rdquo;
             </em>{" "}
-            — written by the Solana clinical team.
+            — written by the Solana Health clinical team.
           </p>
         </FadeInOnScroll>
 
