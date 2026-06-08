@@ -5,6 +5,7 @@ import { TreatmentLanding } from "@/components/treatment/TreatmentLanding";
 import { MetabolicLanding } from "@/components/treatment/MetabolicLanding";
 import { HormoneLanding } from "@/components/treatment/HormoneLanding";
 import { PeptidesLanding } from "@/components/treatment/PeptidesLanding";
+import { HairLanding } from "@/components/treatment/HairLanding";
 import { trackEvent } from "@/lib/analytics";
 import { SEO } from "@/components/SEO";
 
